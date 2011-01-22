@@ -1,0 +1,11 @@
+Project "fish"
+==============
+
+This is the second project for the "Introduction to Computer Graphics" module.
+
+Mission statement:
+Create an advertisment for a "Fish & Chips" Restaurant
+
+version control: git
+build system:    waf
+issue tracking:  trac
