@@ -5,13 +5,12 @@
 class xmx_Line
 {
 public:
-    xmx_Line();
     xmx_Line( int, int, int, int );
     xmx_Line( float, float, float, float );
-    xmx_Line( GLfloat, GLfloat, GLfloat, GLfloat );
     ~xmx_Line();
     
     void print();
+    void draw();
 
     GLfloat x1;
     GLfloat y1;

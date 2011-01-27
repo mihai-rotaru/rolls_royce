@@ -1,6 +1,8 @@
 #include <GL/glut.h>
 #include <GL/glu.h>
 
+#include "xmx_Line.h"
+
 void display( void )
 {
     // clear all pixels
@@ -10,10 +12,8 @@ void display( void )
     glColor3f( 1.0, 0.0, 0.0 );
 
     // draw a line from point( 100,150 ) to point( 200, 300 )
-    glBegin( GL_LINES );
-    glVertex2i( 100,150 );
-    glVertex2i( 200,300 );
-    glEnd();
+    xmx_Line my_line( 100, 150, 200, 300 );
+    my_line.draw();
 
     // keep showing( flushing ) line on the screen instead of showing just once.
     glFlush();
