@@ -1,0 +1,8 @@
+C++
+- use smart pointers
+- use C++ exceptions
+- use wide strings
+- use floats instead of ints
+
+Infrastructure
+- use trac
