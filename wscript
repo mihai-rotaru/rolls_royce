@@ -3,7 +3,7 @@
 #VERSION = "0.1"
 
 top = '.'
-out = 'waf-build'
+out = 'build'
 
 def options( opt ):
    # opt.load( "compiler_cxx" )
@@ -15,14 +15,17 @@ def configure( cnf ):
 
 def build( bld ):
     print( "building..." )
+    a_path = bld.path.abspath()
     print( bld.path.abspath())
     bld.program(
-            source       = 'src/main.cpp',
+            source       = [ 'main.cpp', 'xmx_Line.cpp' ],
             target       = 'fish',
             features     = [ 'cxxprogram' ],
             includes     = [ './freeglut/include' ],
             lib          = [ 'freeglut','opengl32', 'glu32' ],
-            libpath      = [ bld.path.abspath() + '/freeglut/lib' ],
+            libpath      = [ a_path + '/freeglut/lib', a_path + '/freeglut' ],
             linkflags    = [ '-W1,subsystem,windows' ],
-            cxxflags     = [ '-c', '-g', '-O2', '-Wall' ]
+            cxxflags     = [ '-c', '-g', '-O2', '-Wall' ],
             )
+
+# vim:filetype=python
