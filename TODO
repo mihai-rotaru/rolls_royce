@@ -13,3 +13,5 @@ C++
 
 Infrastructure
 - use trac
+- waf option to statically link freeglut and libstdc++
+- waf option to optimize the build
