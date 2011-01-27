@@ -1,3 +1,14 @@
+Milestones
+
+0.1
+- use waf to compile the multi-file project
+
+0.2
+- ensure rotation does not suffer from 'gravitation' ( as in cg_project_1 )
+
+0.3
+- make sure objects are not clipped when moving outside visible area ( as in cg_project_2 )
+
 C++
 - use smart pointers
 - use C++ exceptions
