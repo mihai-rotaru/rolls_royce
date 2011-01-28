@@ -2,6 +2,9 @@
 #APPNAME = "fish"
 #VERSION = "0.1"
 
+from subprocess import *
+import re
+
 top = '.'
 out = 'build'
 
@@ -12,9 +15,17 @@ def options( opt ):
 def configure( cnf ):
     print( "configuring the project in " + cnf.path.abspath())
     cnf.check_tool( "g++" )
+    cnf.find_program( "git" )
+    cnf.find_program( "date" )
 
 def build( bld ):
-    print( "building..." )
+    # determine version
+    if bld.env[ 'GIT' ] !="":
+        ver = Popen( "git describe" , stdout=PIPE, stderr=PIPE ).stdout.read()
+        #short_ver = re.sub('*?
+        exe_name = 'fish_'+ver.strip()
+        print "building " + str(bld.env['app_name']) + ver.strip() + "..."
+
     a_path = bld.path.abspath()
     print( bld.path.abspath())
     bld.program(
