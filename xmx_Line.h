@@ -11,6 +11,11 @@ public:
     
     void print();
     void draw();
+    void rotate( float );
+    virtual GLfloat getMaxX();
+    virtual GLfloat getMinX();
+    virtual GLfloat getMaxY();
+    virtual GLfloat getMinY();
 
     GLfloat x1;
     GLfloat y1;

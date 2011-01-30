@@ -1,4 +1,10 @@
 #include <GL/glu.h>
+
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+#include "globals.h"
 #include "xmx_Line.h"
 
 xmx_Line::xmx_Line( float _x1, float _y1, float _x2, float _y2 )
@@ -22,6 +28,48 @@ xmx_Line::~xmx_Line()
 {
 }
 
+void xmx_Line::rotate( float theta )
+{
+    cout<<"rotating..."<<endl;
+    GLfloat* buff = new GLfloat[10];
+    glFeedbackBuffer( 10, GL_2D, buff );
+    GLfloat x_rel = ( (getMaxX() - getMinX())/2 + getMinX() );
+    GLfloat y_rel = ( (getMaxY() - getMinY())/2 + getMinY() );
+
+    // save coordinates before rotation
+    GLfloat before_x1 = x1;
+    GLfloat before_y1 = y1;
+    GLfloat before_x2 = x2;
+    GLfloat before_y2 = y2;
+
+    cout<<"before rotation:"<<endl;
+    print();
+
+    glRenderMode( GL_FEEDBACK );
+
+    glPushMatrix();
+        glTranslatef( x_rel, y_rel, 0 );
+        glRotatef( theta, 0, 0, 1 );
+        glTranslatef( -x_rel, -y_rel, 0 );
+        draw();
+    glPopMatrix();
+
+    // TODO: check if new coordinates are out of bounds
+
+    x1 = buff[1];
+    y1 = buff[2];
+    x2 = buff[3];
+    y2 = buff[4];
+
+    cout<<"after rotation:"<<endl;
+    print();
+
+    //cleanup
+    delete[] buff;
+
+    cout<<"rotated."<<endl;
+}
+
 void xmx_Line::draw()
 {
     glBegin( GL_LINES );
@@ -32,5 +80,15 @@ void xmx_Line::draw()
 
 void xmx_Line::print()
 {
+    cout<<" xmx_Line, address: "<<this<<endl;
+    cout<< " x1: "<< setfill(' ') << setw( 10 ) <<setiosflags( ios::fixed | ios::right ) << setprecision(4) <<x1;
+    cout<< " y1: "<< setfill(' ') << setw( 10 ) <<setiosflags( ios::fixed | ios::right ) << setprecision(4) <<y1;
+    cout<< " x2: "<< setfill(' ') << setw( 10 ) <<setiosflags( ios::fixed | ios::right ) << setprecision(4) <<x2;
+    cout<< " y2: "<< setfill(' ') << setw( 10 ) <<setiosflags( ios::fixed | ios::right ) << setprecision(4) <<y2;
+    cout<<endl;
 }
 
+GLfloat xmx_Line::getMaxX() { return ( x1 > x2 ? x1 : x2 ); }
+GLfloat xmx_Line::getMinX() { return ( x1 < x2 ? x1 : x2 ); }
+GLfloat xmx_Line::getMaxY() { return ( y1 > y2 ? y1 : y2 ); }
+GLfloat xmx_Line::getMinY() { return ( y1 < y2 ? y1 : y2 ); }

@@ -1,23 +1,27 @@
 #include <GL/glut.h>
 #include <GL/glu.h>
+#include <iostream>
+using namespace std;
 
+#include "globals.h"
 #include "xmx_Line.h"
+xmx_Line my_line( 100, 150, 200, 300 );
 
-void display( void )
+void myDisplayFunc( void )
 {
     // clear all pixels
+    glRenderMode( GL_RENDER );
     glClear( GL_COLOR_BUFFER_BIT );
 
     // set line colour red( r=1, g=0,b=0 ).
     glColor3f( 1.0, 0.0, 0.0 );
 
     // draw a line from point( 100,150 ) to point( 200, 300 )
-    xmx_Line my_line( 100, 150, 200, 300 );
     my_line.draw();
 
     // keep showing( flushing ) line on the screen instead of showing just once.
-    glFlush();
-    // glutPostRedisplay();
+//    glFlush();
+     glutPostRedisplay();
 }
 
 void init( void )
@@ -31,15 +35,41 @@ void init( void )
     gluOrtho2D( 0,500,0,500 );
 }
 
+void myKeyboardFunc( unsigned char key, int x, int y )
+{
+    switch( key )
+    {
+        case 'j':
+            my_line.rotate( 5 );
+            break;
+        case 'k':
+            my_line.rotate( -5 );
+            break;
+        case 27:
+            exit(0);
+            break;
+    }
+    glutPostRedisplay();
+}
+
+
+
 int main( int argc, char** argv )
 {
+    // init
     glutInit( &argc, argv );
     glutInitDisplayMode( GLUT_SINGLE | GLUT_RGB );
-    glutInitWindowSize( 500, 500 );
+    window_width = 500;
+    window_height = 500;
+    glutInitWindowSize( window_width, window_height );
     glutInitWindowPosition( 100, 100 );
     glutCreateWindow( "Hello" );
     init();
-    glutDisplayFunc( display );
+
+    // callbacks
+    glutDisplayFunc( myDisplayFunc );
+    glutKeyboardFunc( myKeyboardFunc );
+
     glutMainLoop();
     return 0;   // ANSI C requires main to return int.
 }
