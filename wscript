@@ -29,7 +29,7 @@ def build( bld ):
     a_path = bld.path.abspath()
     print( bld.path.abspath())
     bld.program(
-            source       = [ 'main.cpp', 'xmx_Line.cpp' ],
+            source       = [ 'main.cpp', 'xmx_Line.cpp','globals.cpp' ],
             target       = 'fish',
             features     = [ 'cxxprogram' ],
             includes     = [ './freeglut/include' ],
