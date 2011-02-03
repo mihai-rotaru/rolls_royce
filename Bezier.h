@@ -20,7 +20,7 @@ class BezierPath
         void rotate( float );
 
         // array holding the vertices
-        GLfloat points[4][3];
+        GLfloat **points;
 
         // sugar
         const static int END_PT_1 = 0;

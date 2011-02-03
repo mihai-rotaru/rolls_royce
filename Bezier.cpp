@@ -2,10 +2,23 @@
 #include "globals.h"
 #include "Bezier.h"
 
+#include <string>
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
 namespace xmx {
 
 BezierPath::BezierPath( Point e1, Point c1, Point c2, Point e2 )
 {
+    points = new GLfloat *[4];
+
+    // allocate memory for the control points
+    points[ END_PT_1  ] = new GLfloat[3];
+    points[ CTRL_PT_1 ] = new GLfloat[3];
+    points[ CTRL_PT_2 ] = new GLfloat[3];
+    points[ END_PT_2  ] = new GLfloat[3];
+
     // first end point
     points[ END_PT_1 ][0] = e1.x;
     points[ END_PT_1 ][1] = e1.y;
@@ -26,10 +39,15 @@ BezierPath::BezierPath( Point e1, Point c1, Point c2, Point e2 )
     points[ END_PT_2 ][1] = e2.y;
     points[ END_PT_2 ][2] = 0.0f; // 2D, so 'z' coord. is always 0
 
+    print();
+
 }
 
 BezierPath::~BezierPath()
 {
+    for( int i=0; i<4; i++ )
+        delete[] points[i];
+    delete[] points;
 }
 
 void BezierPath::draw()
@@ -50,7 +68,7 @@ void BezierPath::draw()
             100.0f,
             3,
             4, // number of control points
-            &points[0][0]
+            *points
            );
 
 
@@ -65,10 +83,24 @@ void BezierPath::draw()
     glEnd();
 }
 
+void nice_cout( string msg, GLfloat f )
+{
+    cout<< msg << setfill(' ') << setw( 10 ) <<setiosflags( ios::fixed | ios::right ) << setprecision(4) << f <<endl;
+}
+
 
 void BezierPath::print()
 {
-    return /* something */;
+    cout<<"BezierPath, at: "<<this<<endl;
+    nice_cout( "EP1: x:", points[ END_PT_1  ][0]);
+    nice_cout( "EP1: y:", points[ END_PT_1  ][1]);
+    nice_cout( "CP1: x:", points[ CTRL_PT_1 ][0]);
+    nice_cout( "CP1: y:", points[ CTRL_PT_1 ][1]);
+    nice_cout( "CP2: x:", points[ CTRL_PT_2 ][0]);
+    nice_cout( "CP2: y:", points[ CTRL_PT_2 ][1]);
+    nice_cout( "EP2: x:", points[ END_PT_2  ][0]);
+    nice_cout( "EP2: y:", points[ END_PT_2  ][1]);
+    cout<<endl;
 }
 
 
