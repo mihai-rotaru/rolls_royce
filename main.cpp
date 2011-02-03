@@ -11,11 +11,17 @@ using namespace xmx;
 Line my_line( 100, 150, 200, 300 );
 
 // bezier stuff
-GL_3DPointf e1( 20, 20, 0 );
-GL_3DPointf c1( 20, 100, 0 );
-GL_3DPointf c2( 100, 30, 0 );
-GL_3DPointf e2( 100, 130, 0 );
+Point e1( 20, 20, 0 );
+Point c1( 20, 100, 0 );
+Point c2( 100, 30, 0 );
+Point e2( 100, 130, 0 );
 BezierPath bez_path( e1, c1, c2, e2 );
+BezierPath bez_path2( 
+        Point( 100,100 ),
+        Point( 100,200 ),
+        Point( 200,20 ),
+        Point( 100,100 )
+        );
 
 void myDisplayFunc( void )
 {
@@ -31,6 +37,7 @@ void myDisplayFunc( void )
 
     // draw the bezier curve !
     bez_path.draw();
+    bez_path2.draw();
 
     // keep showing( flushing ) line on the screen instead of showing just once.
     glFlush();

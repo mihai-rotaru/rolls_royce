@@ -13,6 +13,6 @@ struct xPoint
     xPoint( GLfloat _x, GLfloat _y ): x(_x), y(_y), z( 0 ) {}
 };
 
-typedef xPoint GL_3DPointf;
+typedef xPoint Point;
 
 #endif /* GLOBALS_H */

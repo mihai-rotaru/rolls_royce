@@ -4,7 +4,7 @@
 
 namespace xmx {
 
-BezierPath::BezierPath( GL_3DPointf& e1, GL_3DPointf& c1, GL_3DPointf& c2, GL_3DPointf& e2 )
+BezierPath::BezierPath( Point e1, Point c1, Point c2, Point e2 )
 {
     // first end point
     points[ END_PT_1 ][0] = e1.x;
