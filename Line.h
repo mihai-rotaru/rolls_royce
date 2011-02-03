@@ -2,12 +2,14 @@
 #define XMX_LINE_H
 #include <GL/glu.h>
 
-class xmx_Line
+namespace xmx {
+
+class Line
 {
 public:
-    xmx_Line( int, int, int, int );
-    xmx_Line( float, float, float, float );
-    ~xmx_Line();
+    Line( int, int, int, int );
+    Line( float, float, float, float );
+    ~Line();
     
     void print();
     void draw();
@@ -23,4 +25,5 @@ public:
     GLfloat y2;
 };
 
+} // namespace xmx
 #endif /* XMX_LINE_H */

@@ -3,14 +3,16 @@
 #include <GL/glu.h>
 #include "globals.h"
 
-class xmx_BezierPath
+namespace xmx {
+
+class BezierPath
 {
     public:
         // constructor parameters:
         // e1,e2: end points
         // c1,c2: control points
-        xmx_BezierPath( GL_3DPointf& e1, GL_3DPointf& c1, GL_3DPointf& c2, GL_3DPointf& e2 );
-        ~xmx_BezierPath();
+        BezierPath( GL_3DPointf& e1, GL_3DPointf& c1, GL_3DPointf& c2, GL_3DPointf& e2 );
+        ~BezierPath();
 
         // methods
         void print();
@@ -27,4 +29,5 @@ class xmx_BezierPath
         const static int END_PT_2 = 3;
 };
 
+} // namespace xmx
 #endif /* XMX_BEZIER_H */

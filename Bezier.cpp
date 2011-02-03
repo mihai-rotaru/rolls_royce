@@ -1,8 +1,10 @@
 #include <GL/glu.h>
 #include "globals.h"
-#include "xmx_bezier.h"
+#include "Bezier.h"
 
-xmx_BezierPath::xmx_BezierPath( GL_3DPointf& e1, GL_3DPointf& c1, GL_3DPointf& c2, GL_3DPointf& e2 )
+namespace xmx {
+
+BezierPath::BezierPath( GL_3DPointf& e1, GL_3DPointf& c1, GL_3DPointf& c2, GL_3DPointf& e2 )
 {
     // first end point
     points[ END_PT_1 ][0] = e1.x;
@@ -26,11 +28,11 @@ xmx_BezierPath::xmx_BezierPath( GL_3DPointf& e1, GL_3DPointf& c1, GL_3DPointf& c
 
 }
 
-xmx_BezierPath::~xmx_BezierPath()
+BezierPath::~BezierPath()
 {
 }
 
-void xmx_BezierPath::draw()
+void BezierPath::draw()
 {
     if( XMX_SHOW_BEZIER_POINTS )
     {
@@ -64,14 +66,15 @@ void xmx_BezierPath::draw()
 }
 
 
-void xmx_BezierPath::print()
+void BezierPath::print()
 {
     return /* something */;
 }
 
 
-void xmx_BezierPath::rotate( float )
+void BezierPath::rotate( float )
 {
     return /* something */;
 }
 
+} // namespace xmx
