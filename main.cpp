@@ -5,7 +5,15 @@ using namespace std;
 
 #include "globals.h"
 #include "xmx_Line.h"
+#include "xmx_bezier.h"
 xmx_Line my_line( 100, 150, 200, 300 );
+
+// bezier stuff
+GL_3DPointf e1( 20, 20, 0 );
+GL_3DPointf c1( 20, 100, 0 );
+GL_3DPointf c2( 100, 30, 0 );
+GL_3DPointf e2( 100, 130, 0 );
+xmx_BezierPath bez_path( e1, c1, c2, e2 );
 
 void myDisplayFunc( void )
 {
@@ -18,6 +26,9 @@ void myDisplayFunc( void )
 
     // draw a line from point( 100,150 ) to point( 200, 300 )
     my_line.draw();
+
+    // draw the bezier curve !
+    bez_path.draw();
 
     // keep showing( flushing ) line on the screen instead of showing just once.
 //    glFlush();
