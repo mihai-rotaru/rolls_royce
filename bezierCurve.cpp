@@ -1,6 +1,6 @@
 #include <GL/glu.h>
 #include "globals.h"
-#include "Bezier.h"
+#include "BezierCurve.h"
 
 #include <string>
 #include <iostream>
@@ -9,16 +9,8 @@ using namespace std;
 
 namespace xmx {
 
-BezierPath::BezierPath( Point e1, Point c1, Point c2, Point e2 )
+BezierCurve::BezierCurve( Point e1, Point c1, Point c2, Point e2 )
 {
-    points = new GLfloat *[4];
-
-    // allocate memory for the control points
-    points[ END_PT_1  ] = new GLfloat[3];
-    points[ CTRL_PT_1 ] = new GLfloat[3];
-    points[ CTRL_PT_2 ] = new GLfloat[3];
-    points[ END_PT_2  ] = new GLfloat[3];
-
     // first end point
     points[ END_PT_1 ][0] = e1.x;
     points[ END_PT_1 ][1] = e1.y;
@@ -38,19 +30,13 @@ BezierPath::BezierPath( Point e1, Point c1, Point c2, Point e2 )
     points[ END_PT_2 ][0] = e2.x;
     points[ END_PT_2 ][1] = e2.y;
     points[ END_PT_2 ][2] = 0.0f; // 2D, so 'z' coord. is always 0
-
-    print();
-
 }
 
-BezierPath::~BezierPath()
+BezierCurve::~BezierCurve()
 {
-    for( int i=0; i<4; i++ )
-        delete[] points[i];
-    delete[] points;
 }
 
-void BezierPath::draw()
+void BezierCurve::draw()
 {
     if( XMX_SHOW_BEZIER_POINTS )
     {
@@ -68,7 +54,7 @@ void BezierPath::draw()
             100.0f,
             3,
             4, // number of control points
-            *points
+            &points[0][0]
            );
 
 
@@ -89,9 +75,9 @@ void nice_cout( string msg, GLfloat f )
 }
 
 
-void BezierPath::print()
+void BezierCurve::print()
 {
-    cout<<"BezierPath, at: "<<this<<endl;
+    cout<<"BezierCurve, at: "<<this<<endl;
     nice_cout( "EP1: x:", points[ END_PT_1  ][0]);
     nice_cout( "EP1: y:", points[ END_PT_1  ][1]);
     nice_cout( "CP1: x:", points[ CTRL_PT_1 ][0]);
@@ -104,7 +90,7 @@ void BezierPath::print()
 }
 
 
-void BezierPath::rotate( float )
+void BezierCurve::rotate( float )
 {
     return /* something */;
 }

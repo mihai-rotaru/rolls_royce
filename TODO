@@ -5,6 +5,12 @@ Milestones
 0.3 - make sure objects are not clipped when moving outside visible area ( as in cg_project_2 )
 0.4 - implement morphing
 
+- color tools - classes to handle making a color lighter, saturation, etc
+- BezierPath: aggreate of BezierCurve
+- BezierPath has a method for parsing .pov files
+? BezierShape: aggregate of BezierPath's
+- implement static FPS
+
 C++
 - use smart pointers
 - use C++ exceptions

@@ -5,14 +5,14 @@
 
 namespace xmx {
 
-class BezierPath
+class BezierCurve
 {
     public:
         // constructor parameters:
         // e1,e2: end points
         // c1,c2: control points
-        BezierPath( Point e1, Point c1, Point c2, Point e2 );
-        ~BezierPath();
+        BezierCurve( Point e1, Point c1, Point c2, Point e2 );
+        ~BezierCurve();
 
         // methods
         void print();
@@ -20,7 +20,7 @@ class BezierPath
         void rotate( float );
 
         // array holding the vertices
-        GLfloat **points;
+        GLfloat points[4][3];
 
         // sugar
         const static int END_PT_1 = 0;

@@ -29,7 +29,7 @@ def build( bld ):
     a_path = bld.path.abspath()
     print( bld.path.abspath())
     bld.program(
-            source       = [ 'main.cpp', 'Line.cpp','globals.cpp','Bezier.cpp' ],
+            source       = [ 'main.cpp', 'Line.cpp','globals.cpp','BezierCurve.cpp' ],
             target       = 'fish',
             features     = [ 'cxxprogram' ],
             includes     = [ './freeglut/include' ],
