@@ -6,6 +6,7 @@ using namespace std;
 #include "globals.h"
 #include "Line.h"
 #include "BezierCurve.h"
+#include "BezierPath.h"
 using namespace xmx;
 
 Line my_line( 100, 150, 200, 300 );
@@ -15,13 +16,8 @@ Point e1( 20, 20, 0 );
 Point c1( 20, 100, 0 );
 Point c2( 100, 30, 0 );
 Point e2( 100, 130, 0 );
-BezierCurve bez_path( e1, c1, c2, e2 );
-//BezierCurve bez_path2( 
-//        Point( 100,100 ),
-//        Point( 100,200 ),
-//        Point( 200,20 ),
-//        Point( 100,100 )
-//        );
+//BezierCurve bez_path( e1, c1, c2, e2 );
+BezierPath bp1;
 
 void myDisplayFunc( void )
 {
@@ -36,8 +32,9 @@ void myDisplayFunc( void )
     my_line.draw();
 
     // draw the bezier curve !
-    bez_path.draw();
+//    bez_path.draw();
 //    bez_path2.draw();
+    bp1.draw();
 
     // keep showing( flushing ) line on the screen instead of showing just once.
     glFlush();
@@ -53,6 +50,11 @@ void init( void )
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
     gluOrtho2D( 0,500,0,500 );
+
+    //
+    bp1.addCurve( e1.x, e1.y, c1.x, c1.y, c2.x, c2.y, e2.x, e2.y );
+    bp1.addCurve( 100,100,100,200,200,20,100,300 );
+
 }
 
 void myKeyboardFunc( unsigned char key, int x, int y )

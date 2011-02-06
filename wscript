@@ -23,16 +23,16 @@ def build( bld ):
     if bld.env[ 'GIT' ] !="":
         ver = Popen( "git describe" , stdout=PIPE, stderr=PIPE ).stdout.read()
         #short_ver = re.sub('*?
-        exe_name = 'fish_'+ver.strip()
+        exe_name = 'fish_'+str(ver.strip())
         print "building " + str(bld.env['app_name']) + ver.strip() + "..."
 
     a_path = bld.path.abspath()
     print( bld.path.abspath())
     bld.program(
-            source       = [ 'main.cpp', 'Line.cpp','globals.cpp','BezierCurve.cpp' ],
+            source       = [ 'main.cpp', 'Line.cpp','globals.cpp','BezierCurve.cpp', 'BezierPath.cpp' ],
             target       = 'fish',
             features     = [ 'cxxprogram' ],
-            includes     = [ './freeglut/include' ],
+            includes     = [ './freeglut/include','C:/pdev/boost_1_45_0' ],
             lib          = [ 'freeglut','opengl32', 'glu32' ],
             libpath      = [ a_path + '/freeglut/lib', a_path + '/freeglut' ],
             linkflags    = [ '-W1,subsystem,windows' ],

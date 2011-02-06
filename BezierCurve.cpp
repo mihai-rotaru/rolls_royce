@@ -11,6 +11,7 @@ namespace xmx {
 
 BezierCurve::BezierCurve( Point e1, Point c1, Point c2, Point e2 )
 {
+    cout<<"creating Bezier curve @ "<<this<<endl;
     // first end point
     points[ END_PT_1 ][0] = e1.x;
     points[ END_PT_1 ][1] = e1.y;
@@ -32,8 +33,38 @@ BezierCurve::BezierCurve( Point e1, Point c1, Point c2, Point e2 )
     points[ END_PT_2 ][2] = 0.0f; // 2D, so 'z' coord. is always 0
 }
 
+BezierCurve::BezierCurve( 
+        GLfloat e1_x, GLfloat e1_y,
+        GLfloat c1_x, GLfloat c1_y,
+        GLfloat c2_x, GLfloat c2_y,
+        GLfloat e2_x, GLfloat e2_y )
+{
+    cout<<"creating Bezier curve @ "<<this<<endl;
+    // first end point
+    points[ END_PT_1 ][0] = e1_x;
+    points[ END_PT_1 ][1] = e1_y;
+    points[ END_PT_1 ][2] = 0.0f; // 2D, so 'z' coord. is always 0
+
+    // first control potint
+    points[ CTRL_PT_1 ][0] = c1_x;
+    points[ CTRL_PT_1 ][1] = c1_y;
+    points[ CTRL_PT_1 ][2] = 0.0f;
+    
+    // second control potint
+    points[ CTRL_PT_2 ][0] = c2_x;
+    points[ CTRL_PT_2 ][1] = c2_y;
+    points[ CTRL_PT_2 ][2] = 0.0f;
+
+    // second end point
+    points[ END_PT_2 ][0] = e2_x;
+    points[ END_PT_2 ][1] = e2_y;
+    points[ END_PT_2 ][2] = 0.0f; // 2D, so 'z' coord. is always 0
+}
+
+
 BezierCurve::~BezierCurve()
 {
+    cout<<"destructor for BezierCurve @ "<< this << endl;
 }
 
 void BezierCurve::draw()

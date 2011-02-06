@@ -12,6 +12,7 @@ class BezierCurve
         // e1,e2: end points
         // c1,c2: control points
         BezierCurve( Point e1, Point c1, Point c2, Point e2 );
+        BezierCurve( GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat );
         ~BezierCurve();
 
         // methods
