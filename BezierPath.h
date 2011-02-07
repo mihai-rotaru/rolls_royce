@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <list>
+#include <string>
 using namespace std;
 
 #include <GL/glu.h>
@@ -29,6 +30,7 @@ public:
     void draw();
     void print();
     void resizeTo( int newWidth );
+    void loadFromPovFile( char* filename );
 };
 
 } // namespace xmx

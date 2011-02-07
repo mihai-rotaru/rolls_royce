@@ -27,14 +27,28 @@ def build( bld ):
         print "building " + str(bld.env['app_name']) + ver.strip() + "..."
 
     a_path = bld.path.abspath()
+    boost_path = "C:/pdev/boost_1_45_0"
+
     print( bld.path.abspath())
     bld.program(
-            source       = [ 'main.cpp', 'Line.cpp','globals.cpp','BezierCurve.cpp', 'BezierPath.cpp' ],
+            source       = [ 
+                'main.cpp', 
+                'globals.cpp',
+                'Line.cpp',
+                'BezierCurve.cpp', 
+                'BezierPath.cpp' ],
+            
             target       = 'fish',
             features     = [ 'cxxprogram' ],
-            includes     = [ './freeglut/include','C:/pdev/boost_1_45_0' ],
+            includes     = [ 
+                './freeglut/include', 
+                boost_path ],
             lib          = [ 'freeglut','opengl32', 'glu32' ],
-            libpath      = [ a_path + '/freeglut/lib', a_path + '/freeglut' ],
+            libpath      = [ 
+                a_path + '/freeglut/lib', 
+                a_path + '/freeglut' ],
+            stlib        = [ 'boost_regex-gcc-1_45'],
+            stlibpath    = [ boost_path + '/libs/regex/build/gcc' ],
             linkflags    = [ '-W1,subsystem,windows' ],
             cxxflags     = [ '-c', '-g', '-O2', '-Wall' ],
             )
