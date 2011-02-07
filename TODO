@@ -1,23 +1,28 @@
-- use waf to compile the multi-file project
-- ensure rotation does not suffer from 'gravitation' ( as in cg_project_1 )
-- make sure objects are not clipped when moving outside visible area ( as in cg_project_2 )
+Tasks
 - implement morphing
-
 - color tools - classes to handle making a color lighter, saturation, etc
-- BezierPath: aggreate of BezierCurve
+o BezierPath: aggreate of BezierCurve
 - BezierPath has a method for parsing .pov files
-? BezierShape: aggregate of BezierPath's
+- BezierShape: aggregate of BezierPath's
 - implement static FPS
-- investigate boost regex'es
+o investigate boost regex'es
 - read from .pov files into BezierPath
+- debug flags ( BEZIER_PATH, OBJ_CREATION_DESTRUCTION, FUNCTION, REGEX )
+- debug methods ( debug_cout )
 
-C++
-- use smart pointers
+Keep in mind
+o use smart pointers
 - use C++ exceptions
 - use wide strings
-- use floats instead of ints
+x use floats instead of ints
+
+Issues
+x ensure rotation does not suffer from 'gravitation' ( as in cg_project_1 )
+- make sure objects are not clipped when moving outside visible area ( as in cg_project_2 )
+- resizing the window makes rotation erratic
 
 Infrastructure
-- use trac
+x use waf to compile the multi-file project
+o use trac
 - waf option to statically link freeglut and libstdc++
 - waf option to optimize the build
