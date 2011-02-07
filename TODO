@@ -9,6 +9,7 @@ o investigate boost regex'es
 - read from .pov files into BezierPath
 - debug flags ( BEZIER_PATH, OBJ_CREATION_DESTRUCTION, FUNCTION, REGEX )
 - debug methods ( debug_cout )
+- BezierPath: - implement: getMax/Min, rotate, move, scale
 
 Keep in mind
 o use smart pointers

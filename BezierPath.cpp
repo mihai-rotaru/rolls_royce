@@ -2,6 +2,7 @@
 #include <memory>
 #include <fstream>
 #include <string>
+#include <vector>
 using namespace std;
 
 #include "BezierPath.h"
@@ -10,6 +11,8 @@ using namespace std;
 #include <boost/foreach.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/regex.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string/regex.hpp>
 
 namespace xmx {
 
@@ -69,13 +72,47 @@ void xmx::BezierPath::loadFromPovFile( char* filename )
                 bezier_spline_line = line_no;
             }
 
-            if( line.find("//nr points") != -1 && bezier_spline_line != -1 )
+            else if( line.find("//nr points") != -1 && bezier_spline_line != -1 )
             {
 //                cout<<"//nr points @ line "<< line_no <<endl;
                 static const boost::regex e( "(\\d{1,}) //nr points$", boost::regex::extended );
                 boost::smatch what;
                 if( regex_search( line, what, e ))
-                    cout<<"number of points: "<< what[1] << endl;
+                {
+                    nr_points = boost::lexical_cast<int>( what[1] );
+                    cout<<"number of expected points: "<< nr_points << endl;
+                }
+            }
+            else
+            {
+//                cout<<"line " << line_no <<" may be a point defining line" << endl;
+                static const boost::regex pt( "\\s*/\\*\\s*(\\d{1,})\\*/ <", boost::regex::extended );
+                boost::smatch what2;
+                if( regex_search( line, what2, pt ))
+                {
+                    int point_in_line = boost::lexical_cast<int>( what2[1] );
+                    cout<<"points on line "<< line_no <<": "<< point_in_line << endl;
+
+                    // this line contains coords for 4 points - a Bezier curve
+                    Point E1, C1, C2, E2;
+
+//                    size_t start = line.find('<');
+//                    size_t end = line.find('\n');
+//                    cout<<"start: "<<start<<", end: "<<end<<endl;
+
+                    vector<string> result;
+                    boost::algorithm::split_regex (
+                         result,
+                         line,
+                         boost::regex( ">, <|/ <|>,$|>$" )
+                            );
+                    
+                    BOOST_FOREACH( string str, result )
+                    {
+                        cout<< str << endl;
+                    }
+
+                }
             }
         
         }
