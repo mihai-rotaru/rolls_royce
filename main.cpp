@@ -16,7 +16,7 @@ Point e1( 20, 20, 0 );
 Point c1( 20, 100, 0 );
 Point c2( 100, 30, 0 );
 Point e2( 100, 130, 0 );
-//BezierCurve bez_path( e1, c1, c2, e2 );
+BezierCurve bez_path( e1, c1, c2, e2 );
 BezierPath bp1;
 
 void myDisplayFunc( void )
@@ -30,9 +30,10 @@ void myDisplayFunc( void )
 
     // draw a line from point( 100,150 ) to point( 200, 300 )
     my_line.draw();
+//    my_line.rotate( 20 );
 
     // draw the bezier curve !
-//    bez_path.draw();
+    bez_path.draw();
 //    bez_path2.draw();
     bp1.draw();
 

@@ -30,11 +30,21 @@ Line::~Line()
 {
 }
 
+void print_buffer( GLfloat* buffer, int size )
+{
+    for( int i = 0; i < size; i ++ )
+    {
+        cout<<"at position "<<i<<": "<< buffer[i] <<endl;
+    }
+}
+
 void Line::rotate( float theta )
 {
-    cout<<"rotating..."<<endl;
+    cout<<endl<<"rotating..."<<endl;
+
     GLfloat* buff = new GLfloat[10];
     glFeedbackBuffer( 10, GL_2D, buff );
+
     GLfloat x_rel = ( (getMaxX() - getMinX())/2 + getMinX() );
     GLfloat y_rel = ( (getMaxY() - getMinY())/2 + getMinY() );
 
@@ -44,7 +54,7 @@ void Line::rotate( float theta )
     GLfloat before_x2 = x2;
     GLfloat before_y2 = y2;
 
-    cout<<"before rotation:"<<endl;
+    cout<<"before rotation: ";
     print();
 
     glRenderMode( GL_FEEDBACK );
@@ -56,6 +66,7 @@ void Line::rotate( float theta )
         draw();
     glPopMatrix();
 
+    glFlush();
     // TODO: check if new coordinates are out of bounds
 
     x1 = buff[1];
@@ -63,7 +74,7 @@ void Line::rotate( float theta )
     x2 = buff[3];
     y2 = buff[4];
 
-    cout<<"after rotation:"<<endl;
+    cout<<"after rotation:  ";
     print();
 
     //cleanup
@@ -82,7 +93,7 @@ void Line::draw()
 
 void Line::print()
 {
-    cout<<" Line, address: "<<this<<endl;
+    cout<<" Line @ "<<this<<": ";
     cout<< " x1: "<< setfill(' ') << setw( 10 ) <<setiosflags( ios::fixed | ios::right ) << setprecision(4) <<x1;
     cout<< " y1: "<< setfill(' ') << setw( 10 ) <<setiosflags( ios::fixed | ios::right ) << setprecision(4) <<y1;
     cout<< " x2: "<< setfill(' ') << setw( 10 ) <<setiosflags( ios::fixed | ios::right ) << setprecision(4) <<x2;
