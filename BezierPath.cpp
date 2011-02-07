@@ -49,12 +49,13 @@ void xmx::BezierPath::print()
 void xmx::BezierPath::loadFromPovFile( char* filename )
 {
     string line;
-    int line_no = 0;
+    int line_no =             0; // current line number ( first line is 1 )
+    int nr_points =           0; // number of total expected points
     int bezier_spline_line = -1; // on which line is 'bezier_spline'
-    int nr_points_line = -1; // on which line is 'nr points'
-    int nr_points = 0;
-    int next_point = -1;
+    int nr_points_line =     -1; // on which line is 'nr points'
+    int next_point =         -1; // next expected point number
 
+    cout<<"loading file '" << filename <<"'..."<<endl;
     ifstream my_file( filename, ios::in );
     if ( my_file.is_open())
     {
@@ -64,16 +65,17 @@ void xmx::BezierPath::loadFromPovFile( char* filename )
             line_no++;
             if( line.find("bezier_spline") != -1 )
             {
-                cout<<"bezier_spline on line "<< line_no <<endl;
+//                cout<<"bezier_spline on line "<< line_no <<endl;
                 bezier_spline_line = line_no;
             }
 
             if( line.find("//nr points") != -1 && bezier_spline_line != -1 )
             {
-                cout<<"//nr points @ line "<< line_no <<endl;
-                static const boost::regex e( "points$", boost::regex::extended );
+//                cout<<"//nr points @ line "<< line_no <<endl;
+                static const boost::regex e( "(\\d{1,}) //nr points$", boost::regex::extended );
                 boost::smatch what;
-                cout<< regex_match( line, e ) <<endl;
+                if( regex_search( line, what, e ))
+                    cout<<"number of points: "<< what[1] << endl;
             }
         
         }
@@ -88,9 +90,11 @@ void xmx::BezierPath::resizeTo( int newWidth )
     return /* something */;
 }
 
+
 xmx::BezierPath::BezierPath()
 {
 }
+
 
 xmx::BezierPath::~BezierPath()
 {
