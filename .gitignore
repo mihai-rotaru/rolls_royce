@@ -3,4 +3,3 @@ waf-*
 *.lnk
 build
 .trac/
-vector/
