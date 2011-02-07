@@ -1,11 +1,19 @@
-Project "fish"
-==============
+Project "Rolls"
+===============
 
 This is the second project for the "Introduction to Computer Graphics" module.
 
 Mission statement:
-Create an advertisment for a "Fish & Chips" Restaurant
+Create an advertisment for Rolls Royce Motor Cars
 
 version control: git
 build system:    waf
 issue tracking:  trac
+
+Notes on compiling
+==================
+Since 0.4, the application needs boost. The path to boost is hard-coded
+in wscript and should be changed accordingly.
+
+Since 0.4.1, the libboost_regex_gcc-1_45.a library is used, so lib paths
+were adjusted in wscript.
