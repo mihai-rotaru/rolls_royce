@@ -89,16 +89,12 @@ void xmx::BezierPath::loadFromPovFile( char* filename )
                 static const boost::regex pt( "\\s*/\\*\\s*(\\d{1,})\\*/ <", boost::regex::extended );
                 boost::smatch what2;
                 if( regex_search( line, what2, pt ))
-                {
+                {   // split the line into pairs
                     int point_in_line = boost::lexical_cast<int>( what2[1] );
-                    cout<<"points on line "<< line_no <<": "<< point_in_line << endl;
+                    cout<<endl<<"Curve # "<< point_in_line << " on line "<< line_no <<": "<< endl;
 
                     // this line contains coords for 4 points - a Bezier curve
                     Point E1, C1, C2, E2;
-
-//                    size_t start = line.find('<');
-//                    size_t end = line.find('\n');
-//                    cout<<"start: "<<start<<", end: "<<end<<endl;
 
                     vector<string> result;
                     boost::algorithm::split_regex (
@@ -107,9 +103,18 @@ void xmx::BezierPath::loadFromPovFile( char* filename )
                          boost::regex( ">, <|/ <|>,$|>$" )
                             );
                     
-                    BOOST_FOREACH( string str, result )
-                    {
-                        cout<< str << endl;
+                    for( int i=1; i< result.size()-1; i++ )
+                    {   // split the pairs into numbers
+                        vector<string> result2;
+                        boost::algorithm::split_regex (
+                             result2,
+                             result[i],
+                             boost::regex( ", " )
+                                );
+                        cout<<"x: "<<boost::lexical_cast<GLfloat>( result2[0] )<< "; ";
+                        cout<<"y: "<<boost::lexical_cast<GLfloat>( result2[1] )<< "; ";
+
+                        cout<<endl;
                     }
 
                 }
