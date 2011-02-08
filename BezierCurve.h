@@ -2,10 +2,12 @@
 #define XMX_BEZIER_H
 #include <GL/glu.h>
 #include "globals.h"
+#include "Point.h"
+#include "Primitive.h"
 
 namespace xmx {
 
-class BezierCurve
+class BezierCurve : virtual Primitive
 {
     public:
         // constructor parameters:
@@ -15,10 +17,21 @@ class BezierCurve
         BezierCurve( GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat );
         ~BezierCurve();
 
-        // methods
+        // methods for Primitive
         void print();
         void draw();
-        void rotate( float );
+        void rotate( GLfloat );
+        void rotate( GLfloat, GLfloat, GLfloat );
+        void move( GLfloat, GLfloat );
+        void scale( GLfloat, GLfloat );
+        
+        void drawBoundingBox();
+
+        GLfloat getMaxX();
+        GLfloat getMinX();
+        GLfloat getMaxY();
+        GLfloat getMinY();
+        GLfloat distanceTo( GLfloat, GLfloat );
 
         // array holding the vertices
         GLfloat points[4][3];

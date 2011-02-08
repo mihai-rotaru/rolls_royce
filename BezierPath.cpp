@@ -91,7 +91,7 @@ void xmx::BezierPath::loadFromPovFile( char* filename )
                 if( regex_search( line, what2, pt ))
                 {   // split the line into pairs
                     int point_in_line = boost::lexical_cast<int>( what2[1] );
-                    cout<<endl<<"Curve # "<< point_in_line << " on line "<< line_no <<": "<< endl;
+//                    cout<<endl<<"Curve # "<< point_in_line << " on line "<< line_no <<": "<< endl;
 
                     // this line contains coords for 4 points - a Bezier curve
                     Point E1, C1, C2, E2;
@@ -111,10 +111,9 @@ void xmx::BezierPath::loadFromPovFile( char* filename )
                              result[i],
                              boost::regex( ", " )
                                 );
-                        cout<<"x: "<<boost::lexical_cast<GLfloat>( result2[0] )<< "; ";
-                        cout<<"y: "<<boost::lexical_cast<GLfloat>( result2[1] )<< "; ";
-
-                        cout<<endl;
+//                        cout<<"x: "<<boost::lexical_cast<GLfloat>( result2[0] )<< "; ";
+//                        cout<<"y: "<<boost::lexical_cast<GLfloat>( result2[1] )<< "; ";
+//                        cout<<endl;
                     }
 
                 }

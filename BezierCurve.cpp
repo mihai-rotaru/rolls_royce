@@ -1,11 +1,14 @@
 #include <GL/glu.h>
 #include "globals.h"
+#include "Point.h"
 #include "BezierCurve.h"
 
 #include <string>
 #include <iostream>
 #include <iomanip>
 using namespace std;
+
+bool temp = false;
 
 namespace xmx {
 
@@ -69,7 +72,7 @@ BezierCurve::~BezierCurve()
 
 void BezierCurve::draw()
 {
-    if( XMX_SHOW_BEZIER_POINTS )
+    if( SHOW_BEZIER_POINTS )
     {
         glPointSize( 5.0f );
         glBegin( GL_POINTS );
@@ -98,6 +101,8 @@ void BezierCurve::draw()
 			glEvalCoord1f( (GLfloat)i ); 
             }
     glEnd();
+
+    if( SHOW_BEZIER_BOUNDING_BOX ) drawBoundingBox();
 }
 
 void nice_cout( string msg, GLfloat f )
@@ -120,8 +125,83 @@ void BezierCurve::print()
     cout<<endl;
 }
 
+void BezierCurve::drawBoundingBox()
+{
+    if( !temp )
+    {
+    temp = true;
+    cout<< "entering drawBoundingBox() for BezierCurve @ " << this << endl; 
+    // f(x) = ax^3 + bx^2 + cx + d
+    //   a = P3 - 3P2 + 3P1 -  P0
+    //   b =      3P2 - 6P1 + 3P0
+    //   c =            3P1 - 3P0
+    //   d =                   P0 
+    //
 
-void BezierCurve::rotate( float )
+//    GLfloat ax = 
+    Point P0( points[ END_PT_1][0], points[ END_PT_1][1], 0.0f ); 
+    Point P1( points[ CTRL_PT_1][0], points[ CTRL_PT_1][1], 0.0f ); 
+    Point P2( points[ CTRL_PT_2][0], points[ CTRL_PT_2][1], 0.0f ); 
+    Point P3( points[ END_PT_2][0], points[ END_PT_2][1], 0.0f ); 
+
+    P0.print();
+    P1.print();
+    P2.print();
+    P3.print();
+
+
+
+
+
+    }
+}
+
+
+void BezierCurve::rotate( GLfloat )
+{
+    return /* something */;
+}
+
+void BezierCurve::rotate( GLfloat, GLfloat, GLfloat )
+{
+    return /* something */;
+}
+
+GLfloat xmx::BezierCurve::distanceTo( GLfloat, GLfloat )
+{
+    return -1;
+}
+
+GLfloat xmx::BezierCurve::getMaxX()
+{
+    return -1;
+}
+
+
+GLfloat xmx::BezierCurve::getMaxY()
+{
+    return -1;
+}
+
+
+GLfloat xmx::BezierCurve::getMinX()
+{
+    return -1;
+}
+
+
+GLfloat xmx::BezierCurve::getMinY()
+{
+    return -1;
+}
+
+
+void xmx::BezierCurve::move( GLfloat, GLfloat )
+{
+    return /* something */;
+}
+
+void xmx::BezierCurve::scale( GLfloat, GLfloat )
 {
     return /* something */;
 }

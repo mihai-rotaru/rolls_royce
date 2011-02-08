@@ -4,6 +4,7 @@
 using namespace std;
 
 #include "globals.h"
+#include "Point.h"
 #include "Line.h"
 #include "BezierCurve.h"
 #include "BezierPath.h"
@@ -53,9 +54,9 @@ void init( void )
     gluOrtho2D( 0,500,0,500 );
 
     //
-//    bp1.addCurve( e1.x, e1.y, c1.x, c1.y, c2.x, c2.y, e2.x, e2.y );
-//    bp1.addCurve( 100,100,100,200,200,20,100,300 );
-    bp1.loadFromPovFile("vector/body.pov");
+    bp1.addCurve( e1.x, e1.y, c1.x, c1.y, c2.x, c2.y, e2.x, e2.y );
+    bp1.addCurve( 100,100,100,200,200,20,100,300 );
+//    bp1.loadFromPovFile("vector/body.pov");
 
 }
 
@@ -90,10 +91,8 @@ int main( int argc, char** argv )
     // init
     glutInit( &argc, argv );
     glutInitDisplayMode( GLUT_SINGLE | GLUT_RGB );
-//    window_width = 640;
-//    window_height = 480;
-    window_width = 500;
-    window_height = 500;
+    window_width = 640;
+    window_height = 480;
     glutInitWindowSize( window_width, window_height );
     glutInitWindowPosition( 100, 100 );
     glutCreateWindow( "Hello" );
