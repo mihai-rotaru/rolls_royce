@@ -24,7 +24,7 @@ def build( bld ):
         ver = Popen( "git describe" , stdout=PIPE, stderr=PIPE ).stdout.read()
         #short_ver = re.sub('*?
         exe_name = 'fish_'+str(ver.strip())
-        print "building " + str(bld.env['app_name']) + ver.strip() + "..."
+        print "building " + exe_name + "..."
 
     a_path = bld.path.abspath()
     boost_path = "C:/pdev/boost_1_45_0"
@@ -34,6 +34,7 @@ def build( bld ):
             source       = [ 
                 'main.cpp', 
                 'globals.cpp',
+                'Point.cpp',
                 'Line.cpp',
                 'BezierCurve.cpp', 
                 'BezierPath.cpp' ],
