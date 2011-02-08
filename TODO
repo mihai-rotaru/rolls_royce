@@ -20,7 +20,7 @@ x use floats instead of ints
 Issues
 x ensure rotation does not suffer from 'gravitation' ( as in cg_project_1 )
 - make sure objects are not clipped when moving outside visible area ( as in cg_project_2 )
-- resizing the window makes rotation erratic
+x resizing the window makes rotation erratic
 
 Infrastructure
 x use waf to compile the multi-file project
