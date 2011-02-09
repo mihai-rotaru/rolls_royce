@@ -34,6 +34,8 @@ BezierCurve::BezierCurve( Point e1, Point c1, Point c2, Point e2 )
     points[ END_PT_2 ][0] = e2.x;
     points[ END_PT_2 ][1] = e2.y;
     points[ END_PT_2 ][2] = 0.0f; // 2D, so 'z' coord. is always 0
+
+    calculateBoundingBox();
 }
 
 BezierCurve::BezierCurve( 
@@ -62,6 +64,8 @@ BezierCurve::BezierCurve(
     points[ END_PT_2 ][0] = e2_x;
     points[ END_PT_2 ][1] = e2_y;
     points[ END_PT_2 ][2] = 0.0f; // 2D, so 'z' coord. is always 0
+
+    calculateBoundingBox();
 }
 
 
@@ -131,7 +135,7 @@ GLfloat solveFor( GLfloat x, GLfloat a, GLfloat b, GLfloat c, GLfloat d )
     return( a*x*x*x + b*x*x + c*x + d );
 }
 
-void BezierCurve::drawBoundingBox()
+void BezierCurve::calculateBoundingBox()
 {
     if( !temp )
     {
@@ -199,12 +203,24 @@ void BezierCurve::drawBoundingBox()
     a = a/3; a.print("a");
     b = b/2; b.print("b");
 
+    // determine max and min x/y for end points
+    maxX = P0.x > P3.x ? P0.x : P3.x;
+    maxY = P0.y > P3.y ? P0.y : P3.y;
+    minX = P0.x < P3.x ? P0.x : P3.x;
+    minY = P0.y < P3.y ? P0.y : P3.y;
+
     // calculate the Bezier's equation for each solution
     for( int i=0; i<=3; i++ )
         if( solutions[i] < 1 ) // Beziers are only defined for [0,1]
         {
             GLfloat x = solveFor( solutions[i], a.x, b.x, c.x, d.x ); cout<< "s-x" <<i+1<<": "<< x << endl;
             GLfloat y = solveFor( solutions[i], a.y, b.y, c.y, d.y ); cout<< "s-y" <<i+1<<": "<< y << endl;
+
+            // new min or max ?
+            maxX = x > maxX ? x : maxX;
+            maxY = y > maxY ? y : maxY;
+            minX = x < minX ? x : minX;
+            minY = y < minY ? y : minY;
         }
 
     // find min and max for each solution
@@ -212,6 +228,22 @@ void BezierCurve::drawBoundingBox()
     }
 }
 
+void BezierCurve::drawBoundingBox()
+{
+    glBegin( GL_LINES );
+        glVertex2f( minX, minY );
+        glVertex2f( maxX, minY );
+
+        glVertex2f( maxX, minY );
+        glVertex2f( maxX, maxY );
+        
+        glVertex2f( maxX, maxY );
+        glVertex2f( minX, maxY );
+        
+        glVertex2f( minX, maxY );
+        glVertex2f( minX, minY );
+    glEnd();
+}
 
 void BezierCurve::rotate( GLfloat )
 {

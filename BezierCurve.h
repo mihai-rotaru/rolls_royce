@@ -29,6 +29,7 @@ class BezierCurve : virtual Primitive
         void scale( GLfloat, GLfloat );
         
         void drawBoundingBox();
+        void calculateBoundingBox();
 
         GLfloat getMaxX();
         GLfloat getMinX();
@@ -38,6 +39,9 @@ class BezierCurve : virtual Primitive
 
         // array holding the vertices
         GLfloat points[4][3];
+
+        // bounding box
+        GLfloat maxX, maxY, minX, minY;
 
         // sugar
         const static int END_PT_1 = 0;
