@@ -165,16 +165,12 @@ void BezierCurve::drawBoundingBox()
     |                                                                     |
     \====================================================================*/
 
-    Point P0( points[ END_PT_1 ][0], points[ END_PT_1 ][1], 0.0f ); 
-    Point P1( points[ CTRL_PT_1][0], points[ CTRL_PT_1][1], 0.0f ); 
-    Point P2( points[ CTRL_PT_2][0], points[ CTRL_PT_2][1], 0.0f ); 
-    Point P3( points[ END_PT_2 ][0], points[ END_PT_2 ][1], 0.0f ); 
+    Point P0 = getP0();
+    Point P1 = getP1();
+    Point P2 = getP2();
+    Point P3 = getP3();
 
-    P0.print();
-    P1.print();
-    P2.print();
-    P3.print();
-
+    cout<<"calculating coeficients..."<<endl;
     Point a = P3 - 3*P2 + 3*P1 - P0;     a.print("a");
     Point b = 3*P2 - 6*P1 + 3*P0;        b.print("b");
     Point c = 3*P1 - 3*P0;               c.print("c");
@@ -188,48 +184,29 @@ void BezierCurve::drawBoundingBox()
     D.print("D");
 
     // solutions
+    cout<< "calcutating solutions..."<<endl;
     Point s1 = ( -1 * b + psqrt( b * b - 4 * a * c ))/ ( 2 * a  ); s1.print("s1");
     Point s2 = ( -1 * b - psqrt( b * b - 4 * a * c ))/ ( 2 * a  ); s2.print("s2");
 
-    GLfloat sx1 = s1.x;
-    GLfloat sx2 = s2.x;
-    GLfloat sy1 = s1.y;
-    GLfloat sy2 = s2.y;
-
-    cout<<"=================="<<endl;
-    cout<<"sx1 = "<<sx1<<endl;
-    cout<<"sx2 = "<<sx2<<endl;
-    cout<<"sy1 = "<<sy1<<endl;
-    cout<<"sy2 = "<<sy2<<endl;
-    cout<<"=================="<<endl;
+    // put solutions in an array
+    GLfloat solutions[4]; 
+    solutions[0] = s1.x;
+    solutions[1] = s2.x;
+    solutions[2] = s1.y; 
+    solutions[3] = s2.y;
 
     // change a and b back to values for the original function, not the derivative
     a = a/3; a.print("a");
     b = b/2; b.print("b");
 
-    if ( sx1 < 1 )
-    { 
-        GLfloat x1 = solveFor( sx1, a.x, b.x, c.x, d.x ); cout<< "s-x1: " << x1 << endl; 
-        GLfloat y1 = solveFor( sx1, a.y, b.y, c.y, d.y ); cout<< "s-y1: " << y1 << endl; 
-    }
+    // calculate the Bezier's equation for each solution
+    for( int i=0; i<=3; i++ )
+        if( solutions[i] < 1 ) // Beziers are only defined for [0,1]
+        {
+            GLfloat x = solveFor( solutions[i], a.x, b.x, c.x, d.x ); cout<< "s-x" <<i+1<<": "<< x << endl;
+            GLfloat y = solveFor( solutions[i], a.y, b.y, c.y, d.y ); cout<< "s-y" <<i+1<<": "<< y << endl;
+        }
 
-    if ( sx2 < 1 )
-    { 
-        GLfloat x2 = solveFor( sx2, a.x, b.x, c.x, d.x ); cout<< "s-x2: " << x2 << endl; 
-        GLfloat y2 = solveFor( sx2, a.y, b.y, c.y, d.y ); cout<< "s-y2: " << y2 << endl; 
-    }
-    
-    if ( sy1 < 1 )
-    { 
-        GLfloat x3 = solveFor( sy1, a.x, b.x, c.x, d.x ); cout<< "s-x3: " << x3 << endl; 
-        GLfloat y3 = solveFor( sy1, a.y, b.y, c.y, d.y ); cout<< "s-y3: " << y3 << endl; 
-    }                           
-                                
-    if ( sy2 < 1 )              
-    {                           
-        GLfloat x4 = solveFor( sy2, a.x, b.x, c.x, d.x ); cout<< "s-x4: " << x4 << endl; 
-        GLfloat y4 = solveFor( sy2, a.y, b.y, c.y, d.y ); cout<< "s-y4: " << y4 << endl; 
-    }
     // find min and max for each solution
     
     }

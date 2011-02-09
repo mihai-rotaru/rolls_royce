@@ -13,10 +13,10 @@ using namespace xmx;
 Line my_line( 100, 150, 200, 300 );
 
 // bezier stuff
-Point e1( 30, 70 );
-Point c1( 0, 270 );
+Point e1(  30, 70  );
+Point c1(   0, 270 );
 Point c2( 290, 110 );
-Point e2( 200, 100);
+Point e2( 200, 100 );
 BezierCurve bez_path( e1, c1, c2, e2 );
 BezierPath bp1;
 

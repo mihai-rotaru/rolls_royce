@@ -21,7 +21,7 @@ class BezierCurve : virtual Primitive
 
         // methods for Primitive
         void print();
-        void print( std::string str );
+        void print( std::string );
         void draw();
         void rotate( GLfloat );
         void rotate( GLfloat, GLfloat, GLfloat );
@@ -44,6 +44,10 @@ class BezierCurve : virtual Primitive
         const static int CTRL_PT_1 = 1;
         const static int CTRL_PT_2 = 2;
         const static int END_PT_2 = 3;
+        Point getP0() { return Point( points[0][0], points[0][1] ); }
+        Point getP1() { return Point( points[1][0], points[1][1] ); }
+        Point getP2() { return Point( points[2][0], points[2][1] ); }
+        Point getP3() { return Point( points[3][0], points[3][1] ); }
 };
 
 } // namespace xmx

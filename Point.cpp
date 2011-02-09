@@ -11,20 +11,29 @@ namespace xmx {
 
 void nice_cout( string msg, GLfloat f )
 {
-    cout<< msg << setfill(' ') << setw( 10 ) <<setiosflags( ios::fixed | ios::right ) << setprecision(4) << f <<endl;
+    cout<< msg << setfill(' ') << setw( 15 ) <<setiosflags( ios::fixed | ios::right ) << setprecision(4) << f <<endl;
+}
+
+void nice_cout_( string msg, GLfloat f )
+{
+    cout<< msg << setfill(' ') << setw( 15 ) <<setiosflags( ios::fixed | ios::right ) << setprecision(4) << f;
 }
 
 void Point::print()
 {
-    cout<< "Point @ " << this << endl;
-    nice_cout( "x: ", x );
-    nice_cout( "y: ", y );
+    cout<< setfill(' ') << setw(15) << left <<  "Point " << " @ " << this << " : ";
+    nice_cout_( "x: ", x );
+    cout<<" ";
+    nice_cout_( "y: ", y );
+    cout<<endl;
 }
 
 void Point::print( string str )
 {
-    cout << str << " ";
-    print();
+    nice_cout_( "x: ", x );
+    cout<<" ";
+    nice_cout_( "y: ", y );
+    cout<<endl;
 }
 
 Point psqrt( const Point& p )
