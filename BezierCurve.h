@@ -31,10 +31,10 @@ class BezierCurve : virtual Primitive
         void drawBoundingBox();
         void calculateBoundingBox();
 
-        GLfloat getMaxX();
-        GLfloat getMinX();
-        GLfloat getMaxY();
-        GLfloat getMinY();
+        GLfloat getMaxX() { return maxX; }
+        GLfloat getMinX() { return minX; }
+        GLfloat getMaxY() { return maxY; }
+        GLfloat getMinY() { return minY; }
         GLfloat distanceTo( GLfloat, GLfloat );
 
         // array holding the vertices
@@ -52,6 +52,8 @@ class BezierCurve : virtual Primitive
         Point getP1() { return Point( points[1][0], points[1][1] ); }
         Point getP2() { return Point( points[2][0], points[2][1] ); }
         Point getP3() { return Point( points[3][0], points[3][1] ); }
+        Point getLowerLeft()  { return Point( minX, minY ); }
+        Point getUpperRight() { return Point( maxX, maxY ); }
 };
 
 } // namespace xmx

@@ -69,6 +69,12 @@ void myKeyboardFunc( unsigned char key, int x, int y )
         case 'k':
             my_line.rotate( -5 );
             break;
+        case 'l':
+            bez_path.move( 5, 0 );
+            break;
+        case 'h':
+            bez_path.move( -5, 0);
+            break;
         case 27:
             exit(0);
             break;

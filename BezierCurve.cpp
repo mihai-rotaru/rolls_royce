@@ -253,33 +253,14 @@ GLfloat xmx::BezierCurve::distanceTo( GLfloat, GLfloat )
     return -1;
 }
 
-GLfloat xmx::BezierCurve::getMaxX()
+void xmx::BezierCurve::move( GLfloat x_dir, GLfloat y_dir )
 {
-    return -1;
-}
-
-
-GLfloat xmx::BezierCurve::getMaxY()
-{
-    return -1;
-}
-
-
-GLfloat xmx::BezierCurve::getMinX()
-{
-    return -1;
-}
-
-
-GLfloat xmx::BezierCurve::getMinY()
-{
-    return -1;
-}
-
-
-void xmx::BezierCurve::move( GLfloat, GLfloat )
-{
-    return /* something */;
+    cout << "moving BezierCurve @ " << this << endl;
+    for( int i=0; i<=3; i++ )
+    {
+        points[i][0] += x_dir;
+        points[i][1] += y_dir;
+    }
 }
 
 void xmx::BezierCurve::scale( GLfloat, GLfloat )
