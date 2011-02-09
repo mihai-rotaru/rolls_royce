@@ -5,6 +5,8 @@
 #include "Point.h"
 #include "Primitive.h"
 
+#include <string>
+
 namespace xmx {
 
 class BezierCurve : virtual Primitive
@@ -19,6 +21,7 @@ class BezierCurve : virtual Primitive
 
         // methods for Primitive
         void print();
+        void print( std::string str );
         void draw();
         void rotate( GLfloat );
         void rotate( GLfloat, GLfloat, GLfloat );

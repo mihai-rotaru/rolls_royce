@@ -1,5 +1,7 @@
 #include <GL/glu.h>
 #include "globals.h"
+#include "Point.h"
+using namespace xmx;
 
 // these are set in the main function, when the window is created
 int window_width = 0;

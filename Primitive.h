@@ -1,6 +1,7 @@
 #ifndef PRIMITIVE_H
 #define PRIMITIVE_H
 
+#include <string>
 #include <GL/glu.h>
 
 namespace xmx {
@@ -8,6 +9,7 @@ namespace xmx {
 class Primitive
 {
 public:
+    std::string name;
 
     virtual void scale ( GLfloat, GLfloat ) = 0;
     virtual void rotate( GLfloat ) = 0;               // around the center of the bounding box
@@ -16,6 +18,7 @@ public:
     virtual void draw() = 0;
     virtual GLfloat distanceTo( GLfloat, GLfloat ) = 0;
     virtual void print () = 0;
+    virtual void print ( std::string ) = 0;
     
     virtual GLfloat getMaxX( )=0;
     virtual GLfloat getMinX( )=0;
