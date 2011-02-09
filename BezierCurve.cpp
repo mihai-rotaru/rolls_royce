@@ -8,8 +8,6 @@
 #include <iomanip>
 using namespace std;
 
-bool temp = false;
-
 namespace xmx {
 
 BezierCurve::BezierCurve( Point e1, Point c1, Point c2, Point e2 )
@@ -137,9 +135,6 @@ GLfloat solveFor( GLfloat x, GLfloat a, GLfloat b, GLfloat c, GLfloat d )
 
 void BezierCurve::calculateBoundingBox()
 {
-    if( !temp )
-    {
-    temp = true;
     cout<< "entering drawBoundingBox() for BezierCurve @ " << this << endl; 
 
     /*=====================================================================   
@@ -183,7 +178,7 @@ void BezierCurve::calculateBoundingBox()
     a = 3*a; a.print("a");
     b = 2*b; b.print("b");
 
-    // Determinant
+    // Discriminant
     Point D = b*b - 4*( a * c );
     D.print("D");
 
@@ -224,8 +219,6 @@ void BezierCurve::calculateBoundingBox()
         }
 
     // find min and max for each solution
-    
-    }
 }
 
 void BezierCurve::drawBoundingBox()
