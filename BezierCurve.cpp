@@ -35,6 +35,7 @@ BezierCurve::BezierCurve( Point e1, Point c1, Point c2, Point e2 )
     points[ END_PT_2 ][2] = 0.0f; // 2D, so 'z' coord. is always 0
 
     calculateBoundingBox();
+    if( DEBUG_INIT_BEZIER_BOUNDING_BOX ) printBoundingBox();
 }
 
 BezierCurve::BezierCurve( 
@@ -65,12 +66,22 @@ BezierCurve::BezierCurve(
     points[ END_PT_2 ][2] = 0.0f; // 2D, so 'z' coord. is always 0
 
     calculateBoundingBox();
+
+    if( DEBUG_INIT_BEZIER_BOUNDING_BOX ) printBoundingBox();
 }
 
 
 BezierCurve::~BezierCurve()
 {
     if( DEBUG_CTOR_DTOR ) cout<<"dtor for BezierCurve @ " << this << endl;
+}
+
+void BezierCurve::printBoundingBox()
+{
+    cout<< "maxX: " << maxX << endl;
+    cout<< "maxY: " << maxY << endl;
+    cout<< "minX: " << minX << endl;
+    cout<< "minY: " << minY << endl;
 }
 
 void BezierCurve::draw()
@@ -97,7 +108,7 @@ void BezierCurve::draw()
 
     glEnable( GL_MAP1_VERTEX_3 );
 
-	glBegin(GL_LINE_STRIP);
+	glBegin( GL_LINE_STRIP );
 		for( int i = 0; i <= 100; i++ )
 			{
 			// Evaluate the curve at this point
@@ -177,12 +188,13 @@ void BezierCurve::calculateBoundingBox()
     Point c = 3*P1 - 3*P0;               if( DBBB )c.print("c");
     Point d = P0;                        if( DBBB )d.print("d");
     
+    if( DBBB )cout<<"for the derived function: "<<endl;
     a = 3*a; if( DBBB )a.print("a");
     b = 2*b; if( DBBB )b.print("b");
 
     // Discriminant
     Point D = b*b - 4*( a * c );
-    if( DBBB )D.print("D");
+    if( DBBB ) { cout<<"Discriminant: "; D.print("D"); }
 
     // solutions
     if( DBBB )cout<< "calcutating solutions..."<<endl;

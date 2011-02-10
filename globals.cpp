@@ -12,5 +12,6 @@ bool SHOW_BEZIER_POINTS       = false;
 bool SHOW_BEZIER_BOUNDING_BOX = false;
 
 // debug flags
-bool DEBUG_CTOR_DTOR           = true;
-bool DEBUG_BEZIER_BOUNDING_BOX = false;
+bool DEBUG_CTOR_DTOR                = true;
+bool DEBUG_BEZIER_BOUNDING_BOX      = false;
+bool DEBUG_INIT_BEZIER_BOUNDING_BOX = true;

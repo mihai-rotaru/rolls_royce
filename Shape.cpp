@@ -178,6 +178,7 @@ Shape loadFromPovFile( string  filename )
             }
         
         }
+        cout<<"processing of " << filename << " complete." << endl;
         my_file.close();
     }
     else cout<<"Unable to open file: '" << filename << "'" << endl;
