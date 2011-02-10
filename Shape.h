@@ -25,6 +25,15 @@ public:
     void addLine( GLfloat, GLfloat, GLfloat, GLfloat );
     void addBezierCurve( GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat);
 
+    void move( GLfloat, GLfloat );
+    void scale( GLfloat, GLfloat );
+    void rotate( GLfloat );
+    void rotate( GLfloat, GLfloat, GLfloat );
+    void print();
+    void print( std::string );
+    void draw();
+    GLfloat distanceTo( GLfloat, GLfloat );
+
 };
 
 } // namespace xmx

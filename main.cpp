@@ -9,6 +9,7 @@ using namespace std;
 #include "Line.h"
 #include "BezierCurve.h"
 #include "BezierPath.h"
+#include "Shape.h"
 using namespace xmx;
 
 Line my_line( 100, 150, 200, 300 );
@@ -20,6 +21,7 @@ Point c2( 290, 110 );
 Point e2( 200, 100 );
 BezierCurve bez_path( e1, c1, c2, e2 );
 BezierPath bp1;
+Shape shape;
 
 void myDisplayFunc( void )
 {
@@ -35,9 +37,10 @@ void myDisplayFunc( void )
 //    my_line.rotate( 20 );
 
     // draw the bezier curve !
-    bez_path.draw();
+//    bez_path.draw();
 //    bez_path2.draw();
-    bp1.draw();
+//    bp1.draw();
+    shape.draw();
 
     // keep showing( flushing ) line on the screen instead of showing just once.
     glFlush();
@@ -55,7 +58,9 @@ void init( void )
     gluOrtho2D( 0,500,0,500 );
 
 //    bp1.addCurve( e1.x, e1.y, c1.x, c1.y, c2.x, c2.y, e2.x, e2.y );
-    bp1.addCurve( 100,100,100,200,200,20,100,300 );
+//    bp1.addCurve( 100,100,100,200,200,20,100,300 );
+    shape.addBezierCurve( 100,100,100,200,200,20,100,300 );
+
 //    bp1.loadFromPovFile("vector/body.pov");
 
 }
@@ -71,10 +76,10 @@ void myKeyboardFunc( unsigned char key, int x, int y )
             my_line.rotate( -5 );
             break;
         case 'l':
-            bez_path.move( 5, 0 );
+            shape.move( 5, 0 );
             break;
         case 'h':
-            bez_path.move( -5, 0);
+            shape.move( -5, 0);
             break;
         case 27:
             exit(0);

@@ -57,7 +57,7 @@ void Line::move( GLfloat x_dir, GLfloat y_dir )
 
 void Line::rotate( float theta )
 {
-    cout<<endl<<"rotating..."<<endl;
+    cout<<endl<<"rotating Line @ "<< this << endl;
 
     GLfloat* buff = new GLfloat[10];
     glFeedbackBuffer( 10, GL_2D, buff );
@@ -72,7 +72,7 @@ void Line::rotate( float theta )
     GLfloat before_y2 = y2;
 
     cout<<"before rotation: ";
-    print();
+    print("");
 
     glRenderMode( GL_FEEDBACK );
 
@@ -92,12 +92,11 @@ void Line::rotate( float theta )
     y2 = buff[4];
 
     cout<<"after rotation:  ";
-    print();
+    print("");
 
     //cleanup
     delete[] buff;
 
-    cout<<"rotated."<<endl;
 }
 
 void Line::rotate( GLfloat theta, GLfloat x, GLfloat y)
@@ -125,8 +124,12 @@ void Line::print()
 
 void Line::print( std::string str )
 {
-    cout<< str <<endl;
-    print();
+    cout<< str ;
+    cout<< " x1: "<< setfill(' ') << setw( 10 ) <<setiosflags( ios::fixed | ios::right ) << setprecision(4) <<x1;
+    cout<< " y1: "<< setfill(' ') << setw( 10 ) <<setiosflags( ios::fixed | ios::right ) << setprecision(4) <<y1;
+    cout<< " x2: "<< setfill(' ') << setw( 10 ) <<setiosflags( ios::fixed | ios::right ) << setprecision(4) <<x2;
+    cout<< " y2: "<< setfill(' ') << setw( 10 ) <<setiosflags( ios::fixed | ios::right ) << setprecision(4) <<y2;
+    cout<<endl;
 }
 
 GLfloat Line::distanceTo( GLfloat x, GLfloat y )

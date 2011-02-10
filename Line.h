@@ -7,7 +7,7 @@
 
 namespace xmx {
 
-class Line : virtual Primitive
+class Line : virtual public Primitive
 {
 public:
     Line( int, int, int, int );
