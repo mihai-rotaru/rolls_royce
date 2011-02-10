@@ -10,7 +10,7 @@
 
 namespace xmx {
 
-class BezierCurve : virtual Primitive
+class BezierCurve : virtual public Primitive
 {
     public:
         // constructor parameters:
@@ -45,10 +45,10 @@ class BezierCurve : virtual Primitive
         GLfloat maxX, maxY, minX, minY;
 
         // sugar
-        const static int END_PT_1 = 0;
+        const static int END_PT_1 =  0;
         const static int CTRL_PT_1 = 1;
         const static int CTRL_PT_2 = 2;
-        const static int END_PT_2 = 3;
+        const static int END_PT_2 =  3;
         Point getP0() { return Point( points[0][0], points[0][1] ); }
         Point getP1() { return Point( points[1][0], points[1][1] ); }
         Point getP2() { return Point( points[2][0], points[2][1] ); }
