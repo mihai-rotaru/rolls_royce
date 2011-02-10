@@ -1,6 +1,7 @@
 Tasks
 - implement morphing
 - color tools - classes to handle making a color lighter, saturation, etc
+- PrimitiveList
 o BezierPath: aggreate of BezierCurve
 - BezierPath has a method for parsing .pov files
 - BezierShape: aggregate of BezierPath's
@@ -10,6 +11,8 @@ o investigate boost regex'es
 - debug flags ( BEZIER_PATH, OBJ_CREATION_DESTRUCTION, FUNCTION, REGEX )
 - debug methods ( debug_cout )
 - BezierPath: - implement: getMax/Min, rotate, move, scale
+- distanceTo - later, not needed for animation
+- rotate - later
 
 Keep in mind
 o use smart pointers

@@ -261,6 +261,8 @@ void xmx::BezierCurve::move( GLfloat x_dir, GLfloat y_dir )
         points[i][0] += x_dir;
         points[i][1] += y_dir;
     }
+
+    calculateBoundingBox();
 }
 
 void xmx::BezierCurve::scale( GLfloat, GLfloat )
