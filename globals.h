@@ -13,5 +13,6 @@ extern bool DEBUG_TRANSF_MOVE;
 extern bool DEBUG_TRANSF_SCALE;
 extern bool DEBUG_BEZIER_BOUNDING_BOX;
 extern bool DEBUG_INIT_BEZIER_BOUNDING_BOX;
+extern bool DEBUG_POV_LOADING;
 
 #endif /* GLOBALS_H */

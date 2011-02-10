@@ -77,7 +77,7 @@ void Shape::rotate( GLfloat, GLfloat, GLfloat )
 
 void Shape::move( GLfloat x_dir, GLfloat y_dir )
 {
-    cout << "moving Shape @ " << this << endl;
+    if ( DEBUG_TRANSF_MOVE ) cout << "moving Shape @ " << this << endl;
     BOOST_FOREACH( boost::shared_ptr< Primitive > pPrimitive, primitives )
     {
         pPrimitive->move( x_dir, y_dir );
@@ -107,6 +107,8 @@ Shape loadFromPovFile( string  filename )
     int bezier_spline_line = -1; // on which line is 'bezier_spline'
     int nr_points_line =     -1; // on which line is 'nr points'
     int next_point =         -1; // next expected point number
+    int segments =           -1; // total number of segments in this file
+    int total_shapes =       -1; // total number of shapes in this file
 
     cout<<"loading file '" << filename <<"'..."<<endl;
     ifstream my_file;
@@ -125,13 +127,32 @@ Shape loadFromPovFile( string  filename )
 
             else if( line.find("//nr points") != -1 && bezier_spline_line != -1 )
             {
-//                cout<<"//nr points @ line "<< line_no <<endl;
                 static const boost::regex e( "(\\d{1,}) //nr points$", boost::regex::extended );
                 boost::smatch what;
                 if( regex_search( line, what, e ))
                 {
                     nr_points = boost::lexical_cast<int>( what[1] );
-                    cout<<"number of expected points: "<< nr_points << endl;
+                    if( DEBUG_POV_LOADING ) cout<<"number of expected points: "<< nr_points << endl;
+                }
+            }
+            else if( line.find("Segments : ") != -1 )
+            {
+                static const boost::regex seg( "^##\\s{1,}Segments : (\\d{1,})$", boost::regex::extended );
+                boost::smatch seg_match;
+                if( regex_search( line, seg_match, seg ))
+                {
+                    segments = boost::lexical_cast<int>( seg_match[1] );
+                    if( DEBUG_POV_LOADING ) cout<<"number of segments: "<< segments << endl;
+                }
+            }
+            else if( line.find("Shapes") != -1 )
+            {
+                static const boost::regex shapes_reg( "^##\\s{1,}Shapes\\s{1,}: (\\d{1,})$", boost::regex::extended );
+                boost::smatch shapes_match;
+                if( regex_search( line, shapes_match, shapes_reg ))
+                {
+                    total_shapes = boost::lexical_cast<int>( shapes_match[1] );
+                    if( DEBUG_POV_LOADING ) cout<<"number of shapes: "<< total_shapes << endl;
                 }
             }
             else
@@ -142,7 +163,7 @@ Shape loadFromPovFile( string  filename )
                 if( regex_search( line, what2, pt ))
                 {   // split the line into pairs
                     int point_in_line = boost::lexical_cast<int>( what2[1] );
-                    cout<<endl<<"Curve # "<< point_in_line << " on line "<< line_no <<": "<< endl;
+                    if( DEBUG_POV_LOADING ) cout<<endl<<"Curve # "<< point_in_line << " on line "<< line_no <<": "<< endl;
 
                     // this line contains coords for 4 points - a Bezier curve
                     Point pointz[4];
@@ -162,12 +183,9 @@ Shape loadFromPovFile( string  filename )
                              result[i],
                              boost::regex( ", " )
                                 );
-//                        cout<<"x: "<<boost::lexical_cast<GLfloat>( result2[0] )<< "; ";
-//                        cout<<"y: "<<boost::lexical_cast<GLfloat>( result2[1] )<< "; ";
-//                        cout<<endl;
                         pointz[i-1].x = boost::lexical_cast<GLfloat>( result2[0] );
                         pointz[i-1].y = boost::lexical_cast<GLfloat>( result2[1] );
-                        cout<<"P"<< i-1 <<": x: "<< pointz[i-1].x <<", y: "<< pointz[i-1].y <<endl;
+                        if( DEBUG_POV_LOADING ) cout<<"P"<< i-1 <<": x: "<< pointz[i-1].x <<", y: "<< pointz[i-1].y <<endl;
                                          
                     }
 

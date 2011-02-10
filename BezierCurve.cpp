@@ -269,7 +269,7 @@ GLfloat BezierCurve::distanceTo( GLfloat, GLfloat )
 
 void BezierCurve::move( GLfloat x_dir, GLfloat y_dir )
 {
-    cout << "moving BezierCurve @ " << this << endl;
+    if( DEBUG_TRANSF_MOVE ) cout << "moving BezierCurve @ " << this << endl;
     for( int i=0; i<=3; i++ )
     {
         points[i][0] += x_dir;
