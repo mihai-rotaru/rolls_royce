@@ -1,19 +1,30 @@
 #ifndef XMX_LINE_H
 #define XMX_LINE_H
+
+#include <string>
 #include <GL/glu.h>
+#include "Primitive.h"
 
 namespace xmx {
 
-class Line
+class Line : virtual Primitive
 {
 public:
     Line( int, int, int, int );
-    Line( float, float, float, float );
+    Line( GLfloat, GLfloat, GLfloat, GLfloat );
     ~Line();
     
-    void print();
+    std::string name;
+
+    void move( GLfloat, GLfloat );
+    void scale( GLfloat, GLfloat );
+    void rotate( GLfloat );
+    void rotate( GLfloat, GLfloat, GLfloat );
     void draw();
-    void rotate( float );
+    void print();
+    void print( std::string );
+    GLfloat distanceTo( GLfloat, GLfloat );
+
     virtual GLfloat getMaxX();
     virtual GLfloat getMinX();
     virtual GLfloat getMaxY();

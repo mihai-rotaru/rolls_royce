@@ -30,6 +30,11 @@ Line::~Line()
 {
 }
 
+void Line::scale( GLfloat x_dir, GLfloat y_dir )
+{
+
+}
+
 void print_buffer( GLfloat* buffer, int size )
 {
     for( int i = 0; i < size; i ++ )
@@ -37,6 +42,15 @@ void print_buffer( GLfloat* buffer, int size )
         cout<<"at position "<<i<<": "<< buffer[i] <<endl;
     }
 }
+
+void Line::move( GLfloat x_dir, GLfloat y_dir )
+{
+    x1 += x_dir;
+    y1 += y_dir;
+    x2 += x_dir;
+    y2 += y_dir;
+}
+
 
 void Line::rotate( float theta )
 {
@@ -83,6 +97,11 @@ void Line::rotate( float theta )
     cout<<"rotated."<<endl;
 }
 
+void Line::rotate( GLfloat theta, GLfloat x, GLfloat y)
+{
+
+}
+
 void Line::draw()
 {
     glBegin( GL_LINES );
@@ -99,6 +118,17 @@ void Line::print()
     cout<< " x2: "<< setfill(' ') << setw( 10 ) <<setiosflags( ios::fixed | ios::right ) << setprecision(4) <<x2;
     cout<< " y2: "<< setfill(' ') << setw( 10 ) <<setiosflags( ios::fixed | ios::right ) << setprecision(4) <<y2;
     cout<<endl;
+}
+
+void Line::print( std::string str )
+{
+    cout<< str <<endl;
+    print();
+}
+
+GLfloat Line::distanceTo( GLfloat x, GLfloat y )
+{
+    return -1001;
 }
 
 GLfloat Line::getMaxX() { return ( x1 > x2 ? x1 : x2 ); }
