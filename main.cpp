@@ -60,7 +60,7 @@ void init( void )
 //    bp1.addCurve( e1.x, e1.y, c1.x, c1.y, c2.x, c2.y, e2.x, e2.y );
 //    bp1.addCurve( 100,100,100,200,200,20,100,300 );
 //    shape.addBezierCurve( 100,100,100,200,200,20,100,300 );
-    shape = loadFromPovFile( "vector/body.pov");
+    shape = loadFromPovFile( "vector/rolls_full.pov");
 
 //    bp1.loadFromPovFile("vector/body.pov");
 
