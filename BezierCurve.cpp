@@ -136,7 +136,8 @@ GLfloat solveFor( GLfloat x, GLfloat a, GLfloat b, GLfloat c, GLfloat d )
 
 void BezierCurve::calculateBoundingBox()
 {
-    cout<< "entering drawBoundingBox() for BezierCurve @ " << this << endl; 
+    bool DBBB = DEBUG_BEZIER_BOUNDING_BOX;
+    if( DBBB ) cout<< "entering drawBoundingBox() for BezierCurve @ " << this << endl; 
 
     /*=====================================================================   
     |                                                                     |
@@ -170,23 +171,23 @@ void BezierCurve::calculateBoundingBox()
     Point P2 = getP2();
     Point P3 = getP3();
 
-    cout<<"calculating coeficients..."<<endl;
-    Point a = P3 - 3*P2 + 3*P1 - P0;     a.print("a");
-    Point b = 3*P2 - 6*P1 + 3*P0;        b.print("b");
-    Point c = 3*P1 - 3*P0;               c.print("c");
-    Point d = P0;                        d.print("d");
+    if( DBBB )cout<<"calculating coeficients..."<<endl;
+    Point a = P3 - 3*P2 + 3*P1 - P0;     if( DBBB )a.print("a");
+    Point b = 3*P2 - 6*P1 + 3*P0;        if( DBBB )b.print("b");
+    Point c = 3*P1 - 3*P0;               if( DBBB )c.print("c");
+    Point d = P0;                        if( DBBB )d.print("d");
     
-    a = 3*a; a.print("a");
-    b = 2*b; b.print("b");
+    a = 3*a; if( DBBB )a.print("a");
+    b = 2*b; if( DBBB )b.print("b");
 
     // Discriminant
     Point D = b*b - 4*( a * c );
-    D.print("D");
+    if( DBBB )D.print("D");
 
     // solutions
-    cout<< "calcutating solutions..."<<endl;
-    Point s1 = ( -1 * b + psqrt( b * b - 4 * a * c ))/ ( 2 * a  ); s1.print("s1");
-    Point s2 = ( -1 * b - psqrt( b * b - 4 * a * c ))/ ( 2 * a  ); s2.print("s2");
+    if( DBBB )cout<< "calcutating solutions..."<<endl;
+    Point s1 = ( -1 * b + psqrt( b * b - 4 * a * c ))/ ( 2 * a  ); if( DBBB )s1.print("s1");
+    Point s2 = ( -1 * b - psqrt( b * b - 4 * a * c ))/ ( 2 * a  ); if( DBBB )s2.print("s2");
 
     // put solutions in an array
     GLfloat solutions[4]; 
@@ -196,8 +197,8 @@ void BezierCurve::calculateBoundingBox()
     solutions[3] = s2.y;
 
     // change a and b back to values for the original function, not the derivative
-    a = a/3; a.print("a");
-    b = b/2; b.print("b");
+    a = a/3; if( DBBB )a.print("a");
+    b = b/2; if( DBBB )b.print("b");
 
     // determine max and min x/y for end points
     maxX = P0.x > P3.x ? P0.x : P3.x;
@@ -209,8 +210,8 @@ void BezierCurve::calculateBoundingBox()
     for( int i=0; i<=3; i++ )
         if( solutions[i] < 1 ) // Beziers are only defined for [0,1]
         {
-            GLfloat x = solveFor( solutions[i], a.x, b.x, c.x, d.x ); cout<< "s-x" <<i+1<<": "<< x << endl;
-            GLfloat y = solveFor( solutions[i], a.y, b.y, c.y, d.y ); cout<< "s-y" <<i+1<<": "<< y << endl;
+            GLfloat x = solveFor( solutions[i], a.x, b.x, c.x, d.x ); if( DBBB )cout<< "s-x" <<i+1<<": "<< x << endl;
+            GLfloat y = solveFor( solutions[i], a.y, b.y, c.y, d.y ); if( DBBB )cout<< "s-y" <<i+1<<": "<< y << endl;
 
             // new min or max ?
             maxX = x > maxX ? x : maxX;

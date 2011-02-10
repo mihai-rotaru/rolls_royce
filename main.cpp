@@ -55,11 +55,12 @@ void init( void )
     // initialize viewing values
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
-    gluOrtho2D( 0,500,0,500 );
+    gluOrtho2D( 0,640,0,480 );
 
 //    bp1.addCurve( e1.x, e1.y, c1.x, c1.y, c2.x, c2.y, e2.x, e2.y );
 //    bp1.addCurve( 100,100,100,200,200,20,100,300 );
-    shape.addBezierCurve( 100,100,100,200,200,20,100,300 );
+//    shape.addBezierCurve( 100,100,100,200,200,20,100,300 );
+    shape = loadFromPovFile( "vector/body.pov");
 
 //    bp1.loadFromPovFile("vector/body.pov");
 

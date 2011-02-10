@@ -30,6 +30,7 @@ void Point::print()
 
 void Point::print( string str )
 {
+    cout<<str<<" > ";
     nice_cout_( "x: ", x );
     cout<<" ";
     nice_cout_( "y: ", y );

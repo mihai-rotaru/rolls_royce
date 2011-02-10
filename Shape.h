@@ -7,6 +7,8 @@ using namespace std;
 
 #include <GL/glu.h>
 #include <boost/shared_ptr.hpp>
+
+#include "Point.h"
 #include "Primitive.h"
 
 namespace xmx {
@@ -24,6 +26,7 @@ public:
 
     void addLine( GLfloat, GLfloat, GLfloat, GLfloat );
     void addBezierCurve( GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat);
+    void addBezierCurve( Point&, Point&, Point&, Point& );
 
     void move( GLfloat, GLfloat );
     void scale( GLfloat, GLfloat );
@@ -35,6 +38,8 @@ public:
     GLfloat distanceTo( GLfloat, GLfloat );
 
 };
+
+Shape loadFromPovFile( string filename );
 
 } // namespace xmx
 #endif /* SHAPE_H */
