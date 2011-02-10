@@ -1,8 +1,8 @@
 #ifndef POINT_H
 #define POINT_H
 
-#include <GL/glu.h>
 #include <string>
+#include <GL/glu.h>
 
 namespace xmx {
 

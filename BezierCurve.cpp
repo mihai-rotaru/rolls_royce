@@ -1,18 +1,19 @@
-#include <GL/glu.h>
-#include "globals.h"
-#include "Point.h"
-#include "BezierCurve.h"
-
 #include <string>
 #include <iostream>
 #include <iomanip>
 using namespace std;
 
+#include <GL/glu.h>
+
+#include "globals.h"
+#include "Point.h"
+#include "BezierCurve.h"
+
 namespace xmx {
 
 BezierCurve::BezierCurve( Point e1, Point c1, Point c2, Point e2 )
 {
-    cout<<"creating Bezier curve @ "<<this<<endl;
+    if( DEBUG_CTOR_DTOR ) cout<<"ctor for BezierCurve @ " << this << endl;
     // first end point
     points[ END_PT_1 ][0] = e1.x;
     points[ END_PT_1 ][1] = e1.y;
@@ -42,7 +43,7 @@ BezierCurve::BezierCurve(
         GLfloat c2_x, GLfloat c2_y,
         GLfloat e2_x, GLfloat e2_y )
 {
-    cout<<"creating Bezier curve @ "<<this<<endl;
+    if( DEBUG_CTOR_DTOR ) cout<<"ctor for BezierCurve @ " << this << endl;
     // first end point
     points[ END_PT_1 ][0] = e1_x;
     points[ END_PT_1 ][1] = e1_y;
@@ -69,7 +70,7 @@ BezierCurve::BezierCurve(
 
 BezierCurve::~BezierCurve()
 {
-    cout<<"destructor for BezierCurve @ "<< this << endl;
+    if( DEBUG_CTOR_DTOR ) cout<<"dtor for BezierCurve @ " << this << endl;
 }
 
 void BezierCurve::draw()
@@ -248,12 +249,12 @@ void BezierCurve::rotate( GLfloat, GLfloat, GLfloat )
     return /* something */;
 }
 
-GLfloat xmx::BezierCurve::distanceTo( GLfloat, GLfloat )
+GLfloat BezierCurve::distanceTo( GLfloat, GLfloat )
 {
     return -1;
 }
 
-void xmx::BezierCurve::move( GLfloat x_dir, GLfloat y_dir )
+void BezierCurve::move( GLfloat x_dir, GLfloat y_dir )
 {
     cout << "moving BezierCurve @ " << this << endl;
     for( int i=0; i<=3; i++ )
@@ -265,7 +266,7 @@ void xmx::BezierCurve::move( GLfloat x_dir, GLfloat y_dir )
     calculateBoundingBox();
 }
 
-void xmx::BezierCurve::scale( GLfloat, GLfloat )
+void BezierCurve::scale( GLfloat, GLfloat )
 {
     return /* something */;
 }

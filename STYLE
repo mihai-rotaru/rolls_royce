@@ -1,0 +1,33 @@
+Includes
+========
+- if 3 or more headers are included, and at least 2 belong to the same group,
+they will be 'grouped' - a blank line is left between the two and the rest.
+
+- headers are included in the following order: from general to specific
+- groups:
+    - std ( iostream, list, string, etc )
+    - OpenGL ( glu, etc ) + freeglut ( glut.h, etc )
+    - boost
+    - project's files ( Line, etc )
+- if all headers are unrelated, they won't be separated by blank lines
+- the xmx namespace statements have a blank line between them and other content    
+- the curly bracket opening the xmx namespace is on the same line as the
+namespace xmx statement
+- the curly bracket closing the xmx namespace is followed by // namespace xmx
+
+Classes
+=======
+Methods/variables are declared in the following order:
+- ctors/dtors
+- member variables:
+- if class is a container-type class, a line is left blank between the
+containers and the other member variables
+- other member variables
+- methods implementing a virtual class
+- other methods 
+
+Other
+=====
+- method parameters denoting coordinates are named x_dir, y_dir, z_dir
+- method parameters denoting angles are named theta
+

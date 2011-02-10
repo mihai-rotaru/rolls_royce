@@ -4,7 +4,8 @@
 #include <string>
 #include <GL/glu.h>
 
-namespace xmx {
+namespace xmx 
+{
 
 class Primitive
 {

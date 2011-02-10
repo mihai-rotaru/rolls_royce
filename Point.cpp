@@ -1,11 +1,11 @@
-#include "Point.h"
-
 #include <iostream>
 #include <string>
 #include <iomanip>
 using namespace std;
 
 #include <cmath>
+
+#include "Point.h"
 
 namespace xmx {
 

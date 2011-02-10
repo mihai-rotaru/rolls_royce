@@ -1,11 +1,12 @@
 #ifndef XMX_BEZIER_H
 #define XMX_BEZIER_H
+#include <string>
+
 #include <GL/glu.h>
+
 #include "globals.h"
 #include "Point.h"
 #include "Primitive.h"
-
-#include <string>
 
 namespace xmx {
 

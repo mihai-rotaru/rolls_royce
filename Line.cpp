@@ -1,8 +1,8 @@
-#include <GL/glu.h>
-
 #include <iostream>
 #include <iomanip>
 using namespace std;
+
+#include <GL/glu.h>
 
 #include "globals.h"
 #include "Line.h"
@@ -11,6 +11,7 @@ namespace xmx {
 
 Line::Line( float _x1, float _y1, float _x2, float _y2 )
 {
+    if( DEBUG_CTOR_DTOR ) cout<<"ctor for Line @ " << this << endl;
     x1 = ( GLfloat ) _x1;
     y1 = ( GLfloat ) _y1;
     x2 = ( GLfloat ) _x2;
@@ -20,6 +21,7 @@ Line::Line( float _x1, float _y1, float _x2, float _y2 )
 
 Line::Line( int _x1, int _y1, int _x2, int _y2 )
 {
+    if( DEBUG_CTOR_DTOR ) cout<<"ctor for Line @ " << this << endl;
     x1 = ( GLfloat ) _x1;
     y1 = ( GLfloat ) _y1;
     x2 = ( GLfloat ) _x2;
@@ -28,6 +30,7 @@ Line::Line( int _x1, int _y1, int _x2, int _y2 )
 
 Line::~Line()
 {
+    if( DEBUG_CTOR_DTOR ) cout<<"dtor for Line @ " << this << endl;
 }
 
 void Line::scale( GLfloat x_dir, GLfloat y_dir )

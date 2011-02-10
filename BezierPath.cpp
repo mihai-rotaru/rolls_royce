@@ -5,7 +5,6 @@
 #include <vector>
 using namespace std;
 
-#include "BezierPath.h"
 #include <GL/glu.h>
 
 #include <boost/foreach.hpp>
@@ -14,9 +13,11 @@ using namespace std;
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/regex.hpp>
 
+#include "BezierPath.h"
+
 namespace xmx {
 
-void xmx::BezierPath::addCurve( 
+void BezierPath::addCurve( 
         GLfloat e1_x, GLfloat e1_y,
         GLfloat c1_x, GLfloat c1_y,
         GLfloat c2_x, GLfloat c2_y,
@@ -29,7 +30,7 @@ void xmx::BezierPath::addCurve(
 }
 
 
-void xmx::BezierPath::draw()
+void BezierPath::draw()
 {
     BOOST_FOREACH( boost::shared_ptr<BezierCurve> curve_ptr, curves )
     {
@@ -38,7 +39,7 @@ void xmx::BezierPath::draw()
 }
 
 
-void xmx::BezierPath::print()
+void BezierPath::print()
 {
     cout<<"BezierPath @ "<<this<<endl;
     BOOST_FOREACH( boost::shared_ptr<BezierCurve> curve_ptr, curves )
@@ -49,7 +50,7 @@ void xmx::BezierPath::print()
 
 // works with files exported from Inkscape as "PovRay ( paths and shapes only)"
 // loads the first 'bezier_spline' found
-void xmx::BezierPath::loadFromPovFile( char* filename )
+void BezierPath::loadFromPovFile( char* filename )
 {
     string line;
     int line_no =             0; // current line number ( first line is 1 )
@@ -126,18 +127,18 @@ void xmx::BezierPath::loadFromPovFile( char* filename )
 }
 
 
-void xmx::BezierPath::resizeTo( int newWidth )
+void BezierPath::resizeTo( int newWidth )
 {
     return /* something */;
 }
 
 
-xmx::BezierPath::BezierPath()
+BezierPath::BezierPath()
 {
 }
 
 
-xmx::BezierPath::~BezierPath()
+BezierPath::~BezierPath()
 {
 }
 
