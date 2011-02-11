@@ -43,7 +43,5 @@ public:
 
 };
 
-Shape loadFromPovFile( string filename );
-
 } // namespace xmx
 #endif /* SHAPE_H */

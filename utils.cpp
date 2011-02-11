@@ -22,8 +22,10 @@ using namespace std;
 using namespace xmx;
 typedef boost::shared_ptr<Shape> sptrShape;
 
-// if `str` matches `myRegex`, try parsing the match into an integer
+// if `str` matches `myRegex`, try parsing the first match into an integer
 // NOTE: this should really be a template class; maybe later
+// NOTE: lexical_cast is said to be slow 
+// [http://stackoverflow.com/questions/1250795/very-poor-boostlexical-cast-performance]
 int getIntRegex( string str, const boost::regex& myRegex )
 {
 //    cout<<"searching in " << str <<endl;
@@ -67,7 +69,7 @@ boost::shared_ptr< BezierCurve > parseBezierCurve( string line )
 
     static const boost::regex split_coords_regex ( ">, <|/ <|>,$|>$", boost::regex::extended );
     static const boost::regex curve_no_regex     ( "\\s*/\\*\\s*(\\d{1,})\\*/ <", boost::regex::extended );
-    static const boost::regex comma_split_regex     ( ", ", boost::regex::extended );
+    static const boost::regex comma_split_regex  ( ", ", boost::regex::extended );
 
     Point pointz[4];
 
