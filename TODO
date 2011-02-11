@@ -1,7 +1,8 @@
 Tasks
 -------------------------------------------------------------------------
-- load Shapes from file
 - render Beziers as filled polygons ( FEEDBACK mode ?? )
+-------------------------------------------------------------------------
+x load Shapes from file
 - color manipulation
 - load additional info from files:
     - stroke width
@@ -13,9 +14,6 @@ Tasks
 - color tools - classes to handle making a color lighter, saturation, etc
 - PrimitiveList
 o BezierPath: aggreate of BezierCurve
-- BezierPath has a method for parsing .pov files
-- BezierShape: aggregate of BezierPath's
-- implement static FPS
 o investigate boost regex'es
 - read from .pov files into BezierPath
 o debug flags ( BEZIER_PATH, OBJ_CREATION_DESTRUCTION, FUNCTION, REGEX )

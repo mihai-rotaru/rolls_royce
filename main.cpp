@@ -80,8 +80,6 @@ void init( void )
     loadPovFile( "vector/rolls_full.pov", shapez );
     cout <<"loaded pov" << endl;
 
-
-
 //    bp1.loadFromPovFile("vector/body.pov");
 
 }

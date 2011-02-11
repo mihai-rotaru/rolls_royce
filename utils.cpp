@@ -26,38 +26,15 @@ typedef boost::shared_ptr<Shape> sptrShape;
 // NOTE: this should really be a template class; maybe later
 // NOTE: lexical_cast is said to be slow 
 // [http://stackoverflow.com/questions/1250795/very-poor-boostlexical-cast-performance]
-int getIntRegex( string str, const boost::regex& myRegex )
+template < typename T >
+T getFromRegex( string haystack, const boost::regex& myRegex )
 {
-//    cout<<"searching in " << str <<endl;
     boost::smatch match;
-    if( regex_search( str, match, myRegex ))
-        return boost::lexical_cast<int>( match[1] );
+    if( regex_search( haystack, match, myRegex ))
+        return boost::lexical_cast<T>( match[1] );
     else
-        throw( "cannot convert; exiting");
-
+        throw( "exception in getFromRegex( string, regex )");
 }
-
-// if `str` matches `myRegex`, try parsing the match into a GLfloat
-GLfloat getGLfloatRegex( string str, const boost::regex& myRegex )
-{
-//    cout<<"searching in " << str <<endl;
-    boost::smatch match;
-    if( regex_search( str, match, myRegex ))
-        return boost::lexical_cast<GLfloat>( match[1] );
-    else
-        throw( "cannot convert; exiting");
-}
-
-string getStringRegex( string str, const boost::regex& myRegex )
-{
-//    cout<<"searching in " << str <<endl;
-    boost::smatch match;
-    if( regex_search( str, match, myRegex ))
-        return boost::lexical_cast<string>( match[1] );
-    else
-        throw( "cannot convert; exiting");
-}
-
 
 // assumes `line` is a string containing the coordinates 4 points, something like:
 // /*   1*/ <140.00000000, 440.00000000>, <210.00000000, 370.00000000>, <490.00000000, 560.00000000>, <400.00000000, 410.00000000>,
@@ -103,7 +80,7 @@ boost::shared_ptr< Shape > parseShape( vector< string >& lines, int& line_no )
     static const boost::regex curve_regex        ( "\\s*/\\*\\s*(\\d{1,})\\*/ <", boost::regex::extended );
     static const boost::regex shape_name_regex   ( "\\s*#declare (path[-\\d]{4,})\\s*=\\s*prism", boost::regex::extended );
 
-    string shape_name = getStringRegex( line, shape_name_regex );
+    string shape_name = getFromRegex< string >( line, shape_name_regex );
     cout<< "shape name: "<< shape_name << endl;
     boost::shared_ptr< Shape > sptr_shape( new Shape());
     sptr_shape->name = shape_name;
@@ -115,7 +92,7 @@ boost::shared_ptr< Shape > parseShape( vector< string >& lines, int& line_no )
         if( regex_search( line, curve_regex ))
             sptr_shape->addBezierCurve( parseBezierCurve( line ));
 
-        else if( regex_search( line, shape_end_regex ) && ( getStringRegex( line, shape_end_regex ) == sptr_shape->name ))
+        else if( regex_search( line, shape_end_regex ) && ( getFromRegex< string >( line, shape_end_regex ) == sptr_shape->name ))
             {
                 cout<<"sptr_shape " << sptr_shape->name << " end at: " << line_no << endl;
                 shape_finished = true;
@@ -196,7 +173,7 @@ void loadPovFile( string filename, list< sptrShape >& shape_list )
         else
         {
             cout<<"getting asdasd"<< endl;
-            num_shapes = getIntRegex( lines[ header_start + 2 ], shapes_regex );
+            num_shapes = getFromRegex<int>( lines[ header_start + 2 ], shapes_regex );
         }
     }
 
@@ -208,7 +185,7 @@ void loadPovFile( string filename, list< sptrShape >& shape_list )
             throw runtime_error("Pov parsing error: expected 'Segments'; line: '" + lines[ header_start + 2 ]  + "'" );
         }
         else
-            num_segments = getIntRegex( lines[ header_start + 3 ] , segments_regex );
+            num_segments = getFromRegex<int>( lines[ header_start + 3 ] , segments_regex );
     }
 
     if( STRICT_POV )
@@ -219,7 +196,7 @@ void loadPovFile( string filename, list< sptrShape >& shape_list )
             throw runtime_error("Pov parsing error: expected 'Nodes'; line: '" + lines[ header_start + 2 ] + "'" );
         }
         else
-            num_nodes = getIntRegex( lines[ header_start + 4 ], nodes_regex );
+            num_nodes = getFromRegex<int>( lines[ header_start + 4 ], nodes_regex );
     }
 
     // we're done with the header;
