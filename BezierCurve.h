@@ -39,8 +39,8 @@ class BezierCurve : virtual public Primitive
         GLfloat getMinY() { return minY; }
         GLfloat distanceTo( GLfloat, GLfloat );
 
-        // array holding the vertices
-        GLfloat points[4][3];
+        GLfloat points[4][3]; // array holding the vertices
+        static int count;     // total number of Bezier curves
 
         // bounding box
         GLfloat maxX, maxY, minX, minY;

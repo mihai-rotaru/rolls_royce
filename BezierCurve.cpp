@@ -11,6 +11,8 @@ using namespace std;
 
 namespace xmx {
 
+int BezierCurve::count = 0;
+
 BezierCurve::BezierCurve( Point e1, Point c1, Point c2, Point e2 )
 {
     if( DEBUG_CTOR_DTOR ) cout<<"ctor for BezierCurve @ " << this << endl;
@@ -33,6 +35,8 @@ BezierCurve::BezierCurve( Point e1, Point c1, Point c2, Point e2 )
     points[ END_PT_2 ][0] = e2.x;
     points[ END_PT_2 ][1] = e2.y;
     points[ END_PT_2 ][2] = 0.0f; // 2D, so 'z' coord. is always 0
+    
+    BezierCurve::count ++;
 
     calculateBoundingBox();
     if( DEBUG_INIT_BEZIER_BOUNDING_BOX ) printBoundingBox();
@@ -65,6 +69,8 @@ BezierCurve::BezierCurve(
     points[ END_PT_2 ][1] = e2_y;
     points[ END_PT_2 ][2] = 0.0f; // 2D, so 'z' coord. is always 0
 
+    BezierCurve::count ++;
+
     calculateBoundingBox();
 
     if( DEBUG_INIT_BEZIER_BOUNDING_BOX ) printBoundingBox();
@@ -74,6 +80,7 @@ BezierCurve::BezierCurve(
 BezierCurve::~BezierCurve()
 {
     if( DEBUG_CTOR_DTOR ) cout<<"dtor for BezierCurve @ " << this << endl;
+    BezierCurve::count --;
 }
 
 void BezierCurve::printBoundingBox()

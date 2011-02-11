@@ -19,14 +19,18 @@ using namespace std;
 
 namespace xmx {
 
+int Shape::count = 0;
+
 Shape::Shape()
 {
     if( DEBUG_CTOR_DTOR ) cout<<"ctor for Shape @ " << this << endl;
+    Shape::count++;
 }
 
 Shape::~Shape()
 {
-    if( DEBUG_CTOR_DTOR ) cout<<"dtor for Shape @ " << this << endl;
+    if( DEBUG_CTOR_DTOR ) cout<<"dtor for Shape @ " << this << " ( " << name <<" )" << endl;
+    Shape::count--;
 }
 
 void Shape::addBezierCurve(
@@ -49,6 +53,17 @@ void Shape::addBezierCurve(
         ( new BezierCurve( P0, P1, P2, P3 ));
 
     primitives.push_front( mptr );
+}
+
+void Shape::addBezierCurve( BezierCurve* ptr_bc )
+{
+    boost::shared_ptr< BezierCurve > mptr( ptr_bc );
+    primitives.push_front( mptr );
+}
+
+void Shape::addBezierCurve( boost::shared_ptr< BezierCurve > sptr )
+{
+    primitives.push_front( sptr );
 }
 
 void Shape::addLine( GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2 )

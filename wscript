@@ -34,6 +34,7 @@ def build( bld ):
             source       = [ 
                 'main.cpp', 
                 'globals.cpp',
+                'utils.cpp',
                 'Point.cpp',
                 'Line.cpp',
                 'BezierCurve.cpp', 

@@ -1,4 +1,14 @@
 Tasks
+-------------------------------------------------------------------------
+- load Shapes from file
+- render Beziers as filled polygons ( FEEDBACK mode ?? )
+- color manipulation
+- load additional info from files:
+    - stroke width
+    - stroke color
+    - fill color
+- static FPS ( game loop )
+-------------------------------------------------------------------------
 - implement morphing
 - color tools - classes to handle making a color lighter, saturation, etc
 - PrimitiveList

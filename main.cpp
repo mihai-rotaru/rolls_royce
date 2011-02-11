@@ -4,7 +4,11 @@ using namespace std;
 #include <GL/glut.h>
 #include <GL/glu.h>
 
+#include <boost/shared_ptr.hpp>
+#include <boost/foreach.hpp>
+
 #include "globals.h"
+#include "utils.h"
 #include "Point.h"
 #include "Line.h"
 #include "BezierCurve.h"
@@ -22,6 +26,7 @@ Point e2( 200, 100 );
 BezierCurve bez_path( e1, c1, c2, e2 );
 BezierPath bp1;
 Shape shape;
+list< boost::shared_ptr< Shape > > shapez;
 
 void myDisplayFunc( void )
 {
@@ -41,6 +46,14 @@ void myDisplayFunc( void )
 //    bez_path2.draw();
 //    bp1.draw();
     shape.draw();
+    
+//    cout << "drawing shapes " << endl;
+    BOOST_FOREACH( boost::shared_ptr< Shape > xshape, shapez )
+    {
+        cout << "drawing shape " << xshape -> name << endl;
+        xshape -> draw();
+    }
+
 
     // keep showing( flushing ) line on the screen instead of showing just once.
     glFlush();
@@ -60,7 +73,11 @@ void init( void )
 //    bp1.addCurve( e1.x, e1.y, c1.x, c1.y, c2.x, c2.y, e2.x, e2.y );
 //    bp1.addCurve( 100,100,100,200,200,20,100,300 );
 //    shape.addBezierCurve( 100,100,100,200,200,20,100,300 );
-    shape = loadFromPovFile( "vector/lion.pov");
+    shape = loadFromPovFile( "vector/bs1.pov");
+
+    loadPovFile( "vector/two_colored.pov", shapez );
+    cout <<"loaded pov" << endl;
+
 
 //    bp1.loadFromPovFile("vector/body.pov");
 

@@ -15,4 +15,6 @@ extern bool DEBUG_BEZIER_BOUNDING_BOX;
 extern bool DEBUG_INIT_BEZIER_BOUNDING_BOX;
 extern bool DEBUG_POV_LOADING;
 
+extern bool STRICT_POV;
+
 #endif /* GLOBALS_H */

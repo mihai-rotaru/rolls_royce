@@ -10,6 +10,7 @@ using namespace std;
 
 #include "Point.h"
 #include "Primitive.h"
+#include "BezierCurve.h"
 
 namespace xmx {
 
@@ -23,10 +24,13 @@ public:
 
     bool isSelected;
     string name;
+    static int count;
 
     void addLine( GLfloat, GLfloat, GLfloat, GLfloat );
     void addBezierCurve( GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat);
     void addBezierCurve( Point&, Point&, Point&, Point& );
+    void addBezierCurve( BezierCurve* );
+    void addBezierCurve( boost::shared_ptr< BezierCurve > );
 
     void move( GLfloat, GLfloat );
     void scale( GLfloat, GLfloat );
