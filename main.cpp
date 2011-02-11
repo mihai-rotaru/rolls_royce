@@ -20,6 +20,8 @@ using namespace xmx;
 Line my_line( 100, 150, 200, 300 );
 typedef boost::shared_ptr<Shape> sptrShape;
 
+string build_info;
+
 // bezier stuff
 Point e1(  30, 70  );
 Point c1(   0, 270 );
@@ -40,7 +42,7 @@ void myDisplayFunc( void )
     glColor3f( 1.0, 0.0, 0.0 );
 
     // draw a line from point( 100,150 ) to point( 200, 300 )
-    my_line.draw();
+//    my_line.draw();
 //    my_line.rotate( 20 );
 
     // draw the bezier curve !
@@ -57,6 +59,7 @@ void myDisplayFunc( void )
     }
 
     printText( 10, glutGet( GLUT_WINDOW_HEIGHT ) - 18, VERSION );
+    printText( 10, glutGet( GLUT_WINDOW_HEIGHT ) - 32, build_info );
 
     // keep showing( flushing ) line on the screen instead of showing just once.
     glFlush();
@@ -81,8 +84,11 @@ void init( void )
     ifstream ver_file( "VERSION", ifstream::in );
     getline( ver_file, VERSION );
     VERSION = "Rolls Royce Motor Cars, " + VERSION;
+    getline( ver_file, BUILD_ID );
+    getline( ver_file, BUILD_TIME );
+    build_info = "Build info: " + BUILD_ID + " @ " + BUILD_TIME;
 
-    loadPovFile( "vector/body.pov", shapez );
+    loadPovFile( "vector/rolls_full.pov", shapez );
     cout <<"loaded pov" << endl;
 
 //    bp1.loadFromPovFile("vector/body.pov");

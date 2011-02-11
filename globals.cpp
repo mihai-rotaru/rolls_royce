@@ -8,7 +8,9 @@
 int window_width =  0;
 int window_height = 0;
 
-std::string VERSION = "?";
+std::string VERSION    = "?";
+std::string BUILD_ID   = "?";
+std::string BUILD_TIME = "?";
 
 // show points for bezier curves ?
 bool SHOW_BEZIER_POINTS       = false;
