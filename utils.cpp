@@ -8,6 +8,7 @@
 using namespace std;
 
 #include <GL/glu.h>
+#include <GL/glut.h>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/regex.hpp>
@@ -84,6 +85,7 @@ boost::shared_ptr< Shape > parseShape( vector< string >& lines, int& line_no )
     cout<< "shape name: "<< shape_name << endl;
     boost::shared_ptr< Shape > sptr_shape( new Shape());
     sptr_shape->name = shape_name;
+    sptr_shape->isBezier = true;
 
     bool shape_finished = false;
 
@@ -246,4 +248,25 @@ void loadPovFile( string filename, list< sptrShape >& shape_list )
     }
 
     cout<< "processing of " << filename << " complete" << endl;
+}
+
+void printText( int nX, int nY, string text )
+{
+    int lines;
+    const char *pszText = text.c_str();
+    const char *p;
+
+    glColor3ub( 150, 150, 150 );
+    glRasterPos2i( nX, nY );
+
+    for( p=pszText, lines=0; *p; p++ )
+    {
+        if( *p == '\n' )
+        {
+            lines++;
+            glRasterPos2i( nX, nY-(lines*18) );
+        }
+
+        glutBitmapCharacter( GLUT_BITMAP_HELVETICA_12,  *p );
+    }
 }

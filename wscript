@@ -3,6 +3,7 @@
 #VERSION = "0.1"
 
 from subprocess import *
+from datetime import date
 import re
 
 top = '.'
@@ -21,10 +22,16 @@ def configure( cnf ):
 def build( bld ):
     # determine version
     if bld.env[ 'GIT' ] !="":
-        ver = Popen( "git describe" , stdout=PIPE, stderr=PIPE ).stdout.read()
+        ver_short = Popen( "git describe --abbrev=0" , stdout=PIPE, stderr=PIPE ).stdout.read()
+        ver_full = Popen( "git describe --abbrev=7 --dirty" , stdout=PIPE, stderr=PIPE ).stdout.read()
         #short_ver = re.sub('*?
-        exe_name = 'fish_'+str(ver.strip())
+        exe_name = 'rr_'+str(ver_short.strip())
         print "building " + exe_name + "..."
+        ver_file = open( "VERSION", 'w' )
+        ver_file.write( ver_short.strip() + '\n' )
+        ver_file.write( ver_full.strip() + '\n')
+        d = date.today()
+        ver_file.write( d.strftime("%a, %d %b %Y, %H:%M %p") )
 
     a_path = bld.path.abspath()
     boost_path = "C:/pdev/boost_1_45_0"

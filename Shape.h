@@ -23,6 +23,7 @@ public:
     list< boost::shared_ptr<Primitive> > primitives;
 
     bool isSelected;
+    bool isBezier;
     string name;
     static int count;
 

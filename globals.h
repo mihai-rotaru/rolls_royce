@@ -1,8 +1,12 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
+#include <string>
+
 extern int window_width;
 extern int window_height;
+
+extern std::string VERSION;
 
 extern bool SHOW_BEZIER_POINTS;
 extern bool SHOW_BEZIER_BOUNDING_BOX;

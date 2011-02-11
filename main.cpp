@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 #include <GL/glut.h>
@@ -55,6 +56,7 @@ void myDisplayFunc( void )
         xshape -> draw();
     }
 
+    printText( 10, glutGet( GLUT_WINDOW_HEIGHT ) - 18, VERSION );
 
     // keep showing( flushing ) line on the screen instead of showing just once.
     glFlush();
@@ -74,10 +76,13 @@ void init( void )
 //    bp1.addCurve( e1.x, e1.y, c1.x, c1.y, c2.x, c2.y, e2.x, e2.y );
 //    bp1.addCurve( 100,100,100,200,200,20,100,300 );
 //    shape.addBezierCurve( 100,100,100,200,200,20,100,300 );
+    
+    // read version
+    ifstream ver_file( "VERSION", ifstream::in );
+    getline( ver_file, VERSION );
+    VERSION = "Rolls Royce Motor Cars, " + VERSION;
 
-    cout<< "shapez adr: " << &shapez << endl;
-//    list< sptrShape >* ptrlst = &shapez;
-    loadPovFile( "vector/rolls_full.pov", shapez );
+    loadPovFile( "vector/body.pov", shapez );
     cout <<"loaded pov" << endl;
 
 //    bp1.loadFromPovFile("vector/body.pov");

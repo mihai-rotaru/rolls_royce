@@ -104,9 +104,11 @@ void BezierCurve::draw()
         glEnd();
     }
 
+    GLfloat width = getMaxX() - getMinX();
+
     glMap1f( GL_MAP1_VERTEX_3,
             0.0f,
-            100.0f,
+            width,
             3,
             4, // number of control points
             &points[0][0]
@@ -115,8 +117,9 @@ void BezierCurve::draw()
 
     glEnable( GL_MAP1_VERTEX_3 );
 
+
 	glBegin( GL_LINE_STRIP );
-		for( int i = 0; i <= 100; i++ )
+		for( int i = 0; i <= width; i++ )
 			{
 			// Evaluate the curve at this point
 			glEvalCoord1f( (GLfloat)i ); 

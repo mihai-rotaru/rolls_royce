@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <typeinfo>
 using namespace std;
 
 #include <GL/glu.h>
@@ -24,6 +25,7 @@ int Shape::count = 0;
 Shape::Shape()
 {
     if( DEBUG_CTOR_DTOR ) cout<<"ctor for Shape @ " << this << endl;
+    isBezier = false;
     Shape::count++;
 }
 
@@ -101,6 +103,11 @@ void Shape::move( GLfloat x_dir, GLfloat y_dir )
 
 void Shape::draw()
 {
+    if( isBezier )
+    {
+
+    }
+
     BOOST_FOREACH( boost::shared_ptr< Primitive > pPrimitive, primitives )
     {
         pPrimitive->draw();
