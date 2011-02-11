@@ -17,6 +17,7 @@ using namespace std;
 using namespace xmx;
 
 Line my_line( 100, 150, 200, 300 );
+typedef boost::shared_ptr<Shape> sptrShape;
 
 // bezier stuff
 Point e1(  30, 70  );
@@ -26,7 +27,7 @@ Point e2( 200, 100 );
 BezierCurve bez_path( e1, c1, c2, e2 );
 BezierPath bp1;
 Shape shape;
-list< boost::shared_ptr< Shape > > shapez;
+list< sptrShape > shapez;
 
 void myDisplayFunc( void )
 {
@@ -50,7 +51,7 @@ void myDisplayFunc( void )
 //    cout << "drawing shapes " << endl;
     BOOST_FOREACH( boost::shared_ptr< Shape > xshape, shapez )
     {
-        cout << "drawing shape " << xshape -> name << endl;
+//        cout << "drawing shape " << xshape -> name << endl;
         xshape -> draw();
     }
 
@@ -75,8 +76,11 @@ void init( void )
 //    shape.addBezierCurve( 100,100,100,200,200,20,100,300 );
     shape = loadFromPovFile( "vector/bs1.pov");
 
-    loadPovFile( "vector/two_colored.pov", shapez );
+    cout<< "shapez adr: " << &shapez << endl;
+//    list< sptrShape >* ptrlst = &shapez;
+    loadPovFile( "vector/rolls_full.pov", shapez );
     cout <<"loaded pov" << endl;
+
 
 
 //    bp1.loadFromPovFile("vector/body.pov");

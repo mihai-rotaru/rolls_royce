@@ -10,6 +10,8 @@ using namespace std;
 #include "Shape.h"
 using namespace xmx;
 
-void loadPovFile( string filename, list< boost::shared_ptr< Shape > > shape_list );
+typedef boost::shared_ptr<Shape> sptrShape;
+
+void loadPovFile( string filename, list< sptrShape >& shape_list );
 
 #endif /* UTILS_H */

@@ -12,8 +12,25 @@ issue tracking:  trac
 
 Notes on compiling
 ==================
+
+PREQUISITES:
+- MinGW g++
+- freeglut binaries and headers for MinGW
+- waf
+- boost headers
+- libboost_regex_gcc-1_45.a
+
+This project uses waf as a build system. waf is simply a Python script, included
+with this distribution. To build the project, change to the folder containing the waf
+file, and run the following commands:
+> python waf configure
+> python waf
+Then the building process should start. 
+
 Since 0.4, the application needs boost. The path to boost is hard-coded
 in wscript and should be changed accordingly.
 
 Since 0.4.1, the libboost_regex_gcc-1_45.a library is used, so lib paths
-were adjusted in wscript.
+were adjusted in wscript. 
+IMPORTANT: the boost distribution does not include binaries, so libboost_regex_gcc-1_45.a
+must be compiled and placed in a folder which is searched by the compiler for lib files.

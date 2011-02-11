@@ -20,6 +20,7 @@ using namespace std;
 #include "BezierCurve.h"
 #include "Shape.h"
 using namespace xmx;
+typedef boost::shared_ptr<Shape> sptrShape;
 
 // if `str` matches `myRegex`, try parsing the match into an integer
 // NOTE: this should really be a template class; maybe later
@@ -56,9 +57,10 @@ string getStringRegex( string str, const boost::regex& myRegex )
 }
 
 
-// assumes `line` is a string containing the coordinates 4 points,
-// separated by commas, and enclosed in angled brackets, like this:
+// assumes `line` is a string containing the coordinates 4 points, something like:
 // /*   1*/ <140.00000000, 440.00000000>, <210.00000000, 370.00000000>, <490.00000000, 560.00000000>, <400.00000000, 410.00000000>,
+// this function parses lines of this type, returning a shared_ptr to the Bezier curved described by the points
+// specified on the line.
 boost::shared_ptr< BezierCurve > parseBezierCurve( string line )
 {
     cout << "parsing line " << line <<" for a Bezier curve" << endl;
@@ -95,9 +97,9 @@ boost::shared_ptr< Shape > parseShape( vector< string >& lines, int& line_no )
     cout<< "parsing Shape starting with line " << line_no << endl;
     string line = lines[ line_no ];
 
-    static const boost::regex shape_end_regex    ( "#{3} end (path\\d{4,})", boost::regex::extended );
+    static const boost::regex shape_end_regex    ( "#{3} end (path[-\\d]{4,})", boost::regex::extended );
     static const boost::regex curve_regex        ( "\\s*/\\*\\s*(\\d{1,})\\*/ <", boost::regex::extended );
-    static const boost::regex shape_name_regex   ( "\\s*#declare (path\\d{4,})\\s*=\\s*prism", boost::regex::extended );
+    static const boost::regex shape_name_regex   ( "\\s*#declare (path[-\\d]{4,})\\s*=\\s*prism", boost::regex::extended );
 
     string shape_name = getStringRegex( line, shape_name_regex );
     cout<< "shape name: "<< shape_name << endl;
@@ -133,9 +135,11 @@ boost::shared_ptr< Shape > parseShape( vector< string >& lines, int& line_no )
 
 }
 
-void loadPovFile( string filename, list< boost::shared_ptr< Shape > > shape_list )
+void loadPovFile( string filename, list< sptrShape >& shape_list )
 {
-    cout<< "loading " << filename << endl;
+
+//    list< sptr_shape > mlst = (list< sptr_shape >*)*shape_list;
+    cout<< "loading " << filename << " into " << &shape_list << endl;
     int total_lines = 0;
     vector<string> lines;
     lines.push_back( filename );
@@ -220,7 +224,7 @@ void loadPovFile( string filename, list< boost::shared_ptr< Shape > > shape_list
     // now let's look for those shapes
 
     // we'll need some regex'es
-    static const boost::regex shape_start        ( "\\s*#declare (path\\d{4,})\\s*=\\s*prism", boost::regex::extended );
+    static const boost::regex shape_start        ( "\\s*#declare (path[-\\d]{4,})\\s*=\\s*prism", boost::regex::extended );
 
     bool inside_shape = false;
 
