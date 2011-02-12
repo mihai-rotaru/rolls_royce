@@ -45,7 +45,6 @@ def build( bld ):
                 'Point.cpp',
                 'Line.cpp',
                 'BezierCurve.cpp', 
-                'BezierPath.cpp',
                 'Shape.cpp'
                 ],
             

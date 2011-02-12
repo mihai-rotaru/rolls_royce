@@ -10,6 +10,12 @@ using namespace std;
 #include "Shape.h"
 using namespace xmx;
 
+struct Color
+{ 
+    GLfloat R,G,B;
+    Color( GLfloat r, GLfloat g, GLfloat b ) : R(r), G(g), B(b) {}
+};
+
 typedef boost::shared_ptr<Shape> sptrShape;
 
 void loadPovFile( string filename, list< sptrShape >& shape_list );

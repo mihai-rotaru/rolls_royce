@@ -96,17 +96,34 @@ void BezierCurve::draw()
 {
     if( SHOW_BEZIER_POINTS )
     {
+        glColor3f( dcol_CPoints.R, dcol_CPoints.G, dcol_CPoints.B );
         glPointSize( 5.0f );
         glBegin( GL_POINTS );
+            glColor3f( dcol_EPoints.R, dcol_EPoints.G, dcol_EPoints.B );
             glVertex2fv( points[ END_PT_1  ] );
+            glColor3f( dcol_CPoints.R, dcol_CPoints.G, dcol_CPoints.B );
             glVertex2fv( points[ CTRL_PT_1 ] );
             glVertex2fv( points[ CTRL_PT_2 ] );
+            glColor3f( dcol_EPoints.R, dcol_EPoints.G, dcol_EPoints.B );
             glVertex2fv( points[ END_PT_2  ] );
         glEnd();
+        
+        if( SHOW_BEZIER_CONTROL_POINT_LINES )
+        {
+            glColor3f( dcol_ECLines.R, dcol_ECLines.G, dcol_ECLines.B );
+            glBegin( GL_LINES );
+                glVertex2fv( points[ END_PT_1 ] );
+                glVertex2fv( points[ CTRL_PT_1] );
+                glVertex2fv( points[ CTRL_PT_2 ] );
+                glColor3f( dcol_EPoints.R, dcol_EPoints.G, dcol_EPoints.B );
+                glVertex2fv( points[ END_PT_2  ] );
+            glEnd();
+        }
+    glColor3f( dcol.R, dcol.G, dcol.B );
     }
 
     GLfloat width = getMaxX() - getMinX();
-    width = 5;
+    width = 8;
 
     glMap1f( GL_MAP1_VERTEX_3,
             0.0f,
@@ -126,13 +143,12 @@ void BezierCurve::draw()
     }
 
     int buff_size = (int)( width ) * 3 * 2 + 2;
-    if( DEBUG_FEEDBACK_TOKENS ) cout <<"buffer size: " << buff_size << endl;
     GLfloat *buff = new GLfloat[ buff_size -1 ];
     glFeedbackBuffer( buff_size, GL_3D, buff );
     
     glRenderMode( GL_FEEDBACK );
 
-    glPassThrough( 1.0f );
+    glPassThrough( 1000.0f );
     glBegin( GL_LINE_STRIP );
 		for( int i = 0; i < width; i++ )
 			{
@@ -140,20 +156,31 @@ void BezierCurve::draw()
 			glEvalCoord1f( (GLfloat)i ); 
             }
     glEnd();
-    glPassThrough( 2.0f );
+    glPassThrough( 2000.0f );
 
     if( DEBUG_FEEDBACK_TOKENS ) printFeedbackBuffer( buff, buff_size );
     
     // go back through the buffer, drawing the curve as a filled polygon
-//    glPolygonMode( GL_FRONT, GL_FILL );
-//    glBegin( GL_POLYGON );
-//        for( int i=0; i< width; i++ )
-//            glVertex( )
-
-    glFlush();
-
     glRenderMode( GL_RENDER );
 
+    glPolygonMode( GL_FRONT, GL_FILL );
+    glBegin( GL_POLYGON );
+        for( int i=0; i < width-1; i++ )
+        {
+            GLint i7 = i * 7;
+            // vertices
+            GLint x1 = i7 + 3;
+            GLint y1 = i7 + 4;
+            GLint x2 = i7 + 6;
+            GLint y2 = i7 + 7;
+            if ( DEBUG_FEEDBACK_TOKENS ) cout<< "vertex1:   x: " << x1 << " > " << buff[ x1 ] << " y: " << y1 << " > " << buff[ y1 ] << endl;
+            glVertex2f( buff[ x1 ] , buff[ y1 ] );
+            if ( DEBUG_FEEDBACK_TOKENS ) cout<< "vertex2:   x: " << x2 << " > " << buff[ x2 ] << " y: " << y2 << " > " << buff[ y2 ] << endl;
+            glVertex2f( buff[ x2 ] , buff[ y2 ] );
+        }
+    glEnd();
+    
+    glFlush();
 
     delete[] buff;
 

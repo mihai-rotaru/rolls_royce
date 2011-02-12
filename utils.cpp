@@ -23,6 +23,7 @@ using namespace std;
 using namespace xmx;
 typedef boost::shared_ptr<Shape> sptrShape;
 
+
 // if `str` matches `myRegex`, try parsing the first match into an integer
 // NOTE: lexical_cast is said to be slow 
 // [http://stackoverflow.com/questions/1250795/very-poor-boostlexical-cast-performance]
@@ -274,7 +275,7 @@ void print3DVertex( GLint size, GLint* count, GLfloat* buff )
 {
     // if the DEBUG_FEEDBACK_TOKENS flag is not set, return
     if( DEBUG_FEEDBACK_TOKENS )
-        cout << "printing token from buffer at " << buff << ", index = " << *count << endl;
+        cout << "printing token from buffer at " << buff << ", count = " << *count << endl;
     else return;
 
     // 3D vertices, no color infor, so should be 3 floats
@@ -296,11 +297,11 @@ void printFeedbackBuffer( GLfloat* buffer, GLint size )
     GLint count;
     GLfloat token;
     count = size;
-    while (count) 
+    while (count>=0) 
     {
         token = buffer[size-count];
-        count--;
         cout<< endl << "at token " << size-count << endl;
+        count--;
         
         if (token == GL_PASS_THROUGH_TOKEN) 
         {
@@ -330,7 +331,7 @@ void printFeedbackBuffer( GLfloat* buffer, GLint size )
         }
         else
         {
-            cout << "UNIDENTIFIED TOKEN" << endl;
+            cout << "UNIDENTIFIED TOKEN; count = "<< count << endl;
         }
     }
 

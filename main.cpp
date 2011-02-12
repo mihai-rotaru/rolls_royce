@@ -13,7 +13,6 @@ using namespace std;
 #include "Point.h"
 #include "Line.h"
 #include "BezierCurve.h"
-#include "BezierPath.h"
 #include "Shape.h"
 using namespace xmx;
 
@@ -28,21 +27,17 @@ Point c1(   0, 270 );
 Point c2( 290, 110 );
 Point e2( 200, 100 );
 BezierCurve bez_path( e1, c1, c2, e2 );
-BezierPath bp1;
 Shape shape;
 list< sptrShape > shapez;
 
 void myDisplayFunc( void )
 {
-    // make sure it's rendering
-    glRenderMode( GL_RENDER );
-
     // clear all pixels
     glRenderMode( GL_RENDER );
     glClear( GL_COLOR_BUFFER_BIT );
 
     // set line colour red( r=1, g=0,b=0 ).
-    glColor3f( 1.0, 0.0, 0.0 );
+    glColor3f( dcol.R, dcol.G, dcol.B );
 
     // draw a line from point( 100,150 ) to point( 200, 300 )
     my_line.draw();
@@ -133,9 +128,11 @@ void myReshape( int nWidht, int nHeight )
 
 int main( int argc, char** argv )
 {
-    // init
+    // gl stuff
     glutInit( &argc, argv );
     glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGB | GLUT_MULTISAMPLE );
+
+    // window stuff
     window_width = 640;
     window_height = 480;
     glutInitWindowSize( window_width, window_height );
