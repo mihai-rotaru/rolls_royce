@@ -34,6 +34,9 @@ list< sptrShape > shapez;
 
 void myDisplayFunc( void )
 {
+    // make sure it's rendering
+    glRenderMode( GL_RENDER );
+
     // clear all pixels
     glRenderMode( GL_RENDER );
     glClear( GL_COLOR_BUFFER_BIT );
@@ -42,10 +45,10 @@ void myDisplayFunc( void )
     glColor3f( 1.0, 0.0, 0.0 );
 
     // draw a line from point( 100,150 ) to point( 200, 300 )
-//    my_line.draw();
+    my_line.draw();
 //    my_line.rotate( 20 );
-
-    // draw the bezier curve !
+    
+    // draw the bezier curve ! ( man, was I excited )
 //    bez_path.draw();
 //    bez_path2.draw();
 //    bp1.draw();
@@ -62,7 +65,7 @@ void myDisplayFunc( void )
     printText( 10, glutGet( GLUT_WINDOW_HEIGHT ) - 32, build_info );
 
     // keep showing( flushing ) line on the screen instead of showing just once.
-    glFlush();
+    glutSwapBuffers();
     glutPostRedisplay();
 }
 
@@ -80,7 +83,7 @@ void init( void )
 //    bp1.addCurve( 100,100,100,200,200,20,100,300 );
 //    shape.addBezierCurve( 100,100,100,200,200,20,100,300 );
     
-    // read version
+    // read version number and build info
     ifstream ver_file( "VERSION", ifstream::in );
     getline( ver_file, VERSION );
     VERSION = "Rolls Royce Motor Cars, " + VERSION;
@@ -88,7 +91,8 @@ void init( void )
     getline( ver_file, BUILD_TIME );
     build_info = "Build info: " + BUILD_ID + " @ " + BUILD_TIME;
 
-    loadPovFile( "vector/rolls_full.pov", shapez );
+    // load a pov file
+    loadPovFile( "vector/one_colored_stroked.pov", shapez );
     cout <<"loaded pov" << endl;
 
 //    bp1.loadFromPovFile("vector/body.pov");
@@ -131,7 +135,7 @@ int main( int argc, char** argv )
 {
     // init
     glutInit( &argc, argv );
-    glutInitDisplayMode( GLUT_SINGLE | GLUT_RGB );
+    glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGB | GLUT_MULTISAMPLE );
     window_width = 640;
     window_height = 480;
     glutInitWindowSize( window_width, window_height );

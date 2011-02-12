@@ -105,12 +105,19 @@ void Shape::draw()
 {
     if( isBezier )
     {
-
+            BOOST_FOREACH( boost::shared_ptr< Primitive > pPrimitive, primitives )
+            {
+//                glBegin( GL_LINE_STRIP );
+                pPrimitive->draw();
+//                glEnd();
+            }
     }
-
-    BOOST_FOREACH( boost::shared_ptr< Primitive > pPrimitive, primitives )
+    else
     {
-        pPrimitive->draw();
+        BOOST_FOREACH( boost::shared_ptr< Primitive > pPrimitive, primitives )
+        {
+            pPrimitive->draw();
+        }
     }
 }
 

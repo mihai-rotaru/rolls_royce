@@ -24,10 +24,9 @@ using namespace xmx;
 typedef boost::shared_ptr<Shape> sptrShape;
 
 // if `str` matches `myRegex`, try parsing the first match into an integer
-// NOTE: this should really be a template class; maybe later
 // NOTE: lexical_cast is said to be slow 
 // [http://stackoverflow.com/questions/1250795/very-poor-boostlexical-cast-performance]
-template < typename T >
+    template < typename T >
 T getFromRegex( string haystack, const boost::regex& myRegex )
 {
     boost::smatch match;
@@ -52,7 +51,7 @@ boost::shared_ptr< BezierCurve > parseBezierCurve( string line )
     Point pointz[4];
 
     vector< string > result;
-    
+
     boost::algorithm::split_regex( result, line, split_coords_regex );
 
     for( int i=1; i< result.size()-1; i++ )
@@ -95,10 +94,10 @@ boost::shared_ptr< Shape > parseShape( vector< string >& lines, int& line_no )
             sptr_shape->addBezierCurve( parseBezierCurve( line ));
 
         else if( regex_search( line, shape_end_regex ) && ( getFromRegex< string >( line, shape_end_regex ) == sptr_shape->name ))
-            {
-                cout<<"sptr_shape " << sptr_shape->name << " end at: " << line_no << endl;
-                shape_finished = true;
-            }
+        {
+            cout<<"sptr_shape " << sptr_shape->name << " end at: " << line_no << endl;
+            shape_finished = true;
+        }
         else
             cout<<"no bezier, no end: " << line << endl;
 
@@ -119,7 +118,7 @@ boost::shared_ptr< Shape > parseShape( vector< string >& lines, int& line_no )
 void loadPovFile( string filename, list< sptrShape >& shape_list )
 {
 
-//    list< sptr_shape > mlst = (list< sptr_shape >*)*shape_list;
+    //    list< sptr_shape > mlst = (list< sptr_shape >*)*shape_list;
     cout<< "loading " << filename << " into " << &shape_list << endl;
     int total_lines = 0;
     vector<string> lines;
@@ -215,7 +214,7 @@ void loadPovFile( string filename, list< sptrShape >& shape_list )
     {
         cout<< "processing line: " << cline << " - '" << lines[ cline ] << "'" << endl;
         string line = lines[ cline ];
-        
+
         // does the line contain a curve ?
         if ( regex_search( line, curve_no_regex ))
         {
@@ -228,21 +227,21 @@ void loadPovFile( string filename, list< sptrShape >& shape_list )
 
         // does the line define the start of a shape ?
         else if ( regex_search( line, shape_start ))
-                if( inside_shape )
-                {
+            if( inside_shape )
+            {
 
-                    cout<<"line: "<< cline << endl;
-                    cout<<"Pov parsing warning: nested shapes not supported ( line " << cline + 1 << endl;
-                    inside_shape = true;
-                }
-                else 
-                {
-                    inside_shape = true;
+                cout<<"line: "<< cline << endl;
+                cout<<"Pov parsing warning: nested shapes not supported ( line " << cline + 1 << endl;
+                inside_shape = true;
+            }
+            else 
+            {
+                inside_shape = true;
 
-                    shape_list.push_back( parseShape( lines, cline ) );
-                    cout << "parsed shape; " << cline << endl;
-                    inside_shape = false;
-                }
+                shape_list.push_back( parseShape( lines, cline ) );
+                cout << "parsed shape; " << cline << endl;
+                inside_shape = false;
+            }
 
         cline ++;
     }
@@ -269,4 +268,70 @@ void printText( int nX, int nY, string text )
 
         glutBitmapCharacter( GLUT_BITMAP_HELVETICA_12,  *p );
     }
+}
+
+void print3DVertex( GLint size, GLint* count, GLfloat* buff )
+{
+    // if the DEBUG_FEEDBACK_TOKENS flag is not set, return
+    if( DEBUG_FEEDBACK_TOKENS )
+        cout << "printing token from buffer at " << buff << ", index = " << *count << endl;
+    else return;
+
+    // 3D vertices, no color infor, so should be 3 floats
+    for( int i=0; i<3; i++ )
+    {
+        cout<< "index: " << i << " ; ( " << size - (*count) << " )   ";
+        cout<< "value: " << buff[ size-(*count )];
+        *count = *count - 1;
+        cout << endl;
+    }
+}
+
+void printFeedbackBuffer( GLfloat* buffer, GLint size )
+{
+    cout << "-----------------------------------------------------" << endl;
+    cout << " FeedbackBuffer at: " << buffer << " ;  size = " << size << endl;
+    cout << "-----------------------------------------------------" << endl;
+
+    GLint count;
+    GLfloat token;
+    count = size;
+    while (count) 
+    {
+        token = buffer[size-count];
+        count--;
+        cout<< endl << "at token " << size-count << endl;
+        
+        if (token == GL_PASS_THROUGH_TOKEN) 
+        {
+            cout<< "GL_PASS_THROUGH_TOKEN" << endl;
+            cout<< buffer[size-count] << endl;
+            count--;
+        }
+        
+        else if (token == GL_POINT_TOKEN)
+        {
+            cout<< "GL_POINT_TOKEN" << endl;
+            print3DVertex(size, &count, buffer);
+        }
+        
+        else if (token == GL_LINE_TOKEN)
+        {
+            cout<< "GL_LINE_TOKEN" << endl;
+            print3DVertex(size, &count, buffer);
+            print3DVertex(size, &count, buffer);
+        }
+        
+        else if (token == GL_LINE_RESET_TOKEN)
+        {
+            cout<< "GL_LINE_RESET_TOKEN" << endl;
+            print3DVertex(size, &count, buffer);
+            print3DVertex(size, &count, buffer);
+        }
+        else
+        {
+            cout << "UNIDENTIFIED TOKEN" << endl;
+        }
+    }
+
 }

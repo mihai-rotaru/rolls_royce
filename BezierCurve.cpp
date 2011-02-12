@@ -6,6 +6,7 @@ using namespace std;
 #include <GL/glu.h>
 
 #include "globals.h"
+#include "utils.h"
 #include "Point.h"
 #include "BezierCurve.h"
 
@@ -105,6 +106,7 @@ void BezierCurve::draw()
     }
 
     GLfloat width = getMaxX() - getMinX();
+    width = 5;
 
     glMap1f( GL_MAP1_VERTEX_3,
             0.0f,
@@ -114,17 +116,48 @@ void BezierCurve::draw()
             &points[0][0]
            );
 
-
     glEnable( GL_MAP1_VERTEX_3 );
 
+    if( DEBUG_FEEDBACK_TOKENS )
+    {
+        char cr;
+        cout<<"about to begin evaluating BezierCurve @ "<< this << " ( " << name << " ) " << endl;
+        cin.get(cr);
+    }
 
-	glBegin( GL_LINE_STRIP );
-		for( int i = 0; i <= width; i++ )
+    int buff_size = (int)( width ) * 3 * 2 + 2;
+    if( DEBUG_FEEDBACK_TOKENS ) cout <<"buffer size: " << buff_size << endl;
+    GLfloat *buff = new GLfloat[ buff_size -1 ];
+    glFeedbackBuffer( buff_size, GL_3D, buff );
+    
+    glRenderMode( GL_FEEDBACK );
+
+    glPassThrough( 1.0f );
+    glBegin( GL_LINE_STRIP );
+		for( int i = 0; i < width; i++ )
 			{
 			// Evaluate the curve at this point
 			glEvalCoord1f( (GLfloat)i ); 
             }
     glEnd();
+    glPassThrough( 2.0f );
+
+    if( DEBUG_FEEDBACK_TOKENS ) printFeedbackBuffer( buff, buff_size );
+    
+    // go back through the buffer, drawing the curve as a filled polygon
+//    glPolygonMode( GL_FRONT, GL_FILL );
+//    glBegin( GL_POLYGON );
+//        for( int i=0; i< width; i++ )
+//            glVertex( )
+
+    glFlush();
+
+    glRenderMode( GL_RENDER );
+
+
+    delete[] buff;
+
+//    cout <<"evaluation complete" << endl;
 
     if( SHOW_BEZIER_BOUNDING_BOX ) drawBoundingBox();
 }
@@ -160,7 +193,7 @@ void BezierCurve::calculateBoundingBox()
     bool DBBB = DEBUG_BEZIER_BOUNDING_BOX;
     if( DBBB ) cout<< "entering drawBoundingBox() for BezierCurve @ " << this << endl; 
 
-    /*=====================================================================   
+    /*=====================================================================
     |                                                                     |
     |    P0 - first end point                                             |
     |    P1 - first control point                                         |
