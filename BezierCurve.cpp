@@ -290,7 +290,7 @@ void BezierCurve::calculateBoundingBox()
 
     // calculate the Bezier's equation for each solution
     for( int i=0; i<=3; i++ )
-        if( solutions[i] < 1 ) // Beziers are only defined for [0,1]
+        if( solutions[i] < 1 && solutions[i] > 0 ) // Beziers are only defined for [0,1]
         {
             GLfloat x = solveFor( solutions[i], a.x, b.x, c.x, d.x ); if( DBBB )cout<< "s-x" <<i+1<<": "<< x << endl;
             GLfloat y = solveFor( solutions[i], a.y, b.y, c.y, d.y ); if( DBBB )cout<< "s-y" <<i+1<<": "<< y << endl;
@@ -302,7 +302,12 @@ void BezierCurve::calculateBoundingBox()
             minY = y < minY ? y : minY;
         }
 
-    // find min and max for each solution
+    if( DEBUG_BEZIER_BOUNDING_BOX )
+    {
+        char cr;
+        cout<<"computer bounding box for BezierCurve @ "<< this << " ( " << name << " ) " << endl;
+        cin.get(cr);
+    }
 }
 
 void BezierCurve::drawBoundingBox()

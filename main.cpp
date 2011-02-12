@@ -32,9 +32,8 @@ list< sptrShape > shapez;
 
 void myDisplayFunc( void )
 {
-    // clear all pixels
-    glRenderMode( GL_RENDER );
     glClear( GL_COLOR_BUFFER_BIT );
+    glRenderMode( GL_RENDER );
 
     // set line colour red( r=1, g=0,b=0 ).
     glColor3f( dcol.R, dcol.G, dcol.B );
@@ -45,8 +44,6 @@ void myDisplayFunc( void )
     
     // draw the bezier curve ! ( man, was I excited )
 //    bez_path.draw();
-//    bez_path2.draw();
-//    bp1.draw();
     shape.draw();
     
 //    cout << "drawing shapes " << endl;
@@ -74,10 +71,6 @@ void init( void )
     glLoadIdentity();
     gluOrtho2D( 0,640,0,480 );
 
-//    bp1.addCurve( e1.x, e1.y, c1.x, c1.y, c2.x, c2.y, e2.x, e2.y );
-//    bp1.addCurve( 100,100,100,200,200,20,100,300 );
-//    shape.addBezierCurve( 100,100,100,200,200,20,100,300 );
-    
     // read version number and build info
     ifstream ver_file( "VERSION", ifstream::in );
     getline( ver_file, VERSION );
@@ -88,6 +81,7 @@ void init( void )
 
     // load a pov file
     loadPovFile( "vector/one_colored_stroked.pov", shapez );
+//    loadPovFile( "vector/rolls_full.pov", shapez );
     cout <<"loaded pov" << endl;
 
 //    bp1.loadFromPovFile("vector/body.pov");

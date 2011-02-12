@@ -32,7 +32,7 @@ Issues
 x ensure rotation does not suffer from 'gravitation' ( as in cg_project_1 )
 - make sure objects are not clipped when moving outside visible area ( as in cg_project_2 )
 x resizing the window makes rotation erratic
-- some bounding boxes for Beziers are not computed correctly
+x some bounding boxes for Beziers are not computed correctly
 
 Infrastructure
 x use waf to compile the multi-file project
