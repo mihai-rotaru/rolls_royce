@@ -32,8 +32,9 @@ bool DEBUG_FEEDBACK_TOKENS          = false;
 bool STRICT_POV                     = true;
 
 // default colors
-Color dcol_CPoints( 0.0f, 0.5f, 0.0f );
-Color dcol_EPoints( 0.0f, 0.0f, 0.5f );
-Color dcol_ECLines( 0.5f, 0.5f, 0.5f );
-Color dcol        ( 1.0f, 0.0f, 0.0f );
-Color dcol_Clear  ( 0.0f, 0.0f, 0.0f );
+Color dcol_CPoints     ( 0.0f, 0.5f, 0.0f );
+Color dcol_EPoints     ( 0.0f, 0.0f, 0.5f );
+Color dcol_ECLines     ( 0.5f, 0.5f, 0.5f );
+Color dcol_BezierBB    ( 0.5f, 0.1f, 0.7f );
+Color dcol             ( 1.0f, 0.0f, 0.0f );
+Color dcol_Clear       ( 0.0f, 0.0f, 0.0f );

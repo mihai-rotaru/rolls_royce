@@ -95,7 +95,7 @@ void BezierCurve::printBoundingBox()
 void BezierCurve::draw()
 {
     GLfloat width = getMaxX() - getMinX();
-    width = 9;
+    width = 100;
 
     glMap1f( GL_MAP1_VERTEX_3,
             0.0f,
@@ -312,6 +312,7 @@ void BezierCurve::calculateBoundingBox()
 
 void BezierCurve::drawBoundingBox()
 {
+    glColor3f( dcol_BezierBB.R, dcol_BezierBB.G, dcol_BezierBB.B );
     glBegin( GL_LINES );
         glVertex2f( minX, minY );
         glVertex2f( maxX, minY );
@@ -325,6 +326,7 @@ void BezierCurve::drawBoundingBox()
         glVertex2f( minX, maxY );
         glVertex2f( minX, minY );
     glEnd();
+    glColor3f( dcol.R, dcol.G, dcol.B );
 }
 
 void BezierCurve::rotate( GLfloat )

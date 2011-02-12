@@ -32,5 +32,6 @@ extern Color dcol_EPoints;
 extern Color dcol_ECLines;
 extern Color dcol        ;
 extern Color dcol_Clear  ;
+extern Color dcol_BezierBB;
 
 #endif /* GLOBALS_H */
