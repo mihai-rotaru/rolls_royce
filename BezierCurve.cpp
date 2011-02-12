@@ -94,36 +94,8 @@ void BezierCurve::printBoundingBox()
 
 void BezierCurve::draw()
 {
-    if( SHOW_BEZIER_POINTS )
-    {
-        glColor3f( dcol_CPoints.R, dcol_CPoints.G, dcol_CPoints.B );
-        glPointSize( 5.0f );
-        glBegin( GL_POINTS );
-            glColor3f( dcol_EPoints.R, dcol_EPoints.G, dcol_EPoints.B );
-            glVertex2fv( points[ END_PT_1  ] );
-            glColor3f( dcol_CPoints.R, dcol_CPoints.G, dcol_CPoints.B );
-            glVertex2fv( points[ CTRL_PT_1 ] );
-            glVertex2fv( points[ CTRL_PT_2 ] );
-            glColor3f( dcol_EPoints.R, dcol_EPoints.G, dcol_EPoints.B );
-            glVertex2fv( points[ END_PT_2  ] );
-        glEnd();
-        
-        if( SHOW_BEZIER_CONTROL_POINT_LINES )
-        {
-            glColor3f( dcol_ECLines.R, dcol_ECLines.G, dcol_ECLines.B );
-            glBegin( GL_LINES );
-                glVertex2fv( points[ END_PT_1 ] );
-                glVertex2fv( points[ CTRL_PT_1] );
-                glVertex2fv( points[ CTRL_PT_2 ] );
-                glColor3f( dcol_EPoints.R, dcol_EPoints.G, dcol_EPoints.B );
-                glVertex2fv( points[ END_PT_2  ] );
-            glEnd();
-        }
-    glColor3f( dcol.R, dcol.G, dcol.B );
-    }
-
     GLfloat width = getMaxX() - getMinX();
-    width = 8;
+    width = 9;
 
     glMap1f( GL_MAP1_VERTEX_3,
             0.0f,
@@ -142,7 +114,7 @@ void BezierCurve::draw()
         cin.get(cr);
     }
 
-    int buff_size = (int)( width ) * 3 * 2 + 2;
+    int buff_size = (int)( width ) * 3 * 2 + 2 + width;
     GLfloat *buff = new GLfloat[ buff_size -1 ];
     glFeedbackBuffer( buff_size, GL_3D, buff );
     
@@ -185,6 +157,34 @@ void BezierCurve::draw()
     delete[] buff;
 
 //    cout <<"evaluation complete" << endl;
+
+    if( SHOW_BEZIER_POINTS )
+    {
+        glColor3f( dcol_CPoints.R, dcol_CPoints.G, dcol_CPoints.B );
+        glPointSize( 5.0f );
+        glBegin( GL_POINTS );
+            glColor3f( dcol_EPoints.R, dcol_EPoints.G, dcol_EPoints.B );
+            glVertex2fv( points[ END_PT_1  ] );
+            glColor3f( dcol_CPoints.R, dcol_CPoints.G, dcol_CPoints.B );
+            glVertex2fv( points[ CTRL_PT_1 ] );
+            glVertex2fv( points[ CTRL_PT_2 ] );
+            glColor3f( dcol_EPoints.R, dcol_EPoints.G, dcol_EPoints.B );
+            glVertex2fv( points[ END_PT_2  ] );
+        glEnd();
+        
+        if( SHOW_BEZIER_CONTROL_POINT_LINES )
+        {
+            glColor3f( dcol_ECLines.R, dcol_ECLines.G, dcol_ECLines.B );
+            glBegin( GL_LINES );
+                glVertex2fv( points[ END_PT_1 ] );
+                glVertex2fv( points[ CTRL_PT_1] );
+                glVertex2fv( points[ CTRL_PT_2 ] );
+                glColor3f( dcol_EPoints.R, dcol_EPoints.G, dcol_EPoints.B );
+                glVertex2fv( points[ END_PT_2  ] );
+            glEnd();
+        }
+    glColor3f( dcol.R, dcol.G, dcol.B );
+    }
 
     if( SHOW_BEZIER_BOUNDING_BOX ) drawBoundingBox();
 }

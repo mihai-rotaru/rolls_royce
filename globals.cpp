@@ -16,7 +16,7 @@ std::string BUILD_TIME = "?";
 
 // show points for bezier curves ?
 bool SHOW_BEZIER_POINTS             = true;
-bool SHOW_BEZIER_BOUNDING_BOX       = false;
+bool SHOW_BEZIER_BOUNDING_BOX       = true;
 bool SHOW_BEZIER_CONTROL_POINT_LINES= true;
 
 // debug flags
@@ -27,7 +27,7 @@ bool DEBUG_TRANSF_MOVE              = false;
 bool DEBUG_TRANSF_SCALE             = false;
 bool DEBUG_INIT_BEZIER_BOUNDING_BOX = false;
 bool DEBUG_POV_LOADING              = false;
-bool DEBUG_FEEDBACK_TOKENS          = false;
+bool DEBUG_FEEDBACK_TOKENS          = true;
 
 bool STRICT_POV                     = true;
 
