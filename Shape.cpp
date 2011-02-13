@@ -116,10 +116,11 @@ void Shape::draw()
             if( bc != NULL )
             {
                 if( DEBUG_SHAPE_BEZIER_DRAW ) cout<<"counting lines composing BezierCurve @ " << bc << " ( " << bc->name << " ) ... "; 
-                GLint bc_lines = bc-> getMaxX() - bc -> getMinX();
-                if ( bc_lines == 0 ) bc->isLine();
+                GLint bc_lines = bc -> getNumLines();
+//                if ( bc_lines ) bc->isLine();
                 total_lines += bc_lines;
                 if( DEBUG_SHAPE_BEZIER_DRAW ) cout<< bc_lines << " ( new total: " << total_lines << " )" << endl;
+                bc -> draw();
             }
         }
 

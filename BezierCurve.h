@@ -32,8 +32,11 @@ class BezierCurve : virtual public Primitive
         void drawBoundingBox();
         void calculateBoundingBox();
         void printBoundingBox();
-        void drawToBuffer( GLfloat*, GLint );
-        void isLine();
+        void drawToBuffer( GLfloat*, GLint& );
+        void isLineOld();
+        GLint getNumLines();
+
+        bool isLine;
 
         GLfloat getMaxX() { return maxX; }
         GLfloat getMinX() { return minX; }

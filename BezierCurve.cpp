@@ -92,8 +92,24 @@ void BezierCurve::printBoundingBox()
     cout<< "minY: " << minY << endl;
 }
 
+GLint BezierCurve::getNumLines()
+{
+    if( isLine )
+        return 1;
+    return getMaxX() - getMinX();
+}
+
 void BezierCurve::draw()
 {
+    if( isLine )
+    {
+        glBegin( GL_LINES );
+            glVertex3fv( points[ END_PT_1 ]);
+            glVertex3fv( points[ END_PT_2 ]);
+        glEnd();
+        return;
+    }
+
     GLfloat width = ( getMaxX() - getMinX() );
 //    width = 100;
 
@@ -153,9 +169,10 @@ void BezierCurve::draw()
 // ------------------
 // Instead of rendering to the screen, this method uses the GL_FEEDBACK render
 // mode to capture the vertices in a buffer, which is then copied to the
-// `dest` buffer, starting at `start_pos`. The Shape's draw method takes care
+// `dest` buffer, starting at `start_pos`. Also, `start_pos` is updated to
+// point to the last position in the buffer. The Shape's draw method takes care
 // of rendering the resulting buffer as a filled polygon. 
-void BezierCurve::drawToBuffer( GLfloat* dest, GLint start_pos )
+void BezierCurve::drawToBuffer( GLfloat* dest, GLint& start_pos )
 {
     GLfloat width = getMaxX() - getMinX();
 //    width = 100;
@@ -222,7 +239,7 @@ void BezierCurve::drawToBuffer( GLfloat* dest, GLint start_pos )
 
 }
 
-void BezierCurve::isLine()
+void BezierCurve::isLineOld()
 {
     DEBUG_BEZIER_BOUNDING_BOX = true;
     print();
@@ -297,6 +314,7 @@ void BezierCurve::calculateBoundingBox()
     if( P0 == P1 && P2 == P3 )
     {
         if( DBBB )cout<<"this curve is a straight line"<<endl;
+        isLine = true;
         // determine max and min x/y for end points
         maxX = P0.x > P3.x ? P0.x : P3.x;
         maxY = P0.y > P3.y ? P0.y : P3.y;
@@ -304,7 +322,6 @@ void BezierCurve::calculateBoundingBox()
         minY = P0.y < P3.y ? P0.y : P3.y;
         return;
     }
-
 
     if( DBBB )cout<<"calculating coeficients..."<<endl;
     Point a = P3 - 3*P2 + 3*P1 - P0;     if( DBBB )a.print("a");
@@ -359,7 +376,7 @@ void BezierCurve::calculateBoundingBox()
     if( DEBUG_BEZIER_BOUNDING_BOX )
     {
         char cr;
-        cout<<"computer bounding box for BezierCurve @ "<< this << " ( " << name << " ) " << endl;
+        cout<<"computed bounding box for BezierCurve @ "<< this << " ( " << name << " ) " << endl;
         cin.get(cr);
     }
 }
