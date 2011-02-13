@@ -323,6 +323,8 @@ void BezierCurve::calculateBoundingBox()
         return;
     }
 
+    isLine = false;
+
     if( DBBB )cout<<"calculating coeficients..."<<endl;
     Point a = P3 - 3*P2 + 3*P1 - P0;     if( DBBB )a.print("a");
     Point b = 3*P2 - 6*P1 + 3*P0;        if( DBBB )b.print("b");
