@@ -24,7 +24,6 @@ def build( bld ):
     if bld.env[ 'GIT' ] !="":
         ver_short = Popen( "git describe --abbrev=0" , stdout=PIPE, stderr=PIPE ).stdout.read()
         ver_full = Popen( "git describe --abbrev=7 --dirty" , stdout=PIPE, stderr=PIPE ).stdout.read()
-        #short_ver = re.sub('*?
         exe_name = 'rr_'+str(ver_short.strip())
         print "building " + exe_name + "..."
         ver_file = open( "VERSION", 'w' )
@@ -45,7 +44,9 @@ def build( bld ):
                 'Point.cpp',
                 'Line.cpp',
                 'BezierCurve.cpp', 
-                'Shape.cpp'
+                'Shape.cpp',
+                'Group.cpp',
+                'Layer.cpp'
                 ],
             
             target       = 'fish',

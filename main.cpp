@@ -14,6 +14,8 @@ using namespace std;
 #include "Line.h"
 #include "BezierCurve.h"
 #include "Shape.h"
+#include "Group.h"
+#include "Layer.h"
 using namespace xmx;
 
 Line my_line( 100, 150, 200, 300 );
@@ -27,8 +29,9 @@ Point c1(   0, 270 );
 Point c2( 290, 110 );
 Point e2( 200, 100 );
 BezierCurve bez_path( e1, c1, c2, e2 );
-Shape shape;
-Shape rolls;
+//Shape shape;
+//Shape rolls;
+Group rolls;
 list< sptrShape > shapez;
 
 void myDisplayFunc( void )
@@ -83,8 +86,8 @@ void init( void )
 
     // load a pov file
 //    loadPovFile( "vector/rolls_logo.pov", shapez );
-    loadPovFile( "vector/rolls_full.pov", shapez );
-    rolls.primitives.splice( rolls.primitives.begin(), shapez, shapez.begin());
+    rolls.loadFromPovFile( "vector/rolls_full.pov" );
+//    rolls.primitives.splice( rolls.primitives.begin(), shapez, shapez.begin());
     cout <<"loaded pov" << endl;
 
 //    bp1.loadFromPovFile("vector/body.pov");
@@ -102,10 +105,10 @@ void myKeyboardFunc( unsigned char key, int x, int y )
             my_line.rotate( -5 );
             break;
         case 'l':
-            shape.move( 5, 0 );
+//            shape.move( 5, 0 );
             break;
         case 'h':
-            shape.move( -5, 0);
+//            shape.move( -5, 0);
             break;
         case 27:
             exit(0);

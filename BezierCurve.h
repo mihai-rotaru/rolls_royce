@@ -34,6 +34,7 @@ class BezierCurve : virtual public Primitive
         void printBoundingBox();
         void drawToBuffer( GLfloat*, GLint& );
         void isLineOld();
+        GLint numLines;
         GLint getNumLines();
 
         bool isLine;
