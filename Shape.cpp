@@ -109,20 +109,26 @@ void Shape::draw()
         GLint total_lines = 0;
 
         // how many lines in this shape ? ( the sum of lines for all BC's contained )
-        if( DEBUG_SHAPE_BEZIER_DRAW ) cout<<"counting lines composing Shape @ " << this << " ( " << name << " )" << endl; 
+//        if( DEBUG_SHAPE_BEZIER_DRAW ) cout<<"counting lines composing Shape @ " << this << " ( " << name << " )" << endl; 
         BOOST_FOREACH( boost::shared_ptr< Primitive > pPrimitive, primitives )
         {
             BezierCurve* bc = dynamic_cast< BezierCurve* > ( pPrimitive.get() );
             if( bc != NULL )
             {
-                if( DEBUG_SHAPE_BEZIER_DRAW ) cout<<"counting lines composing BezierCurve @ " << bc << " ( " << bc->name << " ) ... "; 
+//                if( DEBUG_SHAPE_BEZIER_DRAW ) cout<<"counting lines composing BezierCurve @ " << bc << " ( " << bc->name << " ) ... "; 
                 GLint bc_lines = bc -> getNumLines();
-//                if ( bc_lines ) bc->isLine();
                 total_lines += bc_lines;
-                if( DEBUG_SHAPE_BEZIER_DRAW ) cout<< bc_lines << " ( new total: " << total_lines << " )" << endl;
-                bc -> draw();
+//                if( DEBUG_SHAPE_BEZIER_DRAW ) cout<< bc_lines << " ( new total: " << total_lines << " )" << endl;
+//                bc -> draw();
             }
         }
+        if( DEBUG_SHAPE_BEZIER_DRAW ) cout<<"counting lines composing Shape @ " << this << " ( " << name << " ) : " << total_lines << endl; 
+
+        GLint index = 0;
+        GLint buff_size = total_lines * sizeof(GLfloat) * 4;
+        GLfloat *shapes_lines = new GLfloat[ buff_size ]; 
+
+        if( DEBUG_SHAPE_BEZIER_DRAW ) cout<<"starting to put lines in buffer for Shape @ " << this << " ( " << name << " ) " << endl; 
 
         // gather the lines which form all Bezier curves in this Shape
         BOOST_FOREACH( boost::shared_ptr< Primitive > pPrimitive, primitives )
@@ -130,11 +136,22 @@ void Shape::draw()
             BezierCurve* bc = dynamic_cast< BezierCurve* > ( pPrimitive.get() );
             if( bc != NULL )
             {
-                GLint num_lines = bc-> getMaxX() - bc -> getMinX();
-                bc->draw();
-
+                bc->drawToBuffer( shapes_lines, index );
             }
         }
+    
+        if( DEBUG_SHAPE_BEZIER_DRAW )
+        {
+            char cr;
+            cout<<"finished putting lines in buffer for Shape @ " << this << " ( " << name << " ) " << endl; 
+            cout<<"index: " << index << endl;
+            cin.get(cr);
+        }
+
+        // draw a polygon from the vertices in the shapes_lines
+
+        delete[] shapes_lines;
+
     }
 
     else // contains other types of primitives ( not only beziers )

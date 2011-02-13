@@ -174,6 +174,17 @@ void BezierCurve::draw()
 // of rendering the resulting buffer as a filled polygon. 
 void BezierCurve::drawToBuffer( GLfloat* dest, GLint& start_pos )
 {
+    if( isLine )
+    {
+        dest[ start_pos++ ] = points[ END_PT_1 ][0];
+        dest[ start_pos++ ] = points[ END_PT_1 ][1];
+        dest[ start_pos++ ] = points[ END_PT_2 ][0];
+        dest[ start_pos++ ] = points[ END_PT_2 ][1];
+        if( DEBUG_FEEDBACK_TOKENS )
+            cout<<"written line bc to buffer; index = " << start_pos << endl;
+        return;
+    }
+
     GLfloat width = getMaxX() - getMinX();
 //    width = 100;
 
@@ -213,10 +224,10 @@ void BezierCurve::drawToBuffer( GLfloat* dest, GLint& start_pos )
     if( DEBUG_FEEDBACK_TOKENS ) printFeedbackBuffer( buff, buff_size );
     
     // go back through the buffer, drawing the curve as a filled polygon
-    glRenderMode( GL_RENDER );
+//    glRenderMode( GL_RENDER );
 
-    glPolygonMode( GL_FRONT, GL_FILL );
-    glBegin( GL_POLYGON );
+//    glPolygonMode( GL_FRONT, GL_FILL );
+//    glBegin( GL_POLYGON );
         for( int i=0; i < width-1; i++ )
         {
             GLint i7 = i * 7;
@@ -226,11 +237,16 @@ void BezierCurve::drawToBuffer( GLfloat* dest, GLint& start_pos )
             GLint x2 = i7 + 6;
             GLint y2 = i7 + 7;
             if ( DEBUG_FEEDBACK_TOKENS ) cout<< "vertex1:   x: " << x1 << " > " << buff[ x1 ] << " y: " << y1 << " > " << buff[ y1 ] << endl;
-            glVertex2f( buff[ x1 ] , buff[ y1 ] );
+//            glVertex2f( buff[ x1 ] , buff[ y1 ] );
+            dest[ start_pos++ ] = buff[ x1 ]; 
+            dest[ start_pos++ ] = buff[ y1 ]; 
+
             if ( DEBUG_FEEDBACK_TOKENS ) cout<< "vertex2:   x: " << x2 << " > " << buff[ x2 ] << " y: " << y2 << " > " << buff[ y2 ] << endl;
-            glVertex2f( buff[ x2 ] , buff[ y2 ] );
+//            glVertex2f( buff[ x2 ] , buff[ y2 ] );
+            dest[ start_pos++ ] = buff[ x2 ]; 
+            dest[ start_pos++ ] = buff[ y2 ]; 
         }
-    glEnd();
+//    glEnd();
     
     glFlush();
 

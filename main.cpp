@@ -28,6 +28,7 @@ Point c2( 290, 110 );
 Point e2( 200, 100 );
 BezierCurve bez_path( e1, c1, c2, e2 );
 Shape shape;
+Shape rolls;
 list< sptrShape > shapez;
 
 void myDisplayFunc( void )
@@ -44,14 +45,15 @@ void myDisplayFunc( void )
     
     // draw the bezier curve ! ( man, was I excited )
 //    bez_path.draw();
-    shape.draw();
+//    shape.draw();
     
 //    cout << "drawing shapes " << endl;
-    BOOST_FOREACH( boost::shared_ptr< Shape > xshape, shapez )
-    {
+//    BOOST_FOREACH( boost::shared_ptr< Shape > xshape, shapez )
+//    {
 //        cout << "drawing shape " << xshape -> name << endl;
-        xshape -> draw();
-    }
+//        xshape -> draw();
+//    }
+    rolls.draw();
 
     printText( 10, glutGet( GLUT_WINDOW_HEIGHT ) - 18, VERSION );
     printText( 10, glutGet( GLUT_WINDOW_HEIGHT ) - 32, build_info );
@@ -82,6 +84,7 @@ void init( void )
     // load a pov file
 //    loadPovFile( "vector/rolls_logo.pov", shapez );
     loadPovFile( "vector/rolls_full.pov", shapez );
+    rolls.primitives.splice( rolls.primitives.begin(), shapez, shapez.begin());
     cout <<"loaded pov" << endl;
 
 //    bp1.loadFromPovFile("vector/body.pov");
