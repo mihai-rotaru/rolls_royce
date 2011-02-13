@@ -29,6 +29,7 @@ public:
     friend const Point operator-( const GLfloat& lhs, const Point& rhs );
     friend const Point operator*( const GLfloat& lhs, const Point& rhs );
     friend const Point operator/( const GLfloat& lhs, const Point& rhs );
+    friend const bool  operator==( const Point& lhs, const Point& rhs );
 
     // methods
     void print();
