@@ -293,6 +293,19 @@ void BezierCurve::calculateBoundingBox()
     Point P2 = getP2();
     Point P3 = getP3();
 
+    // is this curve a straight line ?
+    if( P0 == P1 && P2 == P3 )
+    {
+        if( DBBB )cout<<"this curve is a straight line"<<endl;
+        // determine max and min x/y for end points
+        maxX = P0.x > P3.x ? P0.x : P3.x;
+        maxY = P0.y > P3.y ? P0.y : P3.y;
+        minX = P0.x < P3.x ? P0.x : P3.x;
+        minY = P0.y < P3.y ? P0.y : P3.y;
+        return;
+    }
+
+
     if( DBBB )cout<<"calculating coeficients..."<<endl;
     Point a = P3 - 3*P2 + 3*P1 - P0;     if( DBBB )a.print("a");
     Point b = 3*P2 - 6*P1 + 3*P0;        if( DBBB )b.print("b");
