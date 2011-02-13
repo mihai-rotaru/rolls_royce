@@ -80,8 +80,8 @@ void init( void )
     build_info = "Build info: " + BUILD_ID + " @ " + BUILD_TIME;
 
     // load a pov file
-    loadPovFile( "vector/one_colored_stroked.pov", shapez );
-//    loadPovFile( "vector/rolls_full.pov", shapez );
+//    loadPovFile( "vector/rolls_logo.pov", shapez );
+    loadPovFile( "vector/rolls_full.pov", shapez );
     cout <<"loaded pov" << endl;
 
 //    bp1.loadFromPovFile("vector/body.pov");

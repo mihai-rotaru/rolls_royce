@@ -94,8 +94,71 @@ void BezierCurve::printBoundingBox()
 
 void BezierCurve::draw()
 {
+    GLfloat width = ( getMaxX() - getMinX() );
+//    width = 100;
+
+    glMap1f( GL_MAP1_VERTEX_3,
+            0.0f,
+            width,
+            3,
+            4, // number of control points
+            &points[0][0]
+           );
+
+    glEnable( GL_MAP1_VERTEX_3 );
+
+    glBegin( GL_LINE_STRIP );
+		for( int i = 0; i < width; i++ )
+			{
+			// Evaluate the curve at this point
+			glEvalCoord1f( (GLfloat)i ); 
+            }
+    glEnd();
+
+    if( SHOW_BEZIER_POINTS )
+    {
+        glColor3f( dcol_CPoints.R, dcol_CPoints.G, dcol_CPoints.B );
+        glPointSize( 5.0f );
+        glBegin( GL_POINTS );
+            glColor3f( dcol_EPoints.R, dcol_EPoints.G, dcol_EPoints.B );
+            glVertex2fv( points[ END_PT_1  ] );
+            glColor3f( dcol_CPoints.R, dcol_CPoints.G, dcol_CPoints.B );
+            glVertex2fv( points[ CTRL_PT_1 ] );
+            glVertex2fv( points[ CTRL_PT_2 ] );
+            glColor3f( dcol_EPoints.R, dcol_EPoints.G, dcol_EPoints.B );
+            glVertex2fv( points[ END_PT_2  ] );
+        glEnd();
+        
+        if( SHOW_BEZIER_CONTROL_POINT_LINES )
+        {
+            glColor3f( dcol_ECLines.R, dcol_ECLines.G, dcol_ECLines.B );
+            glBegin( GL_LINES );
+                glVertex2fv( points[ END_PT_1 ] );
+                glVertex2fv( points[ CTRL_PT_1] );
+                glVertex2fv( points[ CTRL_PT_2 ] );
+                glColor3f( dcol_EPoints.R, dcol_EPoints.G, dcol_EPoints.B );
+                glVertex2fv( points[ END_PT_2  ] );
+            glEnd();
+        }
+    glColor3f( dcol.R, dcol.G, dcol.B );
+    }
+
+    if( SHOW_BEZIER_BOUNDING_BOX ) drawBoundingBox();
+}
+
+// This function enables Shapes that contain only Bezier curves to be
+// drawn as filled rectangles - therefore enabling them to have a fill color.
+//
+// How does it work ?
+// ------------------
+// Instead of rendering to the screen, this method uses the GL_FEEDBACK render
+// mode to capture the vertices in a buffer, which is then copied to the
+// `dest` buffer, starting at `start_pos`. The Shape's draw method takes care
+// of rendering the resulting buffer as a filled polygon. 
+void BezierCurve::drawToBuffer( GLfloat* dest, GLint start_pos )
+{
     GLfloat width = getMaxX() - getMinX();
-    width = 100;
+//    width = 100;
 
     glMap1f( GL_MAP1_VERTEX_3,
             0.0f,
@@ -156,37 +219,15 @@ void BezierCurve::draw()
 
     delete[] buff;
 
-//    cout <<"evaluation complete" << endl;
 
-    if( SHOW_BEZIER_POINTS )
-    {
-        glColor3f( dcol_CPoints.R, dcol_CPoints.G, dcol_CPoints.B );
-        glPointSize( 5.0f );
-        glBegin( GL_POINTS );
-            glColor3f( dcol_EPoints.R, dcol_EPoints.G, dcol_EPoints.B );
-            glVertex2fv( points[ END_PT_1  ] );
-            glColor3f( dcol_CPoints.R, dcol_CPoints.G, dcol_CPoints.B );
-            glVertex2fv( points[ CTRL_PT_1 ] );
-            glVertex2fv( points[ CTRL_PT_2 ] );
-            glColor3f( dcol_EPoints.R, dcol_EPoints.G, dcol_EPoints.B );
-            glVertex2fv( points[ END_PT_2  ] );
-        glEnd();
-        
-        if( SHOW_BEZIER_CONTROL_POINT_LINES )
-        {
-            glColor3f( dcol_ECLines.R, dcol_ECLines.G, dcol_ECLines.B );
-            glBegin( GL_LINES );
-                glVertex2fv( points[ END_PT_1 ] );
-                glVertex2fv( points[ CTRL_PT_1] );
-                glVertex2fv( points[ CTRL_PT_2 ] );
-                glColor3f( dcol_EPoints.R, dcol_EPoints.G, dcol_EPoints.B );
-                glVertex2fv( points[ END_PT_2  ] );
-            glEnd();
-        }
-    glColor3f( dcol.R, dcol.G, dcol.B );
-    }
+}
 
-    if( SHOW_BEZIER_BOUNDING_BOX ) drawBoundingBox();
+void BezierCurve::isLine()
+{
+    DEBUG_BEZIER_BOUNDING_BOX = true;
+    print();
+    calculateBoundingBox();
+    DEBUG_BEZIER_BOUNDING_BOX = false;
 }
 
 void BezierCurve::print()

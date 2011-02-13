@@ -74,6 +74,7 @@ void Shape::addLine( GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2 )
         ( new Line( x1, y1, x2, y2 ));
 
     primitives.push_front( mptr );
+    isBezier = false;
 }
 
 
@@ -105,14 +106,37 @@ void Shape::draw()
 {
     if( isBezier )
     {
-            BOOST_FOREACH( boost::shared_ptr< Primitive > pPrimitive, primitives )
+        GLint total_lines = 0;
+
+        // how many lines in this shape ? ( the sum of lines for all BC's contained )
+        if( DEBUG_SHAPE_BEZIER_DRAW ) cout<<"counting lines composing Shape @ " << this << " ( " << name << " )" << endl; 
+        BOOST_FOREACH( boost::shared_ptr< Primitive > pPrimitive, primitives )
+        {
+            BezierCurve* bc = dynamic_cast< BezierCurve* > ( pPrimitive.get() );
+            if( bc != NULL )
             {
-//                glBegin( GL_LINE_STRIP );
-                pPrimitive->draw();
-//                glEnd();
+                if( DEBUG_SHAPE_BEZIER_DRAW ) cout<<"counting lines composing BezierCurve @ " << bc << " ( " << bc->name << " ) ... "; 
+                GLint bc_lines = bc-> getMaxX() - bc -> getMinX();
+                if ( bc_lines == 0 ) bc->isLine();
+                total_lines += bc_lines;
+                if( DEBUG_SHAPE_BEZIER_DRAW ) cout<< bc_lines << " ( new total: " << total_lines << " )" << endl;
             }
+        }
+
+        // gather the lines which form all Bezier curves in this Shape
+        BOOST_FOREACH( boost::shared_ptr< Primitive > pPrimitive, primitives )
+        {
+            BezierCurve* bc = dynamic_cast< BezierCurve* > ( pPrimitive.get() );
+            if( bc != NULL )
+            {
+                GLint num_lines = bc-> getMaxX() - bc -> getMinX();
+                bc->draw();
+
+            }
+        }
     }
-    else
+
+    else // contains other types of primitives ( not only beziers )
     {
         BOOST_FOREACH( boost::shared_ptr< Primitive > pPrimitive, primitives )
         {

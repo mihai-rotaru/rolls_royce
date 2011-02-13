@@ -1,9 +1,9 @@
+#include <string>
+
 #include <GL/glu.h>
+
 #include "globals.h"
 #include "utils.h"
-//#include "Point.h"
-//using namespace xmx;
-#include <string>
 
 // these are set in the main function, when the window is created
 int window_width =  0;
@@ -15,9 +15,9 @@ std::string BUILD_ID   = "?";
 std::string BUILD_TIME = "?";
 
 // show points for bezier curves ?
-bool SHOW_BEZIER_POINTS             = true;
-bool SHOW_BEZIER_BOUNDING_BOX       = true;
-bool SHOW_BEZIER_CONTROL_POINT_LINES= true;
+bool SHOW_BEZIER_POINTS             = false;
+bool SHOW_BEZIER_BOUNDING_BOX       = false;
+bool SHOW_BEZIER_CONTROL_POINT_LINES= false;
 
 // debug flags
 bool DEBUG_CTOR_DTOR                = false;
@@ -28,6 +28,7 @@ bool DEBUG_TRANSF_SCALE             = false;
 bool DEBUG_INIT_BEZIER_BOUNDING_BOX = false;
 bool DEBUG_POV_LOADING              = false;
 bool DEBUG_FEEDBACK_TOKENS          = false;
+bool DEBUG_SHAPE_BEZIER_DRAW        = true;
 
 bool STRICT_POV                     = true;
 
