@@ -131,7 +131,7 @@ void myReshape( int nWidht, int nHeight )
 void Timer( int value )
 {
     if( value ) glutPostRedisplay();
-    glutTimerFunc( 400,Timer,value);
+    glutTimerFunc( 30, Timer, value );
 }
 
 
