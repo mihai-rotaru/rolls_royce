@@ -34,9 +34,11 @@ BezierCurve bez_path( e1, c1, c2, e2 );
 // groups - loaded from .pov files
 Group rolls;
 Group since1904;
+Group phony;
 
 // the count of frames rendered so far
 GLint frame;
+Color text_col(0,0,0);
 
 struct Animation
 {
@@ -52,6 +54,8 @@ struct Animation
 
 // animations
 Animation a1,a2;
+Animation turn_white;
+Animation turn_black;
 
 void Animation::print()
 {
@@ -63,6 +67,33 @@ void Animation::print()
     cout <<"    q1: "           << q1 << endl;
     cout <<"    q2: "           << q2 << endl;
     cout <<"    q3: "           << q3 << endl;
+}
+
+void performAnimationColor( Color* c, Animation& a )
+{
+    if( DEBUG_ANIMATIONS ) cout << "color animation: currentFrame = " << a.currentFrame << " / " << a.duration << endl;
+
+    if( a.type == 4 ) // color
+    {
+        if( DEBUG_ANIMATIONS )
+            cout << "old color: R = " <<c -> R <<" ; G = " <<c -> G <<" ; B = " <<c -> B << endl; 
+
+        c -> R = c -> R + (GLfloat)( a.q1 - c -> R )/( a.duration - a.currentFrame ); 
+        c -> G = c -> G + (GLfloat)( a.q2 - c -> G )/( a.duration - a.currentFrame );
+        c -> B = c -> B + (GLfloat)( a.q3 - c -> B )/( a.duration - a.currentFrame );
+
+        if( DEBUG_ANIMATIONS )
+            cout << "new color: R = " <<c -> R <<" ; G = " <<c -> G <<" ; B = " <<c -> B << endl; 
+    }
+    else return;
+
+    a.currentFrame++;
+    if( a.currentFrame == a.duration )
+    {
+        if( !a.repeat ) return;
+        else a.currentFrame = 0;
+    }
+
 }
 
 void performAnimation( Group* g, Animation& a )
@@ -131,12 +162,6 @@ void performAnimation( Group* g, Animation& a )
         GLfloat gdiff = q1 - g -> color.R;
         GLfloat bdiff = q1 - g -> color.R;
 
-        if( DEBUG_ANIMATIONS )
-        {
-            cout <<" rdiff = " << rdiff << endl;
-            cout <<" gdiff = " << gdiff << endl;
-            cout <<" bdiff = " << bdiff << endl;
-        }
         g -> setColor( 
                 g -> color.R + (GLfloat)( q1 - g -> color.R )/( duration - currentFrame ), 
                 g -> color.G + (GLfloat)( q2 - g -> color.G )/( duration - currentFrame ),
@@ -161,15 +186,58 @@ void myDisplayFunc( void )
     glColor3f( dcol.R, dcol.G, dcol.B );
 
     frame++;
+    cout<< endl << "FRAME: "<< frame << endl;
 
 //    my_line.draw();
 //    my_line.rotate(1);
     
-    performAnimation( &rolls, a1 );
-    performAnimation( &rolls, a2 );
-    rolls.draw();
-    since1904.draw();
+    //-------------------------------------------------------------------
+    //  BEGIN ANIMATION
+    //-------------------------------------------------------------------
 
+    if( frame <= 200 )
+    {
+        if     ( frame <= 100 ) performAnimationColor( &text_col, turn_white );
+        else if( frame >= 170 ) performAnimationColor( &text_col, turn_black );
+        glColor3f( text_col.R, text_col.G, text_col.B );
+        cout<<"R: "<< text_col.R <<", G: " << text_col.G <<", B: " << text_col.B << endl;
+        printBigText( glutGet( GLUT_WINDOW_WIDTH)/2 - 50, glutGet( GLUT_WINDOW_HEIGHT )/2,
+                "since 1904...");
+    }
+
+    if( frame == 201 ) { text_col.R = 0; text_col.G =0; text_col.B = 0; }
+
+    else if( frame >= 202 && frame <= 400 )
+    {
+        if  ( frame >= 370 ) performAnimationColor( &text_col, turn_black );
+        else performAnimationColor( &text_col, turn_white );
+        cout<<"R: "<< text_col.R <<", G: " << text_col.G <<", B: " << text_col.B << endl;
+        glColor3f( text_col.R, text_col.G, text_col.B );
+        printBigText( glutGet( GLUT_WINDOW_WIDTH)/2 - 150, glutGet( GLUT_WINDOW_HEIGHT )/2,
+                "we've been designing and building...");
+    }
+    
+    if( frame == 401 ) { text_col.R = 0; text_col.G =0; text_col.B = 0; }
+
+    if( frame >= 402 && frame <= 500 )
+    {
+        if( frame >= 470 ) performAnimationColor( &text_col, turn_black );
+        else performAnimationColor( &text_col, turn_white );
+        glColor3f( text_col.R, text_col.G, text_col.B );
+        printBigText( glutGet( GLUT_WINDOW_WIDTH)/2 - 50, glutGet( GLUT_WINDOW_HEIGHT )/2,
+                "perfection");
+    }
+
+    if( frame >= 450 )
+    {
+        performAnimation( &rolls, a1 );
+        performAnimation( &rolls, a2 );
+    } 
+    
+    rolls.draw();
+//    since1904.draw();
+
+    glColor3ub( 60, 60, 60 );
     printText( 10, glutGet( GLUT_WINDOW_HEIGHT ) - 18, VERSION );
     printText( 10, glutGet( GLUT_WINDOW_HEIGHT ) - 32, build_info );
 
@@ -198,11 +266,10 @@ void init( void )
 
     // load the Rolls Royce
     rolls.name = "Rolls Royce";
-    rolls.setColor( 0, 1, 0 );
-
     rolls.loadFromPovFile( "vector/rolls_full_n.pov" );
+    rolls.setColor( 0, 1, 0 );
     // move it outside the visible area
-    rolls.move( 1000, 0 );
+    rolls.move( 1500, 0 );
 
     // load some text
     dcol.R = 1;
@@ -211,19 +278,38 @@ void init( void )
     since1904.loadFromPovFile( "vector/since1904.pov" );
 
     // animation 1 - the rolls moves into visible area
-    a1.type =       1;
-    a1.duration = 200;
+    a1.type =         1;
+    a1.duration =   200;
     a1.repeat   = false;
-    a1.q1  = -1000.0f;
-    a1.q2  = 0.0f;
+    a1.q1  =   -1000.0f;
+    a1.q2  =       0.0f;
 
     // animation 1 - the rolls becomes red
-    a2.type =       4;
-    a2.duration = 200;
+    a2.type =         4;
+    a2.duration =   200;
     a2.repeat   = false;
-    a2.q1  = 1.0f;
-    a2.q2  = 0.0f;
-    a2.q3  = 0.0f;
+    a2.q1  =       1.0f;
+    a2.q2  =       0.0f;
+    a2.q3  =       0.0f;
+
+    // turns a color to white
+    turn_white.type = 4;
+    turn_white.duration = 50;
+    turn_white.repeat = true;
+    turn_white.q1 =        1;
+    turn_white.q2 =        1;
+    turn_white.q3 =        1;
+
+    // turns a color to black
+    turn_black.type = 4;
+    turn_black.duration = 20;
+    turn_black.repeat = true;
+    turn_black.q1 =        0;
+    turn_black.q2 =        0;
+    turn_black.q3 =        0;
+    
+    turn_white.print();
+    turn_black.print();
 
 //    bp1.loadFromPovFile("vector/body.pov");
 

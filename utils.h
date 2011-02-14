@@ -24,6 +24,7 @@ struct Color
 
 //void loadPovFile( string filename, Shape& shape );
 void printText( int nX, int nY, string text );
+void printBigText( int nX, int nY, string text );
 void printFeedbackBuffer( GLfloat* buff, GLint size );
 template < typename T > T getFromRegex( string , const boost::regex& );
 

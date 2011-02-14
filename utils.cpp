@@ -48,7 +48,7 @@ void printText( int nX, int nY, string text )
     const char *pszText = text.c_str();
     const char *p;
 
-    glColor3ub( 60, 60, 60 );
+//    glColor3ub( 60, 60, 60 );
     glRasterPos2i( nX, nY );
 
     for( p=pszText, lines=0; *p; p++ )
@@ -60,6 +60,27 @@ void printText( int nX, int nY, string text )
         }
 
         glutBitmapCharacter( GLUT_BITMAP_HELVETICA_12,  *p );
+    }
+}
+
+void printBigText( int nX, int nY, string text )
+{
+    int lines;
+    const char *pszText = text.c_str();
+    const char *p;
+
+//    glColor3ub( 60, 60, 60 );
+    glRasterPos2i( nX, nY );
+
+    for( p=pszText, lines=0; *p; p++ )
+    {
+        if( *p == '\n' )
+        {
+            lines++;
+            glRasterPos2i( nX, nY-(lines*18) );
+        }
+
+        glutBitmapCharacter( GLUT_BITMAP_HELVETICA_18,  *p );
     }
 }
 
