@@ -532,6 +532,11 @@ void BezierCurve::move( GLfloat x_dir, GLfloat y_dir )
         points[i][1] += y_dir;
     }
 
+    if( DEBUG_TRANSF_MOVE )
+    {
+       cout << "P0: " << endl;
+       getP0().print();
+    }
     calculateBoundingBox();
 }
 

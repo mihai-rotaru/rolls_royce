@@ -52,7 +52,7 @@ void Group::move( GLfloat x_dir, GLfloat y_dir )
 {
     BOOST_FOREACH( boost::shared_ptr< Shape > sptr_shape, shapes )
     {
-        sptr_shape -> draw();
+        sptr_shape -> move( x_dir, y_dir );
     }
 }
 

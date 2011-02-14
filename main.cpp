@@ -75,21 +75,31 @@ void performAnimation( Group* g, Animation& a )
     GLfloat q2         = a.q2;
     GLfloat q3         = a.q3;
 
+    if( !repeat && currentFrame == duration ) return;
+
     if( DEBUG_ANIMATIONS )
     {
         cout <<"animation for group " << g << " ( " << g -> name << " )" << endl;
         a.print();
     }
 
-    if( !repeat && currentFrame == duration ) return;
-
     if( type == 1 ) // movement ( translation )
     {
         // q1 - x movement
         // q2 - y movement
         // q3 - not used
-        currentFrame++;
-        g -> move( q1/duration * currentFrame, q2/duration * currentFrame );
+        a.currentFrame++;
+
+        GLfloat mx_dir = q1/duration;
+        GLfloat my_dir = q2/duration;
+
+        if( DEBUG_ANIMATIONS )
+        {
+            cout << "   Movement animation in animation struct @ " << &a << endl;
+            cout << "   moving by: x_dir:  " << mx_dir << ",  my_dir:  " << my_dir;
+
+        }
+        g -> move( mx_dir, my_dir );
     }
 
     if( type == 2 ) // rotation
@@ -97,7 +107,7 @@ void performAnimation( Group* g, Animation& a )
         // q1 - how many degrees to rotate
         // q2 - not used
         // q3 - not used
-        currentFrame++;
+        a.currentFrame++;
         g -> rotate( q1/duration * currentFrame );
     }
 
@@ -106,7 +116,7 @@ void performAnimation( Group* g, Animation& a )
         // q1 - x scaling
         // q2 - y scaling
         // q3 - not used
-        currentFrame++;
+        a.currentFrame++;
         g -> scale( q1/duration * currentFrame, q2/duration * currentFrame );
     }
     
@@ -128,14 +138,13 @@ void myDisplayFunc( void )
     my_line.draw();
     my_line.rotate(1);
     
-//    rolls.draw();
+    performAnimation( &rolls, a1);
+    rolls.draw();
     since1904.draw();
 
     printText( 10, glutGet( GLUT_WINDOW_HEIGHT ) - 18, VERSION );
     printText( 10, glutGet( GLUT_WINDOW_HEIGHT ) - 32, build_info );
 
-    // keep showing( flushing ) line on the screen instead of showing just once.
-//    glutPostRedisplay();
     glutSwapBuffers();
     
     if( frame > 1000 ) frame = 0;
@@ -164,6 +173,8 @@ void init( void )
     dcol.G = 1;
     dcol.B = 0;
     rolls.loadFromPovFile( "vector/rolls_full_n.pov" );
+    // move it outside the visible area
+    rolls.move( 1000, 0 );
 
     // load some text
     dcol.R = 1;
@@ -171,6 +182,13 @@ void init( void )
     dcol.B = 1;
     since1904.loadFromPovFile( "vector/since1904.pov" );
     cout <<"loaded pov" << endl;
+
+    // animation
+    a1.type =       1;
+    a1.duration = 200;
+    a1.repeat   = false;
+    a1.q1  = -1000.0f;
+    a1.q2  = 0.0f;
 
 //    bp1.loadFromPovFile("vector/body.pov");
 
@@ -211,7 +229,7 @@ void myReshape( int nWidht, int nHeight )
 void Timer( int value )
 {
     if( value ) glutPostRedisplay();
-    glutTimerFunc( FPS, Timer, value );
+    glutTimerFunc( 1000/FPS, Timer, value );
 }
 
 
