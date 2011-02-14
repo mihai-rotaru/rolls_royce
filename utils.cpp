@@ -90,7 +90,7 @@ void printFeedbackBuffer( GLfloat* buffer, GLint size )
     while (count>=0) 
     {
         token = buffer[size-count];
-        cout<< endl << "at token " << size-count << endl;
+        cout<< endl << "checking if token at index " << size-count << " in " << buffer << endl;
         count--;
         
         if (token == GL_PASS_THROUGH_TOKEN) 
@@ -121,7 +121,9 @@ void printFeedbackBuffer( GLfloat* buffer, GLint size )
         }
         else
         {
-            cout << "UNIDENTIFIED TOKEN; count = "<< count << endl;
+            cout << "UNIDENTIFIED TOKEN" << endl;
+            cout << "count = "<< count << ", index: " << size-count;
+            cout << "value = " << buffer[ size - count ] << endl;
         }
     }
 

@@ -11,6 +11,7 @@ using namespace std;
 #include <boost/regex.hpp>
 #include <boost/algorithm/string/regex.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/foreach.hpp>
 
 #include "globals.h"
 #include "utils.h"
@@ -26,7 +27,10 @@ namespace xmx {
 
 void Group::draw()
 {
-    return /* something */;
+    BOOST_FOREACH( boost::shared_ptr< Shape > sptr_shape, shapes )
+    {
+        sptr_shape -> draw();
+    }
 }
 
 void Group::addShape( Shape& shape )
@@ -247,7 +251,7 @@ void Group::loadFromPovFile( string filename )
         cline ++;
     }
 
-    cout<< "processing of " << filename << " complete" << endl;
+    cout<< "processing of " << filename << " complete; " << shapes.size() << " shapes loaded." << endl;
 }
 
 } // namespace xmx

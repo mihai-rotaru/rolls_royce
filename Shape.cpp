@@ -44,7 +44,7 @@ void Shape::addBezierCurve(
     boost::shared_ptr<BezierCurve> mptr
         ( new BezierCurve( e1_x, e1_y, c1_x, c1_y, c2_x, c2_y, e2_x, e2_y ));
 
-    primitives.push_front( mptr );
+    primitives.push_back( mptr );
 }
 
 void Shape::addBezierCurve(
@@ -54,18 +54,18 @@ void Shape::addBezierCurve(
     boost::shared_ptr<BezierCurve> mptr
         ( new BezierCurve( P0, P1, P2, P3 ));
 
-    primitives.push_front( mptr );
+    primitives.push_back( mptr );
 }
 
 void Shape::addBezierCurve( BezierCurve* ptr_bc )
 {
     boost::shared_ptr< BezierCurve > mptr( ptr_bc );
-    primitives.push_front( mptr );
+    primitives.push_back( mptr );
 }
 
 void Shape::addBezierCurve( boost::shared_ptr< BezierCurve > sptr )
 {
-    primitives.push_front( sptr );
+    primitives.push_back( sptr );
 }
 
 void Shape::addLine( GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2 )
@@ -73,7 +73,7 @@ void Shape::addLine( GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2 )
     boost::shared_ptr< Line > mptr
         ( new Line( x1, y1, x2, y2 ));
 
-    primitives.push_front( mptr );
+    primitives.push_back( mptr );
     isBezier = false;
 }
 
@@ -104,29 +104,31 @@ void Shape::move( GLfloat x_dir, GLfloat y_dir )
 
 void Shape::draw()
 {
-    if( isBezier )
+    if( !isBezier )
     {
         GLint total_lines = 0;
 
         // how many lines in this shape ? ( the sum of lines for all BC's contained )
-//        if( DEBUG_SHAPE_BEZIER_DRAW ) cout<<"counting lines composing Shape @ " << this << " ( " << name << " )" << endl; 
+        if( DEBUG_SHAPE_BEZIER_DRAW ) cout<<"counting lines composing Shape @ " << this << " ( " << name << " )" << endl; 
         BOOST_FOREACH( boost::shared_ptr< Primitive > pPrimitive, primitives )
         {
             BezierCurve* bc = dynamic_cast< BezierCurve* > ( pPrimitive.get() );
             if( bc != NULL )
             {
-//                if( DEBUG_SHAPE_BEZIER_DRAW ) cout<<"counting lines composing BezierCurve @ " << bc << " ( " << bc->name << " ) ... "; 
+                if( DEBUG_SHAPE_BEZIER_DRAW ) cout<<"    lines composing BezierCurve @ " << bc << " ( " << bc->name << " ) ... "; 
                 GLint bc_lines = bc -> getNumLines();
                 total_lines += bc_lines;
-//                if( DEBUG_SHAPE_BEZIER_DRAW ) cout<< bc_lines << " ( new total: " << total_lines << " )" << endl;
+                if( DEBUG_SHAPE_BEZIER_DRAW ) cout<< bc_lines << " ( new total: " << total_lines << " )" << endl;
 //                bc -> draw();
             }
         }
-        if( DEBUG_SHAPE_BEZIER_DRAW ) cout<<"counting lines composing Shape @ " << this << " ( " << name << " ) : " << total_lines << endl; 
+        if( DEBUG_SHAPE_BEZIER_DRAW ) cout<<"done counting lines composing Shape @ " << this << " ( " << name << " ) : " << total_lines << endl; 
 
         GLint index = 0;
         GLint buff_size = total_lines * sizeof(GLfloat) * 4;
+        if( DEBUG_SHAPE_BEZIER_DRAW ) cout<< "allocating memory for an array of " << buff_size <<" GLfloat's" << endl;
         GLfloat *shapes_lines = new GLfloat[ buff_size ]; 
+        if( DEBUG_SHAPE_BEZIER_DRAW ) cout<< "size of buffer: " << sizeof(shapes_lines) << endl;
 
         if( DEBUG_SHAPE_BEZIER_DRAW ) cout<<"starting to put lines in buffer for Shape @ " << this << " ( " << name << " ) " << endl; 
 
@@ -134,18 +136,24 @@ void Shape::draw()
         BOOST_FOREACH( boost::shared_ptr< Primitive > pPrimitive, primitives )
         {
             BezierCurve* bc = dynamic_cast< BezierCurve* > ( pPrimitive.get() );
+            cout<<"-- LOADING LINES --" << endl;
+            bc -> print();
             if( bc != NULL )
             {
                 bc->drawToBuffer( shapes_lines, index );
+                if( DEBUG_FEEDBACK_TOKENS ) cout <<"BezierCurve @ " << bc <<" finished putting it's lines in the buffer " << endl;
+
             }
         }
     
+        if( DEBUG_FEEDBACK_TOKENS ) cout <<"finished putting lines into the buffer" << endl;
+
         if( DEBUG_SHAPE_BEZIER_DRAW )
         {
             char cr;
             cout<<"finished putting lines in buffer for Shape @ " << this << " ( " << name << " ) " << endl; 
             cout<<"index: " << index << endl;
-            cin.get(cr);
+//            cin.get(cr);
         }
 
         // draw a polygon from the vertices in the shapes_lines
@@ -166,6 +174,11 @@ void Shape::draw()
 GLfloat Shape::distanceTo( GLfloat x, GLfloat y )
 {
     return -1001;
+}
+
+GLint Shape::getNumLines()
+{
+
 }
 
 } // namespace xmx

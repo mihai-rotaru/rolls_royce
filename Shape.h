@@ -42,6 +42,8 @@ public:
     void draw();
     GLfloat distanceTo( GLfloat, GLfloat );
 
+    GLint getNumLines();
+
 };
 
 } // namespace xmx

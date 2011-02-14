@@ -202,11 +202,13 @@ void BezierCurve::drawToBuffer( GLfloat* dest, GLint& start_pos )
     {
         char cr;
         cout<<"about to begin evaluating BezierCurve @ "<< this << " ( " << name << " ) " << endl;
+        print();
+        cout<<"number or lines in it: " << getNumLines() << endl;
         cin.get(cr);
     }
 
     int buff_size = (int)( width ) * 3 * 2 + 2 + width;
-    GLfloat *buff = new GLfloat[ buff_size -1 ];
+    GLfloat *buff = new GLfloat[ buff_size ];
     glFeedbackBuffer( buff_size, GL_3D, buff );
     
     glRenderMode( GL_FEEDBACK );
@@ -221,6 +223,7 @@ void BezierCurve::drawToBuffer( GLfloat* dest, GLint& start_pos )
     glEnd();
     glPassThrough( 2000.0f );
 
+    glFlush();
     if( DEBUG_FEEDBACK_TOKENS ) printFeedbackBuffer( buff, buff_size );
     
     // go back through the buffer, drawing the curve as a filled polygon
@@ -228,8 +231,9 @@ void BezierCurve::drawToBuffer( GLfloat* dest, GLint& start_pos )
 
 //    glPolygonMode( GL_FRONT, GL_FILL );
 //    glBegin( GL_POLYGON );
-        for( int i=0; i < width-1; i++ )
+        for( int i=0; i < width-3; i++ )
         {
+            if( DEBUG_FEEDBACK_TOKENS ) cout<<"copying line " << i + 1 << " of " << getNumLines() <<" of curve " << this << " : " << name << endl;
             GLint i7 = i * 7;
             // vertices
             GLint x1 = i7 + 3;
@@ -245,14 +249,14 @@ void BezierCurve::drawToBuffer( GLfloat* dest, GLint& start_pos )
 //            glVertex2f( buff[ x2 ] , buff[ y2 ] );
             dest[ start_pos++ ] = buff[ x2 ]; 
             dest[ start_pos++ ] = buff[ y2 ]; 
+            if( DEBUG_FEEDBACK_TOKENS ) cout<<"start_pos: " << start_pos << endl;
         }
 //    glEnd();
     
-    glFlush();
 
+    if( DEBUG_FEEDBACK_TOKENS ) cout<< "attempting to delete buffer allocated for BezierCurve @ " << this << endl;
     delete[] buff;
-
-
+    if( DEBUG_FEEDBACK_TOKENS ) cout<< "finished putting the lines of BezierCurve @ " << this << endl;
 }
 
 void BezierCurve::isLineOld()

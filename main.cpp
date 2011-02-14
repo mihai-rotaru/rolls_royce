@@ -85,9 +85,7 @@ void init( void )
     build_info = "Build info: " + BUILD_ID + " @ " + BUILD_TIME;
 
     // load a pov file
-//    loadPovFile( "vector/rolls_logo.pov", shapez );
     rolls.loadFromPovFile( "vector/rolls_full.pov" );
-//    rolls.primitives.splice( rolls.primitives.begin(), shapez, shapez.begin());
     cout <<"loaded pov" << endl;
 
 //    bp1.loadFromPovFile("vector/body.pov");
