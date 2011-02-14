@@ -48,7 +48,7 @@ void printText( int nX, int nY, string text )
     const char *pszText = text.c_str();
     const char *p;
 
-    glColor3ub( 150, 150, 150 );
+    glColor3ub( 60, 60, 60 );
     glRasterPos2i( nX, nY );
 
     for( p=pszText, lines=0; *p; p++ )

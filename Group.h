@@ -25,6 +25,11 @@ public:
     list< boost::shared_ptr<Shape    > > shapes;
     int getNumberOfShapes()      { return shapes.size();     };
 
+    void scale ( GLfloat, GLfloat );
+    void rotate( GLfloat );
+//    void rotate( GLfloat, GLfloat, GLfloat );
+    void move  ( GLfloat, GLfloat );
+
     void addShape( Shape& shape );
     void loadFromPovFile( std::string );
     void draw();

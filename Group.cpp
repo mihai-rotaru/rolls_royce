@@ -47,6 +47,33 @@ void Group::draw()
     glLineWidth( lineWidth );
 }
 
+
+void Group::move( GLfloat x_dir, GLfloat y_dir )
+{
+    BOOST_FOREACH( boost::shared_ptr< Shape > sptr_shape, shapes )
+    {
+        sptr_shape -> draw();
+    }
+}
+
+
+void Group::scale( GLfloat x_dir, GLfloat y_dir )
+{
+    BOOST_FOREACH( boost::shared_ptr< Shape > sptr_shape, shapes )
+    {
+        sptr_shape -> scale( x_dir, y_dir );
+    }
+}
+
+
+void Group::rotate( GLfloat theta )
+{
+    BOOST_FOREACH( boost::shared_ptr< Shape > sptr_shape, shapes )
+    {
+        sptr_shape -> rotate( theta );
+    }
+}
+
 void Group::addShape( Shape& shape )
 {
     return /* something */;

@@ -20,6 +20,7 @@ using namespace xmx;
 
 Line my_line( 100, 150, 200, 300 );
 typedef boost::shared_ptr<Shape> sptrShape;
+struct Animation;
 
 string build_info;
 
@@ -29,12 +30,90 @@ Point c1(   0, 270 );
 Point c2( 290, 110 );
 Point e2( 200, 100 );
 BezierCurve bez_path( e1, c1, c2, e2 );
-//Shape shape;
-//Shape rolls;
+
+// groups - loaded from .pov files
 Group rolls;
 Group since1904;
 
+// the count of frames rendered so far
 GLint frame;
+
+struct Animation
+{
+    GLint type;            // movement, rotation, scaling
+    GLint duration;        // duration - in frames
+    GLint currentFrame;
+    bool repeat;         // repeat ad infinitum ?
+    GLfloat q1;
+    GLfloat q2;
+    GLfloat q3;
+    void print();
+};
+
+// animations
+Animation a1;
+
+void Animation::print()
+{
+    cout << "Animation struct @ " << this << endl;
+    cout <<"    type: "           << type << endl;
+    cout <<"    duration: "           << duration << endl;
+    cout <<"    currentFrame: "           << currentFrame << endl;
+    cout <<"    repeat: "           << repeat << endl;
+    cout <<"    q1: "           << q1 << endl;
+    cout <<"    q2: "           << q2 << endl;
+    cout <<"    q3: "           << q3 << endl;
+}
+
+void performAnimation( Group* g, Animation& a )
+{
+    GLint type         = a.type;
+    GLint currentFrame = a.currentFrame;
+    GLint duration     = a.duration;
+    GLint repeat       = a.repeat;
+    GLfloat q1         = a.q1;
+    GLfloat q2         = a.q2;
+    GLfloat q3         = a.q3;
+
+    if( DEBUG_ANIMATIONS )
+    {
+        cout <<"animation for group " << g << " ( " << g -> name << " )" << endl;
+        a.print();
+    }
+
+    if( !repeat && currentFrame == duration ) return;
+
+    if( type == 1 ) // movement ( translation )
+    {
+        // q1 - x movement
+        // q2 - y movement
+        // q3 - not used
+        currentFrame++;
+        g -> move( q1/duration * currentFrame, q2/duration * currentFrame );
+    }
+
+    if( type == 2 ) // rotation
+    {
+        // q1 - how many degrees to rotate
+        // q2 - not used
+        // q3 - not used
+        currentFrame++;
+        g -> rotate( q1/duration * currentFrame );
+    }
+
+    if( type == 3 ) // scaling
+    {
+        // q1 - x scaling
+        // q2 - y scaling
+        // q3 - not used
+        currentFrame++;
+        g -> scale( q1/duration * currentFrame, q2/duration * currentFrame );
+    }
+    
+    if( currentFrame == duration )
+        currentFrame = 0;
+}
+
 
 void myDisplayFunc( void )
 {
@@ -131,7 +210,7 @@ void myReshape( int nWidht, int nHeight )
 void Timer( int value )
 {
     if( value ) glutPostRedisplay();
-    glutTimerFunc( 30, Timer, value );
+    glutTimerFunc( FPS, Timer, value );
 }
 
 

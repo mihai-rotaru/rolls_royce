@@ -25,6 +25,7 @@ extern bool DEBUG_INIT_BEZIER_BOUNDING_BOX;
 extern bool DEBUG_POV_LOADING;
 extern bool DEBUG_FEEDBACK_TOKENS;
 extern bool DEBUG_SHAPE_BEZIER_DRAW;
+extern bool DEBUG_ANIMATIONS;
 
 extern bool STRICT_POV;
 
@@ -37,4 +38,5 @@ extern Color dcol_Clear  ;
 extern Color dcol_BezierBB;
 extern GLfloat default_line_width;
 
+extern GLint FPS;
 #endif /* GLOBALS_H */

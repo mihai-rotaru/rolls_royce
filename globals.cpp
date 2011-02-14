@@ -30,6 +30,7 @@ bool DEBUG_INIT_BEZIER_BOUNDING_BOX = false;
 bool DEBUG_POV_LOADING              = false;
 bool DEBUG_FEEDBACK_TOKENS          = false;
 bool DEBUG_SHAPE_BEZIER_DRAW        = false;
+bool DEBUG_ANIMATIONS               = true;
 
 bool STRICT_POV                     = true;
 
@@ -41,3 +42,6 @@ Color dcol_BezierBB    ( 0.5f, 0.1f, 0.7f );
 Color dcol             ( 1.0f, 0.0f, 0.0f );
 Color dcol_Clear       ( 0.0f, 0.0f, 0.03f );
 GLfloat d_line_width   = 1.0f;
+
+// frames per second
+GLint FPS = 30;

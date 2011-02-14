@@ -8,7 +8,7 @@ x load Shapes from file
     - stroke width
     - stroke color
     - fill color
-- static FPS ( game loop )
+x static FPS ( game loop )
 -------------------------------------------------------------------------
 - implement morphing
 - color tools - classes to handle making a color lighter, saturation, etc
@@ -33,7 +33,7 @@ x ensure rotation does not suffer from 'gravitation' ( as in cg_project_1 )
 - make sure objects are not clipped when moving outside visible area ( as in cg_project_2 )
 x resizing the window makes rotation erratic
 x some bounding boxes for Beziers are not computed correctly
-- Bezier curves with control points between the end points are lines
+o Bezier curves with control points between the end points are lines
 
 Infrastructure
 x use waf to compile the multi-file project
