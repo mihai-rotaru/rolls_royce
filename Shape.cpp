@@ -81,17 +81,26 @@ void Shape::addLine( GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2 )
 
 void Shape::scale( GLfloat x_dir, GLfloat y_dir )
 {
-    return;
+    BOOST_FOREACH( boost::shared_ptr< Primitive > pPrimitive, primitives )
+    {
+        pPrimitive-> scale( x_dir, y_dir );
+    }
 }
 
-void Shape::rotate( GLfloat )
+void Shape::rotate( GLfloat theta )
 {
-    return /* something */;
+    BOOST_FOREACH( boost::shared_ptr< Primitive > pPrimitive, primitives )
+    {
+        pPrimitive-> rotate( theta );
+    }
 }
 
-void Shape::rotate( GLfloat, GLfloat, GLfloat )
+void Shape::rotate( GLfloat theta, GLfloat x_coord, GLfloat y_coord )
 {
-    return /* something */;
+    BOOST_FOREACH( boost::shared_ptr< Primitive > pPrimitive, primitives )
+    {
+        pPrimitive-> rotate( theta, x_coord, y_coord );
+    }
 }
 
 void Shape::move( GLfloat x_dir, GLfloat y_dir )

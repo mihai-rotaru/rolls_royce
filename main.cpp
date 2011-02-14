@@ -159,12 +159,13 @@ void init( void )
     getline( ver_file, BUILD_TIME );
     build_info = "Build info: " + BUILD_ID + " @ " + BUILD_TIME;
 
-    // load a pov file
+    // load the Rolls Royce
     dcol.R = 0;
     dcol.G = 1;
     dcol.B = 0;
     rolls.loadFromPovFile( "vector/rolls_full_n.pov" );
 
+    // load some text
     dcol.R = 1;
     dcol.G = 1;
     dcol.B = 1;
