@@ -3,6 +3,7 @@
 
 #include <string>
 #include "utils.h"
+using namespace xmx;
 
 extern int window_width;
 extern int window_height;
@@ -34,5 +35,6 @@ extern Color dcol_ECLines;
 extern Color dcol        ;
 extern Color dcol_Clear  ;
 extern Color dcol_BezierBB;
+extern GLfloat default_line_width;
 
 #endif /* GLOBALS_H */

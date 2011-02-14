@@ -4,6 +4,7 @@
 
 #include "globals.h"
 #include "utils.h"
+using namespace xmx;
 
 // these are set in the main function, when the window is created
 int window_width =  0;
@@ -38,4 +39,5 @@ Color dcol_EPoints     ( 0.0f, 0.0f, 0.5f );
 Color dcol_ECLines     ( 0.5f, 0.5f, 0.5f );
 Color dcol_BezierBB    ( 0.5f, 0.1f, 0.7f );
 Color dcol             ( 1.0f, 0.0f, 0.0f );
-Color dcol_Clear       ( 0.0f, 0.0f, 0.0f );
+Color dcol_Clear       ( 0.0f, 0.0f, 0.03f );
+GLfloat d_line_width   = 1.0f;

@@ -20,9 +20,11 @@ using namespace std;
 #include "Point.h"
 #include "BezierCurve.h"
 #include "Shape.h"
-using namespace xmx;
 typedef boost::shared_ptr<Shape> sptrShape;
 
+namespace xmx {
+
+struct Color;
 
 // if `str` matches `myRegex`, try parsing the first match into an integer
 // NOTE: lexical_cast is said to be slow 
@@ -128,3 +130,4 @@ void printFeedbackBuffer( GLfloat* buffer, GLint size )
     }
 
 }
+} // namespace xmx

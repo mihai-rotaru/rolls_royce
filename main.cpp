@@ -32,6 +32,7 @@ BezierCurve bez_path( e1, c1, c2, e2 );
 //Shape shape;
 //Shape rolls;
 Group rolls;
+Group since1904;
 list< sptrShape > shapez;
 
 void myDisplayFunc( void )
@@ -57,6 +58,7 @@ void myDisplayFunc( void )
 //        xshape -> draw();
 //    }
     rolls.draw();
+    since1904.draw();
 
     printText( 10, glutGet( GLUT_WINDOW_HEIGHT ) - 18, VERSION );
     printText( 10, glutGet( GLUT_WINDOW_HEIGHT ) - 32, build_info );
@@ -69,7 +71,7 @@ void myDisplayFunc( void )
 void init( void )
 {
     // select clearing color
-    glClearColor( 0.0, 0.0, 0.0, 0.0 );
+    glClearColor( dcol_Clear.R, dcol_Clear.G, dcol_Clear.B, 0.0 );
 
     // initialize viewing values
     glMatrixMode( GL_PROJECTION );
@@ -85,7 +87,15 @@ void init( void )
     build_info = "Build info: " + BUILD_ID + " @ " + BUILD_TIME;
 
     // load a pov file
-    rolls.loadFromPovFile( "vector/rolls_full.pov" );
+    dcol.R = 0;
+    dcol.G = 1;
+    dcol.B = 0;
+    rolls.loadFromPovFile( "vector/rolls_full_n.pov" );
+
+    dcol.R = 1;
+    dcol.G = 1;
+    dcol.B = 1;
+    since1904.loadFromPovFile( "vector/since1904.pov" );
     cout <<"loaded pov" << endl;
 
 //    bp1.loadFromPovFile("vector/body.pov");
@@ -131,7 +141,7 @@ int main( int argc, char** argv )
     glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGB | GLUT_MULTISAMPLE );
 
     // window stuff
-    window_width = 640;
+    window_width = 840;
     window_height = 480;
     glutInitWindowSize( window_width, window_height );
     glutInitWindowPosition( 100, 100 );

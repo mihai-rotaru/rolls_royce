@@ -22,10 +22,11 @@ namespace xmx {
 
 int Shape::count = 0;
 
-Shape::Shape()
+Shape::Shape() : color( dcol ), lineWidth( 1.0f )
 {
     if( DEBUG_CTOR_DTOR ) cout<<"ctor for Shape @ " << this << endl;
     isBezier = false;
+
     Shape::count++;
 }
 
@@ -104,6 +105,10 @@ void Shape::move( GLfloat x_dir, GLfloat y_dir )
 
 void Shape::draw()
 {
+
+    glColor3f( color.R, color.G, color.B );
+    glLineWidth( lineWidth );
+
     if( !isBezier )
     {
         GLint total_lines = 0;
@@ -169,6 +174,9 @@ void Shape::draw()
             pPrimitive->draw();
         }
     }
+    
+    glColor3f( dcol.R, dcol.G, dcol.B );
+    glLineWidth( lineWidth );
 }
 
 GLfloat Shape::distanceTo( GLfloat x, GLfloat y )

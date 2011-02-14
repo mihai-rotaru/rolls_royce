@@ -4,6 +4,9 @@
 #include <string>
 #include <GL/glu.h>
 #include <boost/shared_ptr.hpp>
+
+#include "utils.h"
+#include "globals.h"
 #include "Shape.h"
 
 namespace xmx {
@@ -12,6 +15,13 @@ class Group
 {
 public:
     std::string name;
+    Color color;
+    GLfloat lineWidth;
+
+    Group();
+    ~Group();
+
+
     list< boost::shared_ptr<Shape    > > shapes;
     int getNumberOfShapes()      { return shapes.size();     };
 

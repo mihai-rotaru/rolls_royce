@@ -8,6 +8,7 @@ using namespace std;
 #include <GL/glu.h>
 #include <boost/shared_ptr.hpp>
 
+#include "utils.h"
 #include "Point.h"
 #include "Primitive.h"
 #include "BezierCurve.h"
@@ -26,6 +27,8 @@ public:
     bool isBezier;
     string name;
     static int count;
+    Color color;
+    GLfloat lineWidth;
 
     void addLine( GLfloat, GLfloat, GLfloat, GLfloat );
     void addBezierCurve( GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat);

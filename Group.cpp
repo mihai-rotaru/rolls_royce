@@ -25,12 +25,26 @@ typedef boost::shared_ptr<Shape> sptrShape;
 
 namespace xmx {
 
+Group::Group() : color( dcol ), lineWidth( 1.0f )
+{
+}
+
+Group::~Group()
+{
+}
+
 void Group::draw()
 {
+    glColor3f( color.R, color.G, color.B );
+    glLineWidth( lineWidth );
+
     BOOST_FOREACH( boost::shared_ptr< Shape > sptr_shape, shapes )
     {
         sptr_shape -> draw();
     }
+    
+    glColor3f( dcol.R, dcol.G, dcol.B );
+    glLineWidth( lineWidth );
 }
 
 void Group::addShape( Shape& shape )

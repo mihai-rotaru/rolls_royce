@@ -259,6 +259,92 @@ void BezierCurve::drawToBuffer( GLfloat* dest, GLint& start_pos )
     if( DEBUG_FEEDBACK_TOKENS ) cout<< "finished putting the lines of BezierCurve @ " << this << endl;
 }
 
+void BezierCurve::drawVertices( GLfloat *lastVertex )
+{
+    if( isLine )
+    {
+            glVertex3fv( lastVertex );
+            glVertex3fv( points[ END_PT_1 ] );
+            glVertex3fv( points[ END_PT_2 ] );
+
+        if( DEBUG_FEEDBACK_TOKENS )
+            cout<<"drew a BC which is a line" << endl;
+        return;
+    }
+
+    GLfloat width = getMaxX() - getMinX();
+//    width = 100;
+
+    glMap1f( GL_MAP1_VERTEX_3,
+            0.0f,
+            width,
+            3,
+            4, // number of control points
+            &points[0][0]
+           );
+
+    glEnable( GL_MAP1_VERTEX_3 );
+
+    if( DEBUG_FEEDBACK_TOKENS )
+    {
+        char cr;
+        cout<<"about to begin evaluating BezierCurve @ "<< this << " ( " << name << " ) " << endl;
+        print();
+        cout<<"number or lines in it: " << getNumLines() << endl;
+        cin.get(cr);
+    }
+
+    int buff_size = (int)( width ) * 3 * 2 + 2 + width;
+    GLfloat *buff = new GLfloat[ buff_size ];
+    glFeedbackBuffer( buff_size, GL_3D, buff );
+    
+    glRenderMode( GL_FEEDBACK );
+
+    glPassThrough( 1000.0f );
+    glBegin( GL_LINE_STRIP );
+		for( int i = 0; i < width; i++ )
+			{
+			// Evaluate the curve at this point
+			glEvalCoord1f( (GLfloat)i ); 
+            }
+    glEnd();
+    glPassThrough( 2000.0f );
+
+    glFlush();
+    if( DEBUG_FEEDBACK_TOKENS ) printFeedbackBuffer( buff, buff_size );
+    
+    // go back through the buffer, drawing the curve as a filled polygon
+    glRenderMode( GL_RENDER );
+
+//    glPolygonMode( GL_FRONT, GL_FILL );
+//    glBegin( GL_POLYGON );
+        for( int i=0; i < width-3; i++ )
+        {
+            if( DEBUG_FEEDBACK_TOKENS ) cout<<"copying line " << i + 1 << " of " << getNumLines() <<" of curve " << this << " : " << name << endl;
+            GLint i7 = i * 7;
+            // vertices
+            GLint x1 = i7 + 3;
+            GLint y1 = i7 + 4;
+            GLint x2 = i7 + 6;
+            GLint y2 = i7 + 7;
+            if ( DEBUG_FEEDBACK_TOKENS ) cout<< "vertex1:   x: " << x1 << " > " << buff[ x1 ] << " y: " << y1 << " > " << buff[ y1 ] << endl;
+            glVertex2f( buff[ x1 ] , buff[ y1 ] );
+//            dest[ start_pos++ ] = buff[ x1 ]; 
+//            dest[ start_pos++ ] = buff[ y1 ]; 
+
+            if ( DEBUG_FEEDBACK_TOKENS ) cout<< "vertex2:   x: " << x2 << " > " << buff[ x2 ] << " y: " << y2 << " > " << buff[ y2 ] << endl;
+            glVertex2f( buff[ x2 ] , buff[ y2 ] );
+//            dest[ start_pos++ ] = buff[ x2 ]; 
+//            dest[ start_pos++ ] = buff[ y2 ]; 
+//            if( DEBUG_FEEDBACK_TOKENS ) cout<<"start_pos: " << start_pos << endl;
+        }
+//    glEnd();
+    
+
+    if( DEBUG_FEEDBACK_TOKENS ) cout<< "attempting to delete buffer allocated for BezierCurve @ " << this << endl;
+    delete[] buff;
+    if( DEBUG_FEEDBACK_TOKENS ) cout<< "finished putting the lines of BezierCurve @ " << this << endl;
+}
 void BezierCurve::isLineOld()
 {
     DEBUG_BEZIER_BOUNDING_BOX = true;
