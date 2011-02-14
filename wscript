@@ -54,7 +54,9 @@ def build( bld ):
             includes     = [ 
                 './freeglut/include', 
                 boost_path ],
-            lib          = [ 'freeglut','opengl32', 'glu32' ],
+            defines      = [ 'FREEGLUT_STATIC'],
+            # if not linking statically, the above define and the gdi32, winmm libs are not needed
+            lib          = [ 'freeglut_static','opengl32','gdi32','glu32','winmm' ],
             libpath      = [ 
                 a_path + '/freeglut/lib', 
                 a_path + '/freeglut' ],

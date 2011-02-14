@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 using namespace std;
 
 #include <GL/glut.h>
@@ -23,6 +24,7 @@ typedef boost::shared_ptr<Shape> sptrShape;
 struct Animation;
 
 string build_info;
+string strFPS;
 
 // bezier stuff
 Point e1(  30, 70  );
@@ -186,7 +188,7 @@ void myDisplayFunc( void )
     glColor3f( dcol.R, dcol.G, dcol.B );
 
     frame++;
-    cout<< endl << "FRAME: "<< frame << endl;
+    if( SHOW_FRAME_NUMBER ) cout<< endl << "FRAME: "<< frame << endl;
 
 //    my_line.draw();
 //    my_line.rotate(1);
@@ -200,35 +202,41 @@ void myDisplayFunc( void )
         if     ( frame <= 100 ) performAnimationColor( &text_col, turn_white );
         else if( frame >= 170 ) performAnimationColor( &text_col, turn_black );
         glColor3f( text_col.R, text_col.G, text_col.B );
-        cout<<"R: "<< text_col.R <<", G: " << text_col.G <<", B: " << text_col.B << endl;
         printBigText( glutGet( GLUT_WINDOW_WIDTH)/2 - 50, glutGet( GLUT_WINDOW_HEIGHT )/2,
                 "since 1904...");
     }
 
     if( frame == 201 ) { text_col.R = 0; text_col.G =0; text_col.B = 0; }
-
     else if( frame >= 202 && frame <= 400 )
     {
         if  ( frame >= 370 ) performAnimationColor( &text_col, turn_black );
         else performAnimationColor( &text_col, turn_white );
-        cout<<"R: "<< text_col.R <<", G: " << text_col.G <<", B: " << text_col.B << endl;
         glColor3f( text_col.R, text_col.G, text_col.B );
         printBigText( glutGet( GLUT_WINDOW_WIDTH)/2 - 150, glutGet( GLUT_WINDOW_HEIGHT )/2,
                 "we've been designing and building...");
     }
     
     if( frame == 401 ) { text_col.R = 0; text_col.G =0; text_col.B = 0; }
-
-    if( frame >= 402 && frame <= 500 )
+    else if( frame >= 402 && frame <= 550 )
     {
-        if( frame >= 470 ) performAnimationColor( &text_col, turn_black );
+        if( frame >= 520 ) performAnimationColor( &text_col, turn_black );
         else performAnimationColor( &text_col, turn_white );
         glColor3f( text_col.R, text_col.G, text_col.B );
         printBigText( glutGet( GLUT_WINDOW_WIDTH)/2 - 50, glutGet( GLUT_WINDOW_HEIGHT )/2,
                 "perfection");
     }
 
-    if( frame >= 450 )
+    if( frame == 551 ) { text_col.R = 0; text_col.G =0; text_col.B = 0; }
+    else if( frame >= 552 && frame <= 700 )
+    {
+        if( frame >= 670 ) performAnimationColor( &text_col, turn_black );
+        else performAnimationColor( &text_col, turn_white );
+        glColor3f( text_col.R, text_col.G, text_col.B );
+        printBigText( glutGet( GLUT_WINDOW_WIDTH)/2 - 190, glutGet( GLUT_WINDOW_HEIGHT )/2,
+                "meet the Rolls Royce Ghost, our latest creation");
+    }
+
+    if( frame >= 650 )
     {
         performAnimation( &rolls, a1 );
         performAnimation( &rolls, a2 );
@@ -240,10 +248,11 @@ void myDisplayFunc( void )
     glColor3ub( 60, 60, 60 );
     printText( 10, glutGet( GLUT_WINDOW_HEIGHT ) - 18, VERSION );
     printText( 10, glutGet( GLUT_WINDOW_HEIGHT ) - 32, build_info );
+    if( SHOW_FPS ) printText( glutGet( GLUT_WINDOW_WIDTH ) - 50, glutGet( GLUT_WINDOW_HEIGHT ) - 18, strFPS ); 
 
     glutSwapBuffers();
     
-    if( frame > 1000 ) frame = 0;
+    if( frame > 40000 ) frame = 0;
 }
 
 void init( void )
@@ -264,6 +273,11 @@ void init( void )
     getline( ver_file, BUILD_TIME );
     build_info = "Build info: " + BUILD_ID + " @ " + BUILD_TIME;
 
+    // display FPS
+    stringstream ss;
+    ss << FPS;
+    strFPS = "FPS: " + ss.str();
+
     // load the Rolls Royce
     rolls.name = "Rolls Royce";
     rolls.loadFromPovFile( "vector/rolls_full_n.pov" );
@@ -281,7 +295,7 @@ void init( void )
     a1.type =         1;
     a1.duration =   200;
     a1.repeat   = false;
-    a1.q1  =   -1000.0f;
+    a1.q1  =   -1500.0f;
     a1.q2  =       0.0f;
 
     // animation 1 - the rolls becomes red
@@ -308,11 +322,6 @@ void init( void )
     turn_black.q2 =        0;
     turn_black.q3 =        0;
     
-    turn_white.print();
-    turn_black.print();
-
-//    bp1.loadFromPovFile("vector/body.pov");
-
 }
 
 void myKeyboardFunc( unsigned char key, int x, int y )

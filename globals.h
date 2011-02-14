@@ -15,6 +15,8 @@ extern std::string BUILD_TIME;
 extern bool SHOW_BEZIER_POINTS;
 extern bool SHOW_BEZIER_BOUNDING_BOX;
 extern bool SHOW_BEZIER_CONTROL_POINT_LINES;
+extern bool SHOW_FRAME_NUMBER;
+extern bool SHOW_FPS;
 
 extern bool DEBUG_CTOR_DTOR;
 extern bool DEBUG_TRANSF_ROTATE;
