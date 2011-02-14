@@ -97,6 +97,8 @@ void Line::rotate( float theta )
     //cleanup
     delete[] buff;
 
+    glRenderMode( GL_RENDER );
+
 }
 
 void Line::rotate( GLfloat theta, GLfloat x, GLfloat y)

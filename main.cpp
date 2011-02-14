@@ -33,7 +33,8 @@ BezierCurve bez_path( e1, c1, c2, e2 );
 //Shape rolls;
 Group rolls;
 Group since1904;
-list< sptrShape > shapez;
+
+GLint frame;
 
 void myDisplayFunc( void )
 {
@@ -43,29 +44,22 @@ void myDisplayFunc( void )
     // set line colour red( r=1, g=0,b=0 ).
     glColor3f( dcol.R, dcol.G, dcol.B );
 
-    // draw a line from point( 100,150 ) to point( 200, 300 )
+    frame++;
+
     my_line.draw();
-//    my_line.rotate( 20 );
+    my_line.rotate(1);
     
-    // draw the bezier curve ! ( man, was I excited )
-//    bez_path.draw();
-//    shape.draw();
-    
-//    cout << "drawing shapes " << endl;
-//    BOOST_FOREACH( boost::shared_ptr< Shape > xshape, shapez )
-//    {
-//        cout << "drawing shape " << xshape -> name << endl;
-//        xshape -> draw();
-//    }
-    rolls.draw();
+//    rolls.draw();
     since1904.draw();
 
     printText( 10, glutGet( GLUT_WINDOW_HEIGHT ) - 18, VERSION );
     printText( 10, glutGet( GLUT_WINDOW_HEIGHT ) - 32, build_info );
 
     // keep showing( flushing ) line on the screen instead of showing just once.
+//    glutPostRedisplay();
     glutSwapBuffers();
-    glutPostRedisplay();
+    
+    if( frame > 1000 ) frame = 0;
 }
 
 void init( void )
@@ -76,7 +70,7 @@ void init( void )
     // initialize viewing values
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
-    gluOrtho2D( 0,640,0,480 );
+    gluOrtho2D( 0, GLUT_WINDOW_HEIGHT, 0, GLUT_WINDOW_WIDTH );
 
     // read version number and build info
     ifstream ver_file( "VERSION", ifstream::in );
@@ -134,6 +128,28 @@ void myReshape( int nWidht, int nHeight )
     glutPostRedisplay();
 }
 
+void Timer( int value )
+{
+    if( value ) glutPostRedisplay();
+    glutTimerFunc( 400,Timer,value);
+}
+
+
+void visibility(int state)
+{
+    switch (state)
+    {
+        case GLUT_VISIBLE:
+            Timer(1);
+            break;
+        case GLUT_NOT_VISIBLE:
+            Timer(0);
+            break;
+        default:
+            break;
+    }
+}
+
 int main( int argc, char** argv )
 {
     // gl stuff
@@ -145,13 +161,14 @@ int main( int argc, char** argv )
     window_height = 480;
     glutInitWindowSize( window_width, window_height );
     glutInitWindowPosition( 100, 100 );
-    glutCreateWindow( "Hello" );
+    glutCreateWindow( "Rolls Royce Motor Cars" );
     init();
 
     // callbacks
     glutDisplayFunc( myDisplayFunc );
     glutKeyboardFunc( myKeyboardFunc );
     glutReshapeFunc( myReshape );
+    glutVisibilityFunc( visibility );
 
     glutMainLoop();
     return 0;   // ANSI C requires main to return int.
