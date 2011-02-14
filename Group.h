@@ -29,10 +29,11 @@ public:
     void rotate( GLfloat );
 //    void rotate( GLfloat, GLfloat, GLfloat );
     void move  ( GLfloat, GLfloat );
+    void draw();
 
     void addShape( Shape& shape );
     void loadFromPovFile( std::string );
-    void draw();
+    void setColor( GLfloat, GLfloat, GLfloat );
 };
 
 } // namespace xmx

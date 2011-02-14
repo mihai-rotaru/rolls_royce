@@ -40,7 +40,7 @@ GLint frame;
 
 struct Animation
 {
-    GLint type;            // movement, rotation, scaling
+    GLint type;            // movement, rotation, scaling, color
     GLint duration;        // duration - in frames
     GLint currentFrame;
     bool repeat;         // repeat ad infinitum ?
@@ -51,7 +51,7 @@ struct Animation
 };
 
 // animations
-Animation a1;
+Animation a1,a2;
 
 void Animation::print()
 {
@@ -83,12 +83,13 @@ void performAnimation( Group* g, Animation& a )
         a.print();
     }
 
+    a.currentFrame++;
+
     if( type == 1 ) // movement ( translation )
     {
         // q1 - x movement
         // q2 - y movement
         // q3 - not used
-        a.currentFrame++;
 
         GLfloat mx_dir = q1/duration;
         GLfloat my_dir = q2/duration;
@@ -96,30 +97,56 @@ void performAnimation( Group* g, Animation& a )
         if( DEBUG_ANIMATIONS )
         {
             cout << "   Movement animation in animation struct @ " << &a << endl;
-            cout << "   moving by: x_dir:  " << mx_dir << ",  my_dir:  " << my_dir;
+            cout << "   moving by: x_dir:  " << mx_dir << ",  my_dir:  " << my_dir << endl;
 
         }
         g -> move( mx_dir, my_dir );
     }
 
-    if( type == 2 ) // rotation
+    else if( type == 2 ) // rotation
     {
         // q1 - how many degrees to rotate
         // q2 - not used
         // q3 - not used
-        a.currentFrame++;
         g -> rotate( q1/duration * currentFrame );
     }
 
-    if( type == 3 ) // scaling
+    else if( type == 3 ) // scaling
     {
         // q1 - x scaling
         // q2 - y scaling
         // q3 - not used
-        a.currentFrame++;
         g -> scale( q1/duration * currentFrame, q2/duration * currentFrame );
     }
     
+    else if( type == 4 ) // color
+    {
+        if( DEBUG_ANIMATIONS )
+            cout << "old color: R = " << g -> color.R <<" ; G = " << g -> color.G <<" ; B = " << g -> color.B << endl; 
+        // q1 - target R
+        // q2 - target G
+        // q3 - target B
+
+        GLfloat rdiff = q1 - g -> color.R;
+        GLfloat gdiff = q1 - g -> color.R;
+        GLfloat bdiff = q1 - g -> color.R;
+
+        if( DEBUG_ANIMATIONS )
+        {
+            cout <<" rdiff = " << rdiff << endl;
+            cout <<" gdiff = " << gdiff << endl;
+            cout <<" bdiff = " << bdiff << endl;
+        }
+        g -> setColor( 
+                g -> color.R + (GLfloat)( q1 - g -> color.R )/( duration - currentFrame ), 
+                g -> color.G + (GLfloat)( q2 - g -> color.G )/( duration - currentFrame ),
+                g -> color.B + (GLfloat)( q3 - g -> color.B )/( duration - currentFrame )
+                );
+
+        if( DEBUG_ANIMATIONS )
+            cout << "new color: R = " << g -> color.R <<" ; G = " << g -> color.G <<" ; B = " << g -> color.B << endl; 
+    }
+
     if( currentFrame == duration )
         currentFrame = 0;
 }
@@ -135,10 +162,11 @@ void myDisplayFunc( void )
 
     frame++;
 
-    my_line.draw();
-    my_line.rotate(1);
+//    my_line.draw();
+//    my_line.rotate(1);
     
-    performAnimation( &rolls, a1);
+    performAnimation( &rolls, a1 );
+    performAnimation( &rolls, a2 );
     rolls.draw();
     since1904.draw();
 
@@ -169,9 +197,9 @@ void init( void )
     build_info = "Build info: " + BUILD_ID + " @ " + BUILD_TIME;
 
     // load the Rolls Royce
-    dcol.R = 0;
-    dcol.G = 1;
-    dcol.B = 0;
+    rolls.name = "Rolls Royce";
+    rolls.setColor( 0, 1, 0 );
+
     rolls.loadFromPovFile( "vector/rolls_full_n.pov" );
     // move it outside the visible area
     rolls.move( 1000, 0 );
@@ -181,14 +209,21 @@ void init( void )
     dcol.G = 1;
     dcol.B = 1;
     since1904.loadFromPovFile( "vector/since1904.pov" );
-    cout <<"loaded pov" << endl;
 
-    // animation
+    // animation 1 - the rolls moves into visible area
     a1.type =       1;
     a1.duration = 200;
     a1.repeat   = false;
     a1.q1  = -1000.0f;
     a1.q2  = 0.0f;
+
+    // animation 1 - the rolls becomes red
+    a2.type =       4;
+    a2.duration = 200;
+    a2.repeat   = false;
+    a2.q1  = 1.0f;
+    a2.q2  = 0.0f;
+    a2.q3  = 0.0f;
 
 //    bp1.loadFromPovFile("vector/body.pov");
 

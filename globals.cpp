@@ -30,7 +30,7 @@ bool DEBUG_INIT_BEZIER_BOUNDING_BOX = false;
 bool DEBUG_POV_LOADING              = false;
 bool DEBUG_FEEDBACK_TOKENS          = false;
 bool DEBUG_SHAPE_BEZIER_DRAW        = false;
-bool DEBUG_ANIMATIONS               = true;
+bool DEBUG_ANIMATIONS               = false;
 
 bool STRICT_POV                     = true;
 

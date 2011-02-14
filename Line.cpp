@@ -57,7 +57,7 @@ void Line::move( GLfloat x_dir, GLfloat y_dir )
 
 void Line::rotate( float theta )
 {
-    cout<<endl<<"rotating Line @ "<< this << endl;
+    if( DEBUG_TRANSF_ROTATE ) cout<<endl<<"rotating Line @ "<< this << endl;
 
     GLfloat* buff = new GLfloat[10];
     glFeedbackBuffer( 10, GL_2D, buff );
@@ -71,8 +71,7 @@ void Line::rotate( float theta )
     GLfloat before_x2 = x2;
     GLfloat before_y2 = y2;
 
-    cout<<"before rotation: ";
-    print("");
+    if( DEBUG_TRANSF_ROTATE ) { cout<<"before rotation: "; print(""); }
 
     glRenderMode( GL_FEEDBACK );
 
@@ -91,8 +90,7 @@ void Line::rotate( float theta )
     x2 = buff[3];
     y2 = buff[4];
 
-    cout<<"after rotation:  ";
-    print("");
+    if( DEBUG_TRANSF_ROTATE ) { cout<<"after rotation: "; print(""); }
 
     //cleanup
     delete[] buff;
