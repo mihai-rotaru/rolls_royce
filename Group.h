@@ -30,6 +30,10 @@ public:
 //    void rotate( GLfloat, GLfloat, GLfloat );
     void move  ( GLfloat, GLfloat );
     void draw();
+    GLfloat getMaxX();
+    GLfloat getMinX();
+    GLfloat getMaxY();
+    GLfloat getMinY();
 
     void addShape( Shape& shape );
     void loadFromPovFile( std::string );

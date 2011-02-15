@@ -308,4 +308,35 @@ void Group::loadFromPovFile( string filename )
     cout<< "processing of " << filename << " complete; " << shapes.size() << " shapes loaded." << endl;
 }
 
+GLfloat Group::getMaxX()
+{
+    GLfloat maxX = shapes.front() -> getMaxX();
+    BOOST_FOREACH( boost::shared_ptr< Shape > pShape, shapes )
+        if( pShape -> getMaxX() > maxX ) maxX = pShape -> getMaxX();
+    return maxX;
+}
+
+GLfloat Group::getMinX()
+{
+    GLfloat minX = shapes.front() -> getMinX();
+    BOOST_FOREACH( boost::shared_ptr< Shape > pShape, shapes )
+        if( pShape -> getMinX() < minX ) minX = pShape -> getMinX();
+    return minX;
+}
+
+GLfloat Group::getMaxY()
+{
+    GLfloat maxY = shapes.front() -> getMaxY();
+    BOOST_FOREACH( boost::shared_ptr< Shape > pShape, shapes )
+        if( pShape -> getMaxY() > maxY ) maxY = pShape -> getMaxY();
+    return maxY;
+}
+
+GLfloat Group::getMinY()
+{
+    GLfloat minY = shapes.front() -> getMinY();
+    BOOST_FOREACH( boost::shared_ptr< Shape > pShape, shapes )
+        if( pShape -> getMinY() < minY ) minY = pShape -> getMinY();
+    return minY;
+}
 } // namespace xmx
