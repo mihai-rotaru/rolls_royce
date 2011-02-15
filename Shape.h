@@ -44,6 +44,11 @@ public:
     void print( std::string );
     void draw();
     GLfloat distanceTo( GLfloat, GLfloat );
+    
+    GLfloat getMaxX();
+    GLfloat getMinX();
+    GLfloat getMaxY();
+    GLfloat getMinY();
 
     GLint getNumLines();
 

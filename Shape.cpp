@@ -188,6 +188,38 @@ void Shape::draw()
     glLineWidth( lineWidth );
 }
 
+GLfloat Shape::getMaxX()
+{
+    GLfloat maxX = primitives.front() -> getMaxX();
+    BOOST_FOREACH( boost::shared_ptr< Primitive > pPrimitive, primitives )
+        if( pPrimitive -> getMaxX() > maxX ) maxX = pPrimitive -> getMaxX();
+    return maxX;
+}
+
+GLfloat Shape::getMinX()
+{
+    GLfloat minX = primitives.front() -> getMinX();
+    BOOST_FOREACH( boost::shared_ptr< Primitive > pPrimitive, primitives )
+        if( pPrimitive -> getMinX() < minX ) minX = pPrimitive -> getMinX();
+    return minX;
+}
+
+GLfloat Shape::getMaxY()
+{
+    GLfloat maxY = primitives.front() -> getMaxY();
+    BOOST_FOREACH( boost::shared_ptr< Primitive > pPrimitive, primitives )
+        if( pPrimitive -> getMaxY() > maxY ) maxY = pPrimitive -> getMaxY();
+    return maxY;
+}
+
+GLfloat Shape::getMinY()
+{
+    GLfloat minY = primitives.front() -> getMinY();
+    BOOST_FOREACH( boost::shared_ptr< Primitive > pPrimitive, primitives )
+        if( pPrimitive -> getMinY() < minY ) minY = pPrimitive -> getMinY();
+    return minY;
+}
+
 GLfloat Shape::distanceTo( GLfloat x, GLfloat y )
 {
     return -1001;
