@@ -508,15 +508,85 @@ void BezierCurve::drawBoundingBox()
     glColor3f( dcol.R, dcol.G, dcol.B );
 }
 
-void BezierCurve::rotate( GLfloat )
+
+void BezierCurve::rotate( GLfloat theta, GLfloat x_rel, GLfloat y_rel )
 {
-    return /* something */;
+    if( DEBUG_TRANSF_ROTATE ) cout<<endl<<"rotating BezierCurve @ "<< this << endl;
+
+    GLfloat* buff = new GLfloat[16];
+    glFeedbackBuffer( 16, GL_3D, buff );
+
+    // save coordinates before rotation
+    GLfloat points_before[4][3];
+   
+    for( int i=0; i<3; i++ )
+        for( int j=0; j<2; j++ )
+            points_before[i][j] = points[i][j];
+    
+    if( DEBUG_TRANSF_ROTATE ) { cout<<"before rotation: "; print(); }
+
+    glRenderMode( GL_FEEDBACK );
+
+    glPushMatrix();
+
+//        glViewport( -1000, -1000, 1000, 1000 );
+        glMatrixMode( GL_PROJECTION );
+//        glLoadIdentity();
+        gluOrtho2D( -1000, 1000, -1000, 1000 );
+
+        // translation/rotation matrices
+        glTranslatef(  x_rel,  y_rel, 0 );
+        glRotatef   (  theta,      0, 0, 1 );
+        glTranslatef( -x_rel, -y_rel, 0 );
+        // what needs to be rotated
+        glBegin( GL_POINTS );
+            glVertex3f( points[0][0], points[0][1], points[0][2] );
+            glVertex3f( points[1][0], points[1][1], points[1][2] );
+            glVertex3f( points[2][0], points[2][1], points[2][2] );
+            glVertex3f( points[3][0], points[3][1], points[3][2] );
+        glEnd();
+    glPopMatrix();
+
+    glFlush();
+    if( DEBUG_FEEDBACK_TOKENS ) printFeedbackBuffer( buff, 16 );
+    // TODO: check if new coordinates are out of bounds
+
+    // first end point
+    points[ END_PT_1 ][0] = buff[ 1 ];
+    points[ END_PT_1 ][1] = buff[ 2 ];
+    points[ END_PT_1 ][2] = 0.0f;
+
+    // first control potint
+    points[ CTRL_PT_1 ][0] = buff[ 5 ];
+    points[ CTRL_PT_1 ][1] = buff[ 6 ];
+    points[ CTRL_PT_1 ][2] = 0.0f;
+    
+    // second control potint
+    points[ CTRL_PT_2 ][0] = buff[ 9 ];
+    points[ CTRL_PT_2 ][1] = buff[ 10];
+    points[ CTRL_PT_2 ][2] = 0.0f;
+
+    // second end point
+    points[ END_PT_2 ][0] = buff[ 13 ];
+    points[ END_PT_2 ][1] = buff[ 14 ];
+    points[ END_PT_2 ][2] = 0.0f;
+
+    if( DEBUG_TRANSF_ROTATE ) { cout<<"after rotation: "; print(); char c; cin.get(c); }
+
+    //cleanup
+    delete[] buff;
+    calculateBoundingBox();
+
+    glRenderMode( GL_RENDER );
 }
 
-void BezierCurve::rotate( GLfloat, GLfloat, GLfloat )
+void BezierCurve::rotate( GLfloat theta )
 {
-    return /* something */;
+    GLfloat center_x = ( (getMaxX() - getMinX())/2 + getMinX() );
+    GLfloat center_y = ( (getMaxY() - getMinY())/2 + getMinY() );
+    rotate( theta, center_x, center_y );
 }
+
 
 GLfloat BezierCurve::distanceTo( GLfloat, GLfloat )
 {
