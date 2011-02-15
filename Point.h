@@ -34,6 +34,8 @@ public:
     // methods
     void print();
     void print( std::string );
+    const Point rotate   ( const GLfloat& theta );
+    const Point rotate   ( const GLfloat& theta, const Point& P );
 };
 
 Point psqrt( const Point& );

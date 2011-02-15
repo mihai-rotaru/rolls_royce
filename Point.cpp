@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <math>
 using namespace std;
 
 #include <cmath>
@@ -40,6 +41,20 @@ void Point::print( string str )
 Point psqrt( const Point& p )
 {
     return Point( sqrt( p.x ), sqrt( p.y ), sqrt( p.z ));
+}
+
+// rotates the point `theta` degrees around the origin
+Point Point::rotate( const GLfloat theta )
+{
+    x = x * cos( theta ) - y * sin( theta );
+    y = x * cos( theta ) - y * sin( theta );
+}
+
+// rotates the point `theta` degrees around `x_coord`,`y_coord` 
+Point Point::rotate( const GLfloat theta, GLfloat x_coord, GLfloat y_coord )
+{
+    x = x_coord + ( x * cos( theta ) - y * sin( theta ));
+    y = y_coord + ( x * cos( theta ) - y * sin( theta ));
 }
 
 // operators
