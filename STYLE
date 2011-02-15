@@ -25,6 +25,7 @@ containers and the other member variables
 - other member variables
 - methods implementing a virtual class
 - other methods 
+- methods are implemented in the same order they are declared
 
 Other
 =====

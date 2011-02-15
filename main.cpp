@@ -40,8 +40,7 @@ Line line( e1, e2 );
 
 // groups - loaded from .pov files
 Group rolls;
-Group since1904;
-Group phony;
+Group wheel1, wheel2;
 
 // the count of frames rendered so far
 GLint frame;
@@ -245,7 +244,8 @@ void myDisplayFunc( void )
     } 
     
     rolls.draw();
-//    since1904.draw();
+    wheel1.draw();
+    wheel2.draw();
     
     bez_path.rotate(1);
     bez_path.draw();
@@ -287,16 +287,13 @@ void init( void )
 
     // load the Rolls Royce
     rolls.name = "Rolls Royce";
-    rolls.loadFromPovFile( "vector/rolls_full_n.pov" );
+    rolls.loadFromPovFile( "vector/rolls_full_no_wheels.pov" );
     rolls.setColor( 0, 1, 0 );
     // move it outside the visible area
     rolls.move( 1500, 0 );
-
-    // load some text
-    dcol.R = 1;
-    dcol.G = 1;
-    dcol.B = 1;
-    since1904.loadFromPovFile( "vector/since1904.pov" );
+    wheel1.loadFromPovFile( "vector/rolls_wheel.pov" );
+    wheel1.move( -wheel1.getMinX(), -wheel1.getMinY() );
+//    wheel2.loadFromPovFile( "vector/rolls_wheel.pov" );
 
     // animation 1 - the rolls moves into visible area
     a1.type =         1;

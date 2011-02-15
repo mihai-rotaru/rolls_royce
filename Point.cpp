@@ -46,15 +46,17 @@ Point psqrt( const Point& p )
 // rotates the point `theta` degrees around the origin
 void Point::rotate( const GLfloat& theta )
 {
-    x = x * cos( theta ) - y * sin( theta );
-    y = x * cos( theta ) - y * sin( theta );
+    GLfloat theta_radians = theta/180 * M_PI;
+    x = x * cos( theta_radians ) - y * sin( theta_radians );
+    y = x * cos( theta_radians ) + y * sin( theta_radians );
 }
 
 // rotates the point `theta` degrees around `x_coord`,`y_coord` 
 void Point::rotate( const GLfloat& theta, const Point& P )
 {
-    x = P.x + ( ( x - P.x ) * cos( theta ) - ( y - P.y ) * sin( theta ));
-    y = P.y + ( ( y - P.y ) * cos( theta ) - ( x - P.x ) * sin( theta ));
+    GLfloat theta_radians = theta/180 * M_PI;
+    x = P.x + (( x - P.x ) * cos( theta_radians )) - (( y - P.y ) * sin( theta_radians ));
+    y = P.y + (( y - P.y ) * cos( theta_radians )) + (( x - P.x ) * sin( theta_radians ));
 }
 
 
