@@ -8,8 +8,6 @@ using namespace std;
 #include <boost/shared_ptr.hpp>
 #include <boost/algorithm/string/regex.hpp>
 
-//#include "Shape.h"
-
 namespace xmx {
 class Shape;
 

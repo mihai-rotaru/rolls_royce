@@ -2,9 +2,9 @@ Includes
 ========
 - if 3 or more headers are included, and at least 2 belong to the same group,
 they will be 'grouped' - a blank line is left between the two and the rest.
-
 - headers are included in the following order: from general to specific
 - groups:
+    ( the general-to-specific order applies inside groups as well )
     - std ( iostream, list, string, etc )
     - OpenGL ( glu, etc ) + freeglut ( glut.h, etc )
     - boost
@@ -28,6 +28,7 @@ containers and the other member variables
 
 Other
 =====
-- method parameters denoting coordinates are named x_dir, y_dir, z_dir
+- method parameters denoting coordinates are named x_coord, y_coord, z_coord
 - method parameters denoting angles are named theta
+- points are named using single capital letters ( P, A, B ), or P0, P1
 

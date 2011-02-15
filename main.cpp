@@ -27,11 +27,16 @@ string build_info;
 string strFPS;
 
 // bezier stuff
-Point e1(  30, 70  );
-Point c1(   0, 270 );
-Point c2( 290, 110 );
-Point e2( 200, 100 );
+//Point e1(  30, 70  );
+//Point c1(   0, 270 );
+//Point c2( 290, 110 );
+//Point e2( 200, 100 );
+Point e1( 200,100 );
+Point c1( 200,300 );
+Point c2( 400,200 );
+Point e2( 500,300 );
 BezierCurve bez_path( e1, c1, c2, e2 );
+Line line( e1, e2 );
 
 // groups - loaded from .pov files
 Group rolls;
@@ -190,9 +195,6 @@ void myDisplayFunc( void )
     frame++;
     if( SHOW_FRAME_NUMBER ) cout<< endl << "FRAME: "<< frame << endl;
 
-//    my_line.draw();
-//    my_line.rotate(1);
-    
     //-------------------------------------------------------------------
     //  BEGIN ANIMATION
     //-------------------------------------------------------------------
@@ -244,6 +246,11 @@ void myDisplayFunc( void )
     
     rolls.draw();
 //    since1904.draw();
+    
+    bez_path.rotate(1);
+    bez_path.draw();
+//    line.rotate2(1);
+//    line.draw();
 
     glColor3ub( 60, 60, 60 );
     printText( 10, glutGet( GLUT_WINDOW_HEIGHT ) - 18, VERSION );
@@ -329,15 +336,17 @@ void myKeyboardFunc( unsigned char key, int x, int y )
     switch( key )
     {
         case 'j':
-            my_line.rotate( 5 );
+            bez_path.move(  0, -5 );
             break;
         case 'k':
-            my_line.rotate( -5 );
+            bez_path.move(  0,  5 );
             break;
         case 'l':
+            bez_path.move(  5,  0 );
 //            shape.move( 5, 0 );
             break;
         case 'h':
+            bez_path.move( -5,  0 );
 //            shape.move( -5, 0);
             break;
         case 27:

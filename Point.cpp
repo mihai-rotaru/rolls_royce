@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
-#include <math>
+#include <cmath>
 using namespace std;
 
 #include <cmath>
@@ -44,17 +44,26 @@ Point psqrt( const Point& p )
 }
 
 // rotates the point `theta` degrees around the origin
-Point Point::rotate( const GLfloat theta )
+void Point::rotate( const GLfloat& theta )
 {
     x = x * cos( theta ) - y * sin( theta );
     y = x * cos( theta ) - y * sin( theta );
 }
 
 // rotates the point `theta` degrees around `x_coord`,`y_coord` 
-Point Point::rotate( const GLfloat theta, GLfloat x_coord, GLfloat y_coord )
+void Point::rotate( const GLfloat& theta, const Point& P )
 {
-    x = x_coord + ( x * cos( theta ) - y * sin( theta ));
-    y = y_coord + ( x * cos( theta ) - y * sin( theta ));
+    x = P.x + ( ( x - P.x ) * cos( theta ) - ( y - P.y ) * sin( theta ));
+    y = P.y + ( ( y - P.y ) * cos( theta ) - ( x - P.x ) * sin( theta ));
+}
+
+
+// rotates the point `theta` degrees around `x_coord`,`y_coord` 
+void Point::rotate( const GLfloat& theta, const GLfloat& x_coord, const GLfloat& y_coord )
+{
+    GLfloat theta_radians = theta/180 * M_PI;
+    x = x_coord + (( x - x_coord ) * cos( theta_radians )) - (( y - y_coord ) * sin( theta_radians ));
+    y = y_coord + (( y - y_coord ) * cos( theta_radians )) + (( x - x_coord ) * sin( theta_radians ));
 }
 
 // operators

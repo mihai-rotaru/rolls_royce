@@ -12,6 +12,7 @@ class Line : virtual public Primitive
 public:
     Line( int, int, int, int );
     Line( GLfloat, GLfloat, GLfloat, GLfloat );
+    Line( const Point&, const Point& );
     ~Line();
     
     std::string name;
@@ -29,6 +30,8 @@ public:
     virtual GLfloat getMinX();
     virtual GLfloat getMaxY();
     virtual GLfloat getMinY();
+    
+    void rotate2( GLfloat );
 
     GLfloat x1;
     GLfloat y1;

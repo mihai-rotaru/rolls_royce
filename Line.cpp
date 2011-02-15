@@ -5,6 +5,7 @@ using namespace std;
 #include <GL/glu.h>
 
 #include "globals.h"
+#include "Point.h"
 #include "Line.h"
 
 namespace xmx {
@@ -26,6 +27,15 @@ Line::Line( int _x1, int _y1, int _x2, int _y2 )
     y1 = ( GLfloat ) _y1;
     x2 = ( GLfloat ) _x2;
     y2 = ( GLfloat ) _y2;
+}
+
+Line::Line( const Point& P1, const Point& P2 )
+{
+    if( DEBUG_CTOR_DTOR ) cout<<"ctor for Line @ " << this << endl;
+    x1 = P1.x;
+    y1 = P1.y;
+    x2 = P2.x;
+    y2 = P2.y;
 }
 
 Line::~Line()
@@ -101,6 +111,24 @@ void Line::rotate( float theta )
 
 void Line::rotate( GLfloat theta, GLfloat x, GLfloat y)
 {
+
+}
+
+void Line::rotate2( GLfloat theta )
+{
+
+    GLfloat x_center = ( (getMaxX() - getMinX())/2 + getMinX() );
+    GLfloat y_center = ( (getMaxY() - getMinY())/2 + getMinY() );
+
+    Point P1( x1, y1 );
+    P1.rotate( theta, x_center, y_center );
+    x1 = P1.x;
+    y1 = P1.y;
+
+    Point P2( x2, y2 );
+    P2.rotate( theta, x_center, y_center );
+    x2 = P2.x;
+    y2 = P2.y;
 
 }
 
