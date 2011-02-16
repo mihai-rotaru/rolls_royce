@@ -28,6 +28,7 @@ extern bool DEBUG_POV_LOADING;
 extern bool DEBUG_FEEDBACK_TOKENS;
 extern bool DEBUG_SHAPE_BEZIER_DRAW;
 extern bool DEBUG_ANIMATIONS;
+extern bool DEBUG_MORPHING;
 
 extern bool STRICT_POV;
 

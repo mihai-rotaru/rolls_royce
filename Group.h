@@ -39,6 +39,7 @@ public:
     void addShape( Shape& shape );
     void loadFromPovFile( std::string );
     void setColor( GLfloat, GLfloat, GLfloat );
+    void setColor( Color& );
 };
 
 } // namespace xmx

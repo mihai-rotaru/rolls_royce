@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <list>
+#include <vector>
 using namespace std;
 
 #include <GL/glut.h>
@@ -42,6 +44,7 @@ Line line( e1, e2 );
 Group rolls;
 Group wheel1, wheel2;
 Group logo;
+Group logo2;
 
 // the count of frames rendered so far
 GLint frame;
@@ -51,10 +54,10 @@ struct Animation
 {
     GLint type;            // movement, rotation, scaling, color
     GLint duration;        // duration - in frames
-    GLint currentFrame;
-    bool repeat;         // repeat ad infinitum ?
-    GLfloat q1;
-    GLfloat q2;
+    GLint currentFrame;    // this frame's current frame
+    bool repeat;           // repeat ad infinitum ?
+    GLfloat q1;            // q1-3 have different meanings, depending on the
+    GLfloat q2;            // type of animation
     GLfloat q3;
     void print();
 };
@@ -190,6 +193,97 @@ void performAnimation( Group* g, Animation& a, bool incrementFrame )
 }
 
 
+// morph primitive[i] from `s1` to primitive[i] from `s2`.
+// Primitives in `s1` are updated to reflect morphing transformation,
+// but `s2` is not modified.
+// NOTE: it is assumed all primitives are of type `BezierCurve`
+void morphShapes( Shape& s1, const Shape& s2, GLint& steps_left )
+{
+     bool DM = DEBUG_MORPHING;
+
+     if( DM ) cout << "morhping Shape @ " << &s1 << " with Shape @ " <<&s2 << " ; steps left = " << steps_left << endl;
+
+     if( s1.primitives.size() != s2.primitives.size() )
+     {
+         cout << "cannot morph: the shapes @ " << &s1 <<" and  @ " << &s2 << " have different numbers of primitives" << endl;
+         return;
+     }
+
+     // put the primitive pointers in vectors
+
+     vector< boost::shared_ptr< Primitive > > primitives1;
+     vector< boost::shared_ptr< Primitive > > primitives2;
+
+     BOOST_FOREACH( boost::shared_ptr< Primitive > spPrimitive, s1.primitives )
+         primitives1.push_back( spPrimitive );
+
+     BOOST_FOREACH( boost::shared_ptr< Primitive > spPrimitive, s2.primitives )
+         primitives2.push_back( spPrimitive );
+
+
+     // perform the actual morphing, and update primitives in `s1`
+     for( int i=0; i < primitives1.size(); i++ )
+     {
+         // get the destination primitive's coordinates
+         GLfloat destX = primitives2[i] -> getMinX();
+         GLfloat destY = primitives2[i] -> getMinY();
+
+         // get the difference between source and destination
+         GLfloat difX = destX - primitives1[i] -> getMinX();
+         GLfloat difY = destY - primitives1[i] -> getMinY();
+
+         // how far are we along the way to the destination ?
+         // we have to get there in `total_steps`, and now we're at `step`
+         // so we move by ( dist_to_travel / total_steps )
+         primitives1[i] -> move( difX / steps_left, difY / steps_left );
+     }
+
+     steps_left--;
+
+}
+
+
+// will attempt to morph `g1` into `g2`
+// NOTE: this function assumes the shapes contained inside the groups `g1` and
+// `g2` only contain BezierCurve primitives.
+void morph( Group& g1, Group& g2, GLint& step, GLint total_steps )
+ {
+     bool DM = DEBUG_MORPHING;
+
+     if( DM ) cout << "morhping Group @ " << &g1 << " with Group @ " <<&g2 << " ; step = " << step << " / " << total_steps << endl;
+
+     if( g1.shapes.size() != g2.shapes.size() )
+     {
+         cout << "cannot morph: the groups @ " << &g1 <<" and  @ " << &g2 << " have different numbers of shapes" << endl;
+         return;
+     }
+
+     // put the shape pointers in vectors
+
+     vector< boost::shared_ptr< Shape > > shapes1;
+     vector< boost::shared_ptr< Shape > > shapes2;
+
+     BOOST_FOREACH( boost::shared_ptr< Shape > spShape, g1.shapes )
+         shapes1.push_back( spShape );
+
+     BOOST_FOREACH( boost::shared_ptr< Shape > spShape, g2.shapes )
+         shapes2.push_back( spShape );
+
+     // check if they're the same size ...
+
+     if( shapes1.size() != shapes2.size() )
+     {
+         cout <<"cannot morph: different number of shapes in groups" << endl;
+         return;
+     }
+
+     // for each pair of shapes, morph ...
+     
+//     for( int i=0; i < shapes1.size(); i++ )
+//         morphShapes( shapes1[i], shapes2[i]);
+
+ }
+
 void myDisplayFunc( void )
 {
     glClear( GL_COLOR_BUFFER_BIT );
@@ -266,13 +360,34 @@ void myDisplayFunc( void )
     wheel1.draw();
     wheel2.draw();
 
-    if( frame == 899 ) text_col = rolls.color;
-    if( frame >= 900 )
+    if( frame == 1199 ) text_col = rolls.color;
+    if( frame >= 1200 )
     {
-        rolls.setColor( 0,0,0 );
-        wheel1.setColor( 0,0,0);
-        wheel2.setColor( 0,0,0);
+        rolls.setColor ( 0,0,0 );
+        wheel1.setColor( 0,0,0 );
+        wheel2.setColor( 0,0,0 );
+        
+        if( frame == 1201 ) { text_col.R = 0; text_col.G =0; text_col.B = 0; }
+        else if( frame >= 1202 && frame <= 1350 )
+        {
+            if( frame >= 1320 ) performAnimationColor( &text_col, turn_black );
+            else performAnimationColor( &text_col, turn_white );
+            glColor3f( text_col.R, text_col.G, text_col.B );
+            printBigText( glutGet( GLUT_WINDOW_WIDTH)/2 - 150, glutGet( GLUT_WINDOW_HEIGHT )/2,
+                    "Rolls Royce is all about quality...");
+        }
 
+        if( frame == 1351 ) { text_col.R = 0; text_col.G =0; text_col.B = 0; }
+        else if( frame >= 1352 && frame <= 1500 )
+        {
+            if( frame >= 1470 ) performAnimationColor( &text_col, turn_black );
+            else performAnimationColor( &text_col, turn_white );
+            glColor3f( text_col.R, text_col.G, text_col.B );
+            printBigText( glutGet( GLUT_WINDOW_WIDTH)/2 - 130, glutGet( GLUT_WINDOW_HEIGHT )/2,
+                    "for a price");
+        }
+        
+        logo.setColor( 1 , 1 , 1 );
         logo.draw();
      }
 
@@ -318,15 +433,15 @@ void init( void )
     // load the Rolls Royce
     rolls.name = "Rolls Royce";
     rolls.loadFromPovFile( "vector/rolls_full_no_wheels.pov" );
-    rolls.setColor( 0, 1, 0 );
+    rolls.setColor( 0.5, 0.5, 0.5 );
     
     // move it outside the visible area
     rolls.move( -rolls.getMinX(), -rolls.getMinY() );
     rolls.move( 1500, 60 );
-    rolls.setColor( 0.5, 0.5, 0.5 );
     
     // load the Rolls Royce logo
     logo.loadFromPovFile( "vector/rolls_logo.pov" );
+    logo2.loadFromPovFile( "vector/logo_2.pov" );
 
     // load the wheels, and place them relative to the car's body
     wheel1.loadFromPovFile( "vector/rolls_wheel.pov" );
@@ -343,13 +458,13 @@ void init( void )
     a1.q1  =   -1450.0f;
     a1.q2  =       0.0f;
 
-    // animation 1 - the rolls becomes red
+    // animation 2 - the rolls color changes 
     a2.type =         4;
     a2.duration =   200;
     a2.repeat   = false;
-    a2.q1  =       0.7f;
-    a2.q2  =       0.7f;
-    a2.q3  =       1.0f;
+    a2.q1  =       0.5f;
+    a2.q2  =       0.5f;
+    a2.q3  =       0.7f;
 
     // turns a color to white
     turn_white.type = 4;

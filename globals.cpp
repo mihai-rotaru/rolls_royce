@@ -19,7 +19,7 @@ std::string BUILD_TIME = "?";
 bool SHOW_BEZIER_POINTS             = false;
 bool SHOW_BEZIER_BOUNDING_BOX       = false;
 bool SHOW_BEZIER_CONTROL_POINT_LINES= false;
-bool SHOW_FRAME_NUMBER              = true;
+bool SHOW_FRAME_NUMBER              = false;
 bool SHOW_FPS                       = true;
 
 // debug flags
@@ -33,6 +33,7 @@ bool DEBUG_POV_LOADING              = false;
 bool DEBUG_FEEDBACK_TOKENS          = false;
 bool DEBUG_SHAPE_BEZIER_DRAW        = false;
 bool DEBUG_ANIMATIONS               = false;
+bool DEBUG_MORPHING                 = true;
 
 bool STRICT_POV                     = true;
 

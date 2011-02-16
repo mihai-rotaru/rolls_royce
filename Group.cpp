@@ -46,6 +46,20 @@ void Group::setColor( GLfloat R, GLfloat G, GLfloat B )
     }
 }
 
+void Group::setColor( Color& new_color )
+{
+    color.R = new_color.R;
+    color.G = new_color.G;
+    color.B = new_color.B;
+
+    BOOST_FOREACH( boost::shared_ptr< Shape > sptr_shape, shapes )
+    {
+        sptr_shape -> color.R = new_color.R;
+        sptr_shape -> color.G = new_color.G;
+        sptr_shape -> color.B = new_color.B;
+    }
+}
+
 void Group::draw()
 {
     glColor3f( color.R, color.G, color.B );
