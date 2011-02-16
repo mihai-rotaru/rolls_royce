@@ -48,7 +48,10 @@ Group logo2;
 
 // the count of frames rendered so far
 GLint frame;
+
+// some colors
 Color text_col(0,0,0);
+Color logo_color( 1,1,1 );
 
 struct Animation
 {
@@ -386,8 +389,8 @@ void myDisplayFunc( void )
             printBigText( glutGet( GLUT_WINDOW_WIDTH)/2 - 130, glutGet( GLUT_WINDOW_HEIGHT )/2,
                     "for a price");
         }
-        
-        logo.setColor( 1 , 1 , 1 );
+        if( frame >= 1601 ) performAnimationColor( &logo_color, turn_black );
+        logo.setColor( logo_color );
         logo.draw();
      }
 
