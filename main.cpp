@@ -62,6 +62,7 @@ struct Animation
 Animation a1,a2;
 Animation turn_white;
 Animation turn_black;
+Animation wheel_rotation;
 
 void Animation::print()
 {
@@ -102,7 +103,7 @@ void performAnimationColor( Color* c, Animation& a )
 
 }
 
-void performAnimation( Group* g, Animation& a )
+void performAnimation( Group* g, Animation& a, bool incrementFrame )
 {
     GLint type         = a.type;
     GLint currentFrame = a.currentFrame;
@@ -112,15 +113,15 @@ void performAnimation( Group* g, Animation& a )
     GLfloat q2         = a.q2;
     GLfloat q3         = a.q3;
 
-    if( !repeat && currentFrame == duration ) return;
+    if( !repeat && currentFrame == a.duration ) return;
 
     if( DEBUG_ANIMATIONS )
     {
-        cout <<"animation for group " << g << " ( " << g -> name << " )" << endl;
+        cout << endl << "animation for group " << g << " ( " << g -> name << " )" << endl;
         a.print();
     }
 
-    a.currentFrame++;
+    if( incrementFrame ) a.currentFrame++;
 
     if( type == 1 ) // movement ( translation )
     {
@@ -128,8 +129,8 @@ void performAnimation( Group* g, Animation& a )
         // q2 - y movement
         // q3 - not used
 
-        GLfloat mx_dir = q1/duration;
-        GLfloat my_dir = q2/duration;
+        GLfloat mx_dir = q1/a.duration;
+        GLfloat my_dir = q2/a.duration;
 
         if( DEBUG_ANIMATIONS )
         {
@@ -145,7 +146,12 @@ void performAnimation( Group* g, Animation& a )
         // q1 - how many degrees to rotate
         // q2 - not used
         // q3 - not used
-        g -> rotate( q1/duration * currentFrame );
+        g -> rotate( q1/a.duration );
+        if( DEBUG_ANIMATIONS )
+        {
+            cout<< "after rotation: " << endl;
+            g -> print();
+        }
     }
 
     else if( type == 3 ) // scaling
@@ -153,7 +159,7 @@ void performAnimation( Group* g, Animation& a )
         // q1 - x scaling
         // q2 - y scaling
         // q3 - not used
-        g -> scale( q1/duration * currentFrame, q2/duration * currentFrame );
+        g -> scale( q1/a.duration * currentFrame, q2/a.duration * currentFrame );
     }
     
     else if( type == 4 ) // color
@@ -169,17 +175,17 @@ void performAnimation( Group* g, Animation& a )
         GLfloat bdiff = q1 - g -> color.R;
 
         g -> setColor( 
-                g -> color.R + (GLfloat)( q1 - g -> color.R )/( duration - currentFrame ), 
-                g -> color.G + (GLfloat)( q2 - g -> color.G )/( duration - currentFrame ),
-                g -> color.B + (GLfloat)( q3 - g -> color.B )/( duration - currentFrame )
+                g -> color.R + (GLfloat)( q1 - g -> color.R )/( a.duration - currentFrame ), 
+                g -> color.G + (GLfloat)( q2 - g -> color.G )/( a.duration - currentFrame ),
+                g -> color.B + (GLfloat)( q3 - g -> color.B )/( a.duration - currentFrame )
                 );
 
         if( DEBUG_ANIMATIONS )
             cout << "new color: R = " << g -> color.R <<" ; G = " << g -> color.G <<" ; B = " << g -> color.B << endl; 
     }
 
-    if( currentFrame == duration )
-        currentFrame = 0;
+    if( currentFrame >= a.duration )
+        a.currentFrame = 0;
 }
 
 
@@ -239,19 +245,44 @@ void myDisplayFunc( void )
 
     if( frame >= 650 )
     {
-        performAnimation( &rolls, a1 );
-        performAnimation( &rolls, a2 );
+        // movement
+        performAnimation( &rolls, a1, false );
+        performAnimation( &wheel1, a1, false );
+        performAnimation( &wheel2, a1, true );
+        // color
+        performAnimation( &rolls, a2, false );
+        performAnimation( &wheel1, a2, false );
+        performAnimation( &wheel2, a2, true );
     } 
     
+    if( frame >= 780 && a1.q1 <= 0 )
+    {
+        performAnimation( &wheel1, wheel_rotation, false );
+        performAnimation( &wheel2, wheel_rotation, true );
+    }
+
     rolls.draw();
     wheel1.draw();
     wheel2.draw();
-    
-    bez_path.rotate(1);
-    bez_path.draw();
+
+    if( frame == 899 ) text_col = rolls.color;
+    if( frame >= 900 )
+    {
+
+
+
+     }
+
+
+
+//    bez_path.rotate(1);
+//    bez_path.draw();
 //    line.rotate2(1);
 //    line.draw();
 
+
+
+    // version and build info, FPS
     glColor3ub( 60, 60, 60 );
     printText( 10, glutGet( GLUT_WINDOW_HEIGHT ) - 18, VERSION );
     printText( 10, glutGet( GLUT_WINDOW_HEIGHT ) - 32, build_info );
@@ -289,26 +320,34 @@ void init( void )
     rolls.name = "Rolls Royce";
     rolls.loadFromPovFile( "vector/rolls_full_no_wheels.pov" );
     rolls.setColor( 0, 1, 0 );
+    
     // move it outside the visible area
-    rolls.move( 1500, 0 );
+    rolls.move( -rolls.getMinX(), -rolls.getMinY() );
+    rolls.move( 1500, 60 );
+    rolls.setColor( 0.5, 0.5, 0.5 );
+    
+    // load the wheels, and place them relative to the car's body
     wheel1.loadFromPovFile( "vector/rolls_wheel.pov" );
     wheel1.move( -wheel1.getMinX(), -wheel1.getMinY() );
-//    wheel2.loadFromPovFile( "vector/rolls_wheel.pov" );
+    wheel1.move( rolls.getMinX() + 48 , 36 );
+    wheel2.loadFromPovFile( "vector/rolls_wheel.pov" );
+    wheel2.move( -wheel2.getMinX(), -wheel2.getMinY() );
+    wheel2.move( rolls.getMinX() + 533 , 36 );
 
     // animation 1 - the rolls moves into visible area
     a1.type =         1;
     a1.duration =   200;
     a1.repeat   = false;
-    a1.q1  =   -1500.0f;
+    a1.q1  =   -1450.0f;
     a1.q2  =       0.0f;
 
     // animation 1 - the rolls becomes red
     a2.type =         4;
     a2.duration =   200;
     a2.repeat   = false;
-    a2.q1  =       1.0f;
-    a2.q2  =       0.0f;
-    a2.q3  =       0.0f;
+    a2.q1  =       0.7f;
+    a2.q2  =       0.7f;
+    a2.q3  =       1.0f;
 
     // turns a color to white
     turn_white.type = 4;
@@ -319,13 +358,20 @@ void init( void )
     turn_white.q3 =        1;
 
     // turns a color to black
-    turn_black.type = 4;
+    turn_black.type =      4;
     turn_black.duration = 20;
     turn_black.repeat = true;
     turn_black.q1 =        0;
     turn_black.q2 =        0;
     turn_black.q3 =        0;
     
+    // rotates
+    wheel_rotation.type =      2;
+    wheel_rotation.duration = 100;
+    wheel_rotation.repeat = false;
+    wheel_rotation.q1 =        50;
+    wheel_rotation.q2 =        0;
+    wheel_rotation.q3 =        0;
 }
 
 void myKeyboardFunc( unsigned char key, int x, int y )
@@ -333,21 +379,30 @@ void myKeyboardFunc( unsigned char key, int x, int y )
     switch( key )
     {
         case 'j':
-            bez_path.move(  0, -5 );
+            rolls.move (  0, -5 );
+            wheel1.move(  0, -5 );
+            wheel2.move(  0, -5 );
             break;
         case 'k':
-            bez_path.move(  0,  5 );
+            rolls.move (  0,  5 );
+            wheel1.move(  0,  5 );
+            wheel2.move(  0,  5 );
             break;
         case 'l':
-            bez_path.move(  5,  0 );
-//            shape.move( 5, 0 );
+            rolls.move (  5,  0 );
+            wheel1.move(  5,  0 );
+            wheel2.move(  5,  0 );
             break;
         case 'h':
-            bez_path.move( -5,  0 );
-//            shape.move( -5, 0);
+            rolls.move ( -5,  0 );
+            wheel1.move( -5,  0 );
+            wheel2.move( -5,  0 );
             break;
         case 27:
             exit(0);
+            break;
+        default: // skip to where the car is shown
+            frame = 650;
             break;
     }
     glutPostRedisplay();

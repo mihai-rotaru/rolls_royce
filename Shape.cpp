@@ -112,6 +112,15 @@ void Shape::move( GLfloat x_dir, GLfloat y_dir )
     }
 }
 
+void Shape::print()
+{
+    cout << "printing Shape @ " << this;
+    if( name != "" ) cout <<", '" << name << "'";
+    cout << endl;
+    cout << "number of primitives: " << primitives.size() << endl;
+}
+
+
 void Shape::draw()
 {
 

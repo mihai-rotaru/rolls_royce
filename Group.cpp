@@ -81,9 +81,12 @@ void Group::scale( GLfloat x_dir, GLfloat y_dir )
 
 void Group::rotate( GLfloat theta )
 {
+    GLfloat center_x = (( getMaxX() - getMinX() )/2 + getMinX());
+    GLfloat center_y = (( getMaxY() - getMinY() )/2 + getMinY());
+
     BOOST_FOREACH( boost::shared_ptr< Shape > sptr_shape, shapes )
     {
-        sptr_shape -> rotate( theta );
+        sptr_shape -> rotate( theta, center_x, center_y );
     }
 }
 
@@ -307,6 +310,13 @@ void Group::loadFromPovFile( string filename )
 
     cout<< "processing of " << filename << " complete; " << shapes.size() << " shapes loaded." << endl;
 }
+
+void Group::print()
+{
+    BOOST_FOREACH( boost::shared_ptr< Shape > pShape, shapes )
+        pShape -> print();
+}
+
 
 GLfloat Group::getMaxX()
 {

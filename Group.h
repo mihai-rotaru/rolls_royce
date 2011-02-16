@@ -30,6 +30,7 @@ public:
 //    void rotate( GLfloat, GLfloat, GLfloat );
     void move  ( GLfloat, GLfloat );
     void draw();
+    void print();
     GLfloat getMaxX();
     GLfloat getMinX();
     GLfloat getMaxY();
