@@ -41,6 +41,7 @@ Line line( e1, e2 );
 // groups - loaded from .pov files
 Group rolls;
 Group wheel1, wheel2;
+Group logo;
 
 // the count of frames rendered so far
 GLint frame;
@@ -268,19 +269,17 @@ void myDisplayFunc( void )
     if( frame == 899 ) text_col = rolls.color;
     if( frame >= 900 )
     {
+        rolls.setColor( 0,0,0 );
+        wheel1.setColor( 0,0,0);
+        wheel2.setColor( 0,0,0);
 
-
-
+        logo.draw();
      }
-
-
 
 //    bez_path.rotate(1);
 //    bez_path.draw();
 //    line.rotate2(1);
 //    line.draw();
-
-
 
     // version and build info, FPS
     glColor3ub( 60, 60, 60 );
@@ -326,6 +325,9 @@ void init( void )
     rolls.move( 1500, 60 );
     rolls.setColor( 0.5, 0.5, 0.5 );
     
+    // load the Rolls Royce logo
+    logo.loadFromPovFile( "vector/rolls_logo.pov" );
+
     // load the wheels, and place them relative to the car's body
     wheel1.loadFromPovFile( "vector/rolls_wheel.pov" );
     wheel1.move( -wheel1.getMinX(), -wheel1.getMinY() );
