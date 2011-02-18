@@ -235,9 +235,7 @@ void morphShapes( Shape& s1, const Shape& s2, GLint& steps_left )
          GLfloat difX = destX - primitives1[i] -> getMinX();
          GLfloat difY = destY - primitives1[i] -> getMinY();
 
-         // how far are we along the way to the destination ?
-         // we have to get there in `total_steps`, and now we're at `step`
-         // so we move by ( dist_to_travel / total_steps )
+         // move the primitive on X and Y axis
          primitives1[i] -> move( difX / steps_left, difY / steps_left );
      }
 
@@ -247,8 +245,6 @@ void morphShapes( Shape& s1, const Shape& s2, GLint& steps_left )
 
 
 // will attempt to morph `g1` into `g2`
-// NOTE: this function assumes the shapes contained inside the groups `g1` and
-// `g2` only contain BezierCurve primitives.
 void morph( Group& g1, Group& g2, GLint& step, GLint total_steps )
  {
      bool DM = DEBUG_MORPHING;
@@ -281,9 +277,8 @@ void morph( Group& g1, Group& g2, GLint& step, GLint total_steps )
      }
 
      // for each pair of shapes, morph ...
-     
-//     for( int i=0; i < shapes1.size(); i++ )
-//         morphShapes( shapes1[i], shapes2[i]);
+     for( int i=0; i < shapes1.size(); i++ )
+         morphShapes( shapes1[i], shapes2[i]);
 
  }
 
