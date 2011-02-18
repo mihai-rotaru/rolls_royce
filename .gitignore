@@ -1,4 +1,9 @@
 .lock-wafbuild
+vs_project/Debug
+*.htm
+*.idb
+*.pdb
+*.user
 waf-*
 *.lnk
 build

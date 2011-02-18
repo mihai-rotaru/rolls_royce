@@ -382,7 +382,7 @@ GLfloat solveFor( GLfloat x, GLfloat a, GLfloat b, GLfloat c, GLfloat d )
 void BezierCurve::calculateBoundingBox()
 {
     bool DBBB = DEBUG_BEZIER_BOUNDING_BOX;
-    if( DBBB ) cout<< "entering drawBoundingBox() for BezierCurve @ " << this << endl; 
+    if( DBBB ) cout<< "entering calculateBoundingBox() for BezierCurve @ " << this << endl; 
 
     /*=====================================================================
     |                                                                     |
@@ -406,7 +406,7 @@ void BezierCurve::calculateBoundingBox()
     |                                                                     |
     |    3( P3 - 3P2 + 3P1 - P0 )x^2 + 2( 3P2 - 6P1 + 3P0 )x + 3P1- 3P0   |
     |                                                                     |
-    |    Discriminant:                                                    |
+    |    Determinant:                                                     |
     |    D = b^2 - 4ac                                                    |
     |                                                                     |
     \====================================================================*/
