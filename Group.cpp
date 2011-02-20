@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <stdexcept>
+#include <cstdlib>
 using namespace std;
 
 #include <GL/glu.h>
@@ -195,7 +196,7 @@ void Group::loadFromPovFile( string filename )
 
     bool DPL = DEBUG_POV_LOADING;
     //    list< sptr_shape > mlst = (list< sptr_shape >*)*shape_list;
-    cout<< "loading " << filename << " into Group @ " << this << " ( " << name << " )" <<endl;
+    cout<< "loading x" << filename << " into Group @ " << this << " ( " << name << " ) ... ";
     int total_lines = 0;
     vector<string> lines;
     lines.push_back( filename );
@@ -203,6 +204,14 @@ void Group::loadFromPovFile( string filename )
     // read the whole file in memory
     ifstream my_file;
     my_file.open( filename.c_str(), ifstream::in );
+    if( !my_file.is_open() )
+    {
+        cout<<"could not find '" << filename <<"'. Press 'Enter' to exit" << endl;
+        char ch;
+        cin.get(ch);
+        exit(1); 
+    }
+
     string line;
     while( getline( my_file, line ))
     {
@@ -322,7 +331,7 @@ void Group::loadFromPovFile( string filename )
         cline ++;
     }
 
-    cout<< "processing of " << filename << " complete; " << shapes.size() << " shapes loaded." << endl;
+    cout<< " OK - " << shapes.size() << " shapes loaded." << endl;
 }
 
 void Group::print()
