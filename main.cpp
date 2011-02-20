@@ -74,13 +74,13 @@ Animation wheel_rotation;
 void Animation::print()
 {
     cout << "Animation struct @ " << this << endl;
-    cout <<"    type: "           << type << endl;
-    cout <<"    duration: "           << duration << endl;
-    cout <<"    currentFrame: "           << currentFrame << endl;
-    cout <<"    repeat: "           << repeat << endl;
-    cout <<"    q1: "           << q1 << endl;
-    cout <<"    q2: "           << q2 << endl;
-    cout <<"    q3: "           << q3 << endl;
+    cout <<"    type:           " << type << endl;
+    cout <<"    duration:       " << duration << endl;
+    cout <<"    currentFrame:   " << currentFrame << endl;
+    cout <<"    repeat:         " << repeat << endl;
+    cout <<"    q1:             " << q1 << endl;
+    cout <<"    q2:             " << q2 << endl;
+    cout <<"    q3:             " << q3 << endl;
 }
 
 void performAnimationColor( Color* c, Animation& a )
@@ -195,93 +195,6 @@ void performAnimation( Group* g, Animation& a, bool incrementFrame )
         a.currentFrame = 0;
 }
 
-
-// morph primitive[i] from `s1` to primitive[i] from `s2`.
-// Primitives in `s1` are updated to reflect morphing transformation,
-// but `s2` is not modified.
-// NOTE: it is assumed all primitives are of type `BezierCurve`
-void morphShapes( Shape& s1, const Shape& s2, GLint& steps_left )
-{
-     bool DM = DEBUG_MORPHING;
-
-     if( DM ) cout << "morhping Shape @ " << &s1 << " with Shape @ " <<&s2 << " ; steps left = " << steps_left << endl;
-
-     if( s1.primitives.size() != s2.primitives.size() )
-     {
-         cout << "cannot morph: the shapes @ " << &s1 <<" and  @ " << &s2 << " have different numbers of primitives" << endl;
-         return;
-     }
-
-     // put the primitive pointers in vectors
-
-     vector< boost::shared_ptr< Primitive > > primitives1;
-     vector< boost::shared_ptr< Primitive > > primitives2;
-
-     BOOST_FOREACH( boost::shared_ptr< Primitive > spPrimitive, s1.primitives )
-         primitives1.push_back( spPrimitive );
-
-     BOOST_FOREACH( boost::shared_ptr< Primitive > spPrimitive, s2.primitives )
-         primitives2.push_back( spPrimitive );
-
-
-     // perform the actual morphing, and update primitives in `s1`
-     for( int i=0; i < primitives1.size(); i++ )
-     {
-         // get the destination primitive's coordinates
-         GLfloat destX = primitives2[i] -> getMinX();
-         GLfloat destY = primitives2[i] -> getMinY();
-
-         // get the difference between source and destination
-         GLfloat difX = destX - primitives1[i] -> getMinX();
-         GLfloat difY = destY - primitives1[i] -> getMinY();
-
-         // move the primitive on X and Y axis
-         primitives1[i] -> move( difX / steps_left, difY / steps_left );
-     }
-
-     steps_left--;
-
-}
-
-
-// will attempt to morph `g1` into `g2`
-void morph( Group& g1, Group& g2, GLint& step, GLint total_steps )
- {
-     bool DM = DEBUG_MORPHING;
-
-     if( DM ) cout << "morhping Group @ " << &g1 << " with Group @ " <<&g2 << " ; step = " << step << " / " << total_steps << endl;
-
-     if( g1.shapes.size() != g2.shapes.size() )
-     {
-         cout << "cannot morph: the groups @ " << &g1 <<" and  @ " << &g2 << " have different numbers of shapes" << endl;
-         return;
-     }
-
-     // put the shape pointers in vectors
-
-     vector< boost::shared_ptr< Shape > > shapes1;
-     vector< boost::shared_ptr< Shape > > shapes2;
-
-     BOOST_FOREACH( boost::shared_ptr< Shape > spShape, g1.shapes )
-         shapes1.push_back( spShape );
-
-     BOOST_FOREACH( boost::shared_ptr< Shape > spShape, g2.shapes )
-         shapes2.push_back( spShape );
-
-     // check if they're the same size ...
-
-     if( shapes1.size() != shapes2.size() )
-     {
-         cout <<"cannot morph: different number of shapes in groups" << endl;
-         return;
-     }
-
-     // for each pair of shapes, morph ...
-     for( int i=0; i < shapes1.size(); i++ )
-         morphShapes( shapes1[i], shapes2[i]);
-
- }
-
 void myDisplayFunc( void )
 {
     glClear( GL_COLOR_BUFFER_BIT );
@@ -339,19 +252,19 @@ void myDisplayFunc( void )
     if( frame >= 650 )
     {
         // movement
-        performAnimation( &rolls, a1, false );
+        performAnimation( &rolls,  a1, false );
         performAnimation( &wheel1, a1, false );
-        performAnimation( &wheel2, a1, true );
+        performAnimation( &wheel2, a1, true  );
         // color
-        performAnimation( &rolls, a2, false );
+        performAnimation( &rolls,  a2, false );
         performAnimation( &wheel1, a2, false );
-        performAnimation( &wheel2, a2, true );
+        performAnimation( &wheel2, a2, true  );
     } 
     
     if( frame >= 780 && a1.q1 <= 0 )
     {
         performAnimation( &wheel1, wheel_rotation, false );
-        performAnimation( &wheel2, wheel_rotation, true );
+        performAnimation( &wheel2, wheel_rotation, true  );
     }
 
     rolls.draw();
