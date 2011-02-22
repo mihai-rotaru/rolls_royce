@@ -62,7 +62,7 @@ def build( bld ):
                 a_path + '/freeglut' ],
             stlib        = [ 'boost_regex-gcc-1_45'],
             stlibpath    = [ boost_path + '/libs/regex/build/gcc' ],
-            linkflags    = [ '-W1,subsystem,windows' ],
+            linkflags    = [ '-static-libstdc++','-W1,subsystem,windows' ],
             cxxflags     = [ '-c', '-g', '-O2', '-Wall' ],
             )
 
