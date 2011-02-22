@@ -151,4 +151,56 @@ void printFeedbackBuffer( GLfloat* buffer, GLint size )
     }
 
 }
+
+void morphBeziers( BezierCurve& bc1 , BezierCurve& bc2, basicAnimation& ani )
+{
+    if( DEBUG_MORPHING ) 
+    {
+        cout<<"morphing "<<&bc1 << "..." << endl;
+        cout<<"moph frame: "<< ani.frame_to_render <<" / "<< ani.total_frames << "..." << endl;
+        cout << "source ( bc1 ) : " << endl;
+        bc1.print();
+        cout << "destination ( bc2 ) : "<< endl;
+        bc2.print();
+    }
+
+    if( ani.active )
+    {
+        if( ani.frame_to_render >= ani.total_frames )
+        {
+            if( ani.repeat ) 
+            {
+                ani.frame_to_render = 1;
+            }
+            else 
+            {
+                ani.active = false;
+                return;
+            }
+        }
+
+        GLfloat ratio = (GLfloat ) ani.frame_to_render / (GLfloat) ani.total_frames;
+        if( DEBUG_MORPHING ) cout <<"ratio: " << ratio << endl;
+        for( int i=0; i<4; i++ )
+        {
+//            GLfloat dx = bc2.points[i][0] - bc1.points[i][0];
+//            GLfloat dy = bc2.points[i][1] - bc1.points[i][1];
+//            cout<<"bc1 = "<< &bc1 << endl;
+//            cout<<"bc2 = "<< &bc2 << endl;
+
+            cout<<"changing: "<<&bc1<<endl;
+            bc1.points[i][0] += ( bc2.points[i][0] - bc1.points[i][0] ) * ratio;
+            bc1.points[i][1] += ( bc2.points[i][1] - bc1.points[i][1] ) * ratio;
+            bc1.calculateBoundingBox();
+        }
+        ani.frame_to_render++;
+    if( DEBUG_MORPHING ) bc1.print();
+    }
+}
+
+GLfloat dist( GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2 )
+{
+    return sqrt( ((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2)) ) ;
+}
+
 } // namespace xmx

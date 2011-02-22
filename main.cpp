@@ -29,15 +29,16 @@ string build_info;
 string strFPS;
 
 // bezier stuff
-//Point e1(  30, 70  );
-//Point c1(   0, 270 );
-//Point c2( 290, 110 );
-//Point e2( 200, 100 );
+Point ae1(  30, 70  );
+Point ac1(   400, 270 );
+Point ac2( 290, 110 );
+Point ae2( 200, 100 );
 Point e1( 200,100 );
 Point c1( 200,300 );
 Point c2( 400,200 );
 Point e2( 500,300 );
-BezierCurve bez_path( e1, c1, c2, e2 );
+BezierCurve bez_path ( e1, c1, c2, e2 );
+BezierCurve bez_path2( ae1, ac1, ac2, ae2 );
 Line line( e1, e2 );
 
 // groups - loaded from .pov files
@@ -70,6 +71,7 @@ Animation a1,a2;
 Animation turn_white;
 Animation turn_black;
 Animation wheel_rotation;
+basicAnimation morph_ani;
 
 void Animation::print()
 {
@@ -303,7 +305,10 @@ void myDisplayFunc( void )
      }
 
 //    bez_path.rotate(1);
-//    bez_path.draw();
+
+    morphBeziers( bez_path2, bez_path, morph_ani );
+    bez_path.draw();
+    bez_path2.draw();
 //    line.rotate2(1);
 //    line.draw();
 
@@ -400,6 +405,18 @@ void init( void )
     wheel_rotation.q1 =        50;
     wheel_rotation.q2 =        0;
     wheel_rotation.q3 =        0;
+
+    // morphing
+    morph_ani.frame_to_render = 1;
+    morph_ani.total_frames  = 300;
+    morph_ani.active       = true;
+    morph_ani.repeat       = false;
+    bez_path2.rotate(45);
+    bez_path2.move( 400, 0 );
+    bez_path.move( -200, 0 );
+    bez_path.print();
+    bez_path2.print();
+    cout <<"------[ end init ]---------"<< endl;
 }
 
 void myKeyboardFunc( unsigned char key, int x, int y )
