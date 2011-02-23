@@ -188,7 +188,6 @@ void morphBeziers( BezierCurve& bc1 , BezierCurve& bc2, basicAnimation& ani )
 //            cout<<"bc1 = "<< &bc1 << endl;
 //            cout<<"bc2 = "<< &bc2 << endl;
 
-            cout<<"changing: "<<&bc1<<endl;
             bc1.points[i][0] += ( bc2.points[i][0] - bc1.points[i][0] ) * ratio;
             bc1.points[i][1] += ( bc2.points[i][1] - bc1.points[i][1] ) * ratio;
             bc1.calculateBoundingBox();

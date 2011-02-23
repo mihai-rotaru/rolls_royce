@@ -414,12 +414,6 @@ void init( void )
     morph_ani.total_frames  = 800;
     morph_ani.active       = true;
     morph_ani.repeat       = false;
-//    bez_path2.rotate(45);
-//    bez_path2.move( 400, 0 );
-//    bez_path.move( -200, 0 );
-    bez_path.print();
-    bez_path2.print();
-    cout <<"------[ end init ]---------"<< endl;
 }
 
 void myKeyboardFunc( unsigned char key, int x, int y )

@@ -33,7 +33,7 @@ bool DEBUG_POV_LOADING              = false;
 bool DEBUG_FEEDBACK_TOKENS          = false;
 bool DEBUG_SHAPE_BEZIER_DRAW        = false;
 bool DEBUG_ANIMATIONS               = false;
-bool DEBUG_MORPHING                 = true;
+bool DEBUG_MORPHING                 = false;
 
 bool STRICT_POV                     = true;
 
