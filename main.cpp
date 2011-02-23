@@ -29,14 +29,14 @@ string build_info;
 string strFPS;
 
 // bezier stuff
-Point ae1(  30, 70  );
-Point ac1(   400, 270 );
-Point ac2( 290, 110 );
-Point ae2( 200, 100 );
-Point e1( 200,100 );
-Point c1( 200,300 );
-Point c2( 400,200 );
-Point e2( 500,300 );
+Point ae1( -50, 95  );
+Point ac1( 232, -50 );
+Point ac2( 737, 151 );
+Point ae2( 908, 15 );
+Point e1( 710,223 );
+Point c1( 7, 190 );
+Point c2( 835,190 );
+Point e2( 145,225 );
 BezierCurve bez_path ( e1, c1, c2, e2 );
 BezierCurve bez_path2( ae1, ac1, ac2, ae2 );
 Line line( e1, e2 );
@@ -304,13 +304,16 @@ void myDisplayFunc( void )
         logo.draw();
      }
 
-//    bez_path.rotate(1);
+    if( frame == 700 )
+    { 
+        bez_path.move( 0, 500 );
+        morph_ani.frame_to_render = 1;
+    }
 
     morphBeziers( bez_path2, bez_path, morph_ani );
-    bez_path.draw();
+
+//    bez_path.draw();
     bez_path2.draw();
-//    line.rotate2(1);
-//    line.draw();
 
     // version and build info, FPS
     glColor3ub( 60, 60, 60 );
@@ -408,12 +411,12 @@ void init( void )
 
     // morphing
     morph_ani.frame_to_render = 1;
-    morph_ani.total_frames  = 300;
+    morph_ani.total_frames  = 800;
     morph_ani.active       = true;
     morph_ani.repeat       = false;
-    bez_path2.rotate(45);
-    bez_path2.move( 400, 0 );
-    bez_path.move( -200, 0 );
+//    bez_path2.rotate(45);
+//    bez_path2.move( 400, 0 );
+//    bez_path.move( -200, 0 );
     bez_path.print();
     bez_path2.print();
     cout <<"------[ end init ]---------"<< endl;

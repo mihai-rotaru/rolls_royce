@@ -16,9 +16,9 @@ std::string BUILD_ID   = "?";
 std::string BUILD_TIME = "?";
 
 // optput configuration
-bool SHOW_BEZIER_POINTS             = true;
-bool SHOW_BEZIER_BOUNDING_BOX       = true;
-bool SHOW_BEZIER_CONTROL_POINT_LINES= true;
+bool SHOW_BEZIER_POINTS             = false;
+bool SHOW_BEZIER_BOUNDING_BOX       = false;
+bool SHOW_BEZIER_CONTROL_POINT_LINES= false;
 bool SHOW_FRAME_NUMBER              = false;
 bool SHOW_FPS                       = true;
 
