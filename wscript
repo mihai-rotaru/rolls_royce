@@ -4,10 +4,12 @@
 
 from subprocess import *
 from datetime import date
+import os
 import re
 
 top = '.'
 out = 'build'
+sep = os.path.sep
 
 def options( opt ):
    # opt.load( "compiler_cxx" )
@@ -26,7 +28,7 @@ def build( bld ):
         ver_full = Popen( "git describe --abbrev=7 --dirty" , stdout=PIPE, stderr=PIPE ).stdout.read()
         exe_name = 'rr_'+str(ver_short.strip())
         print "building " + exe_name + "..."
-        ver_file = open( "VERSION", 'w' )
+        ver_file = open( out + sep + "VERSION", 'w' )
         ver_file.write( ver_short.strip() + '\n' )
         ver_file.write( ver_full.strip() + '\n')
         d = date.today()
@@ -49,7 +51,7 @@ def build( bld ):
                 'Layer.cpp'
                 ],
             
-            target       = 'fish',
+            target       = exe_name,
             features     = [ 'cxxprogram' ],
             includes     = [ 
                 './freeglut/include', 
