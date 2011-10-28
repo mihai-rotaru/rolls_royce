@@ -35,7 +35,7 @@ def build( bld ):
         ver_file.write( d.strftime("%a, %d %b %Y, %H:%M %p") )
 
     a_path = bld.path.abspath()
-    boost_path = "C:/pdev/boost_1_45_0"
+    boost_path = "C:/pdev/boost_1_47_0"
 
     print( bld.path.abspath())
     bld.program(
@@ -61,8 +61,9 @@ def build( bld ):
             lib          = [ 'freeglut_static','opengl32','gdi32','glu32','winmm' ],
             libpath      = [ 
                 a_path + '/freeglut/lib', 
-                a_path + '/freeglut' ],
-            stlib        = [ 'boost_regex-gcc-1_45'],
+                a_path + '/freeglut',
+                a_path + '/lib' ],
+            stlib        = [ 'boost_regex-gcc-1_47'],
             stlibpath    = [ boost_path + '/libs/regex/build/gcc' ],
             linkflags    = [ '-static-libgcc','-static-libstdc++','-W1,subsystem,windows' ],
             cxxflags     = [ '-c', '-g', '-O2', '-Wall' ],

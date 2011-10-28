@@ -152,9 +152,9 @@ boost::shared_ptr< Shape > parseShape( vector< string >& lines, int& line_no )
     if( DPL )cout<< "parsing Shape starting with line " << line_no << endl;
     string line = lines[ line_no ];
 
-    static const boost::regex shape_end_regex    ( "#{3} end (path[-\\d]{4,})", boost::regex::extended );
+    static const boost::regex shape_end_regex    ( "#{3} end ([^[:space:]]+)", boost::regex::extended );
     static const boost::regex curve_regex        ( "\\s*/\\*\\s*(\\d{1,})\\*/ <", boost::regex::extended );
-    static const boost::regex shape_name_regex   ( "\\s*#declare (path[-\\d]{4,})\\s*=\\s*prism", boost::regex::extended );
+    static const boost::regex shape_name_regex   ( "\\s*#declare ([^[:space:]]+)\\s*=\\s*prism", boost::regex::extended );
 
     string shape_name = getFromRegex< string >( line, shape_name_regex );
     if( DPL )cout<< "shape name: "<< shape_name << endl;
@@ -289,7 +289,7 @@ void Group::loadFromPovFile( string filename )
     // now let's look for those shapes
 
     // we'll need some regex'es
-    static const boost::regex shape_start        ( "\\s*#declare (path[-\\d]{4,})\\s*=\\s*prism", boost::regex::extended );
+    static const boost::regex shape_start        ( "\\s*#declare ((path[-\\d]{4,})|([[:digit:]]*.+))\\s*=\\s*prism", boost::regex::extended );
 
     bool inside_shape = false;
 

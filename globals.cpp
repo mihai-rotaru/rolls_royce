@@ -23,13 +23,13 @@ bool SHOW_FRAME_NUMBER              = false;
 bool SHOW_FPS                       = true;
 
 // debug flags
-bool DEBUG_CTOR_DTOR                = false;
+bool DEBUG_CTOR_DTOR                = true;
 bool DEBUG_BEZIER_BOUNDING_BOX      = false;
 bool DEBUG_TRANSF_ROTATE            = false;
 bool DEBUG_TRANSF_MOVE              = false;
 bool DEBUG_TRANSF_SCALE             = false;
 bool DEBUG_INIT_BEZIER_BOUNDING_BOX = false;
-bool DEBUG_POV_LOADING              = false;
+bool DEBUG_POV_LOADING              = true;
 bool DEBUG_FEEDBACK_TOKENS          = false;
 bool DEBUG_SHAPE_BEZIER_DRAW        = false;
 bool DEBUG_ANIMATIONS               = false;

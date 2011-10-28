@@ -351,7 +351,7 @@ void init( void )
 
     // load the Rolls Royce
     rolls.name = "Rolls Royce";
-    rolls.loadFromPovFile( "vector/rolls_full_no_wheels.pov" );
+    rolls.loadFromPovFile( "vector/blank-world-robinson.pov" );
     rolls.setColor( 0.5, 0.5, 0.5 );
     
     // move it outside the visible area
